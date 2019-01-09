@@ -1,0 +1,70 @@
+// ocxProject.odl : type library source for ActiveX Control project.
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (ocxProject.tlb) that will become a resource in
+// ocxProject.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(BCBB04F6-920A-4B20-8954-35FF9171CDA9), version(1.0),
+  helpfile("ocxProject.hlp"),
+  helpstring("ocxProject ActiveX Control module"),
+  control ]
+library OCXPROJECTLib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	//  Primary dispatch interface for COcxProjectCtrl
+
+	[ uuid(1E05E1E8-FA32-43BD-BC92-88DEFD817568),
+	  helpstring("Dispatch interface for OcxProject Control"), hidden ]
+	dispinterface _DOcxProject
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(COcxProjectCtrl)
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(COcxProjectCtrl)
+			[id(1)] long AddFun(long Add1, long Add2);
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for COcxProjectCtrl
+
+	[ uuid(A342B590-58AD-4D63-BBCE-1EAF9C4A2A4B),
+	  helpstring("Event interface for OcxProject Control") ]
+	dispinterface _DOcxProjectEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(COcxProjectCtrl)
+			//}}AFX_ODL_EVENT
+	};
+
+	//  Class information for COcxProjectCtrl
+
+	[ uuid(A4FAA82D-36B3-47A8-8278-12991F2329AC),
+	  helpstring("OcxProject Control"), control ]
+	coclass OcxProject
+	{
+		[default] dispinterface _DOcxProject;
+		[default, source] dispinterface _DOcxProjectEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

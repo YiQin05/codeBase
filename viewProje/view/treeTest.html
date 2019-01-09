@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <!-- 需要用到Jquery吗？？？ -->
+</head>
+<style>
+#app .el-input{
+  width: 50%;
+}
+</style>
+
+<body>
+  <div id="app">
+    <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"  node-key="id"></el-tree>
+  </div>
+<script>
+var vm = new Vue({
+     el: '#app',
+     data() {
+      return {
+        data: [ {
+          id: 1,
+          label: '珠海移动4G',
+          children: []
+        }],
+        cellList: [{
+            bscID: '基站1',
+            cellID: '小区1',
+            cellName: 'dsda1',
+            lac: 'c',
+            longitude: 'dxs',
+            latitude: 'gdf',
+            altitude: 'wesd',
+            elevationAngle: 'cz',
+            directAngle: 'advgf',
+            coverAngleBegin: 'bngk',
+            coverAngleEnd: 'sfd',
+            coverDistance: 'zc'
+        },
+        {
+            bscID: '基站1',
+            cellID: '小区2',
+            cellName: 'dsda2',
+            lac: 'c',
+            longitude: 'dxs',
+            latitude: 'gdf',
+            altitude: 'wesd',
+            elevationAngle: 'cz',
+            directAngle: 'advgf',
+            coverAngleBegin: 'bngk',
+            coverAngleEnd: 'sfd',
+            coverDistance: 'zc'
+        },
+        {
+            bscID: '基站2',
+            cellID: '小区1',
+            cellName: 'dsda3',
+            lac: 'c',
+            longitude: 'dxs',
+            latitude: 'gdf',
+            altitude: 'wesd',
+            elevationAngle: 'cz',
+            directAngle: 'advgf',
+            coverAngleBegin: 'bngk',
+            coverAngleEnd: 'sfd',
+            coverDistance: 'zc'
+        },
+        {
+            bscID: '基站3',
+            cellID: '小区1',
+            cellName: 'dsda3',
+            lac: 'c',
+            longitude: 'dxs',
+            latitude: 'gdf',
+            altitude: 'wesd',
+            elevationAngle: 'cz',
+            directAngle: 'advgf',
+            coverAngleBegin: 'bngk',
+            coverAngleEnd: 'sfd',
+            coverDistance: 'zc'
+        },
+        {
+            bscID: '基站3',
+            cellID: '小区2',
+            cellName: 'dsda3',
+            lac: 'c',
+            longitude: 'dxs',
+            latitude: 'gdf',
+            altitude: 'wesd',
+            elevationAngle: 'cz',
+            directAngle: 'advgf',
+            coverAngleBegin: 'bngk',
+            coverAngleEnd: 'sfd',
+            coverDistance: 'zc'
+        }],
+        defaultProps: {
+          children: 'children',
+          label: 'label'
+        },
+        bscList:[],
+        id: 0
+      };
+    },
+    created () {
+        this.getBsc()
+        this.getBscTree()
+    },
+    methods: {
+      handleNodeClick(data) {
+        console.log(data);
+      },
+      getBsc () { // 设置bscList里的数据
+        //   console.log(this.cellList[0])
+        var flag
+        for(var i=0,len=this.cellList.length; i<len; i++){
+            flag = false
+            for(var j=0,len1=this.bscList.length; j<len1; j++){
+                if(this.cellList[i].bscID === this.bscList[j] ){
+                    flag = true
+                }
+            }
+            if(!flag){
+                this.bscList.push(this.cellList[i].bscID)
+            }
+        }        
+      },
+      getBscTree(){ // 开始渲染基站层的树
+        var newChil = this.data[0].children
+        this.id = this.data[0].id
+        // newChil.length = this.bscList.length
+        for(var i=0,len=this.bscList.length; i<len; i++){
+            var obj = {}
+            obj.id = ++this.id
+            obj.label = this.bscList[i]
+            obj.children = []
+            console.log(obj)
+            obj.children = this.getCellTree(this.bscList[i])
+            this.data[0].children.push(obj)
+        }   
+      },
+      getCellTree(bscID){  // 渲染小区层的树
+          var list = []
+          for(var i=0,len=this.cellList.length; i<len; i++){
+            var obj = {
+                id: 0,
+                label: '',
+                children: [],
+                cell:{}
+            }
+            if(this.cellList[i].bscID === bscID){
+                obj.id = ++this.id
+                obj.label = this.cellList[i].cellName
+                obj.cell = this.cellList[i]
+                list.push(obj)
+            }
+          }
+          return list
+      }
+    }
+});
+
+</script>
+</body>
+
+</html>

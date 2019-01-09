@@ -1,0 +1,151 @@
+<template>
+    <div class="container inquire">
+        <div class="TopTitle">数据管理</div>
+        <el-tabs type="border-card" class="thisTab">
+        <el-tab-pane label="时间查询">
+          <by-time/>
+        </el-tab-pane>
+        <el-tab-pane label="区域查询">
+          <by-cell/>
+        </el-tab-pane>
+        <!-- <el-tab-pane label="识别结果查询">
+          <result/>
+        </el-tab-pane> -->
+        <el-tab-pane label="本地上传">
+          <up-load/>
+        </el-tab-pane>
+        <el-tab-pane label="下载图片">
+          选择任务：
+          <el-select v-model="taskID" placeholder="请选择要下载图片的任务" size="small" class="select">
+          <el-option
+            v-for="item in taskList"
+            :key="item.bscID+ '/' + item.cellID"
+            :label="item.taskName"
+            :value="item.taskID">
+          </el-option>
+          </el-select>
+          <el-button size="small" type="primary" @click="downLoad">下载原始图片</el-button>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+</template>
+
+<script>
+import byTime from './byTime.vue'
+import byCell from './byCell.vue'
+import result from './recogResult.vue' // 暂时不需要展示
+import upLoad from './upLoad.vue'
+export default {
+  data () {
+    return {
+      cellList: [],
+      showList: [],
+      taskID: '',
+      taskList: [],
+      cellID: '',
+      cellName: '',
+      user: ''
+    }
+  },
+  created () {
+    this.user = this.getCookie('userID')
+    this.getTask()
+    this.getImgByTime()
+  },
+  methods: {
+    handleDownload (index, row) {
+      this.getTaskID(row.cellID)
+    },
+    getTask () {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('task/' + this.user)
+      this.$axios
+        .get(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            for (let i of response.data.data) {
+              this.taskList.push(i)
+            }
+          } else {
+            console.log('错误码：' + response.data.code)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    getImgByTime () {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('picSearchByTime')
+      var myDate = new Date()
+      myDate.setFullYear(2018, 10, 1)
+      params.append('beginTime', parseInt(myDate.getTime() / 1000))
+      params.append('endTime', parseInt(new Date().getTime() / 1000))
+      this.$axios
+        .get(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+          } else {
+            console.log('错误码：' + response.data.code)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    downLoad () {
+      let path = this.setAPIPath('downloadRawPics/' + this.taskID)
+      this.$axios({
+        method: 'get',
+        url: path,
+        responseType: 'blob'
+      }).then((res) => {
+        if (res.data.type === 'application/octet-stream') {
+          if (!res) {
+            return
+          }
+          let url = window.URL.createObjectURL(res.data)
+          let link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = url
+          link.setAttribute('download', 'picture.zip')
+          document.body.appendChild(link)
+          link.click()
+          this.openMsg('下载成功', 'success', this)
+        } else {
+          this.openMsg('下载失败', 'error', this)
+        }
+      })
+    }
+  },
+  components: {
+    byTime,
+    byCell,
+    result,
+    upLoad
+  }
+}
+</script>
+
+<style scoped>
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+.thisTab{
+  min-height: 650px
+}
+.inquire #pane-3.el-tab-pane{
+  text-align: left;
+  font-size: 16px;
+  color: #99a9bf
+}
+</style>

@@ -1,0 +1,151 @@
+<template>
+  <div class="container">
+    <div class="TopTitle">任务详情</div>
+    <el-tabs type="border-card">
+      <el-tab-pane label="任务查询">
+        <el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini" label-width="90px">
+            <el-form-item label="小区编号">
+                <el-input v-model="formInline.missionName"></el-input>
+            </el-form-item>
+            <el-form-item label="任务编号">
+                <el-input v-model="formInline.missionNum"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button size="mini" type="primary" @click="request" >查询</el-button>
+            </el-form-item>
+            <el-tabs type="border-card">
+              <el-tab-pane label="查询结果">
+                  <enquierResult/>
+              </el-tab-pane>
+            </el-tabs>
+        </el-form>
+      </el-tab-pane>
+      <el-tab-pane label="新增任务">
+        <mission/>
+        <el-button size="mini" type="primary" @click="add" class="enquierBut">增加</el-button>
+        <el-tabs type="border-card">
+          <el-tab-pane label="已有任务">
+              <enquierResult/>
+          </el-tab-pane>
+        </el-tabs>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
+</template>
+<script>
+import mission from './mission.vue'
+import enquierResult from './enquierResult.vue'
+export default {
+  data () {
+    return {
+      formInline: {
+        cellName: '',
+        num: '',
+        missionName: '',
+        missionNum: '',
+        cellId: '',
+        cellLongit: '',
+        downtilt: '',
+        celldimen: '',
+        angle: '',
+        height: '',
+        devAngle: '',
+        number: '',
+        reciver: '',
+        finish: ''
+      },
+      labelName: ''
+    }
+  },
+  methods: {
+    handleClick (tab, event) {
+      console.log(tab.$options.propsData.label)
+      console.log('1')
+      console.log(this)
+      this.labelName = tab.$options.propsData.label
+      console.log('2')
+      console.log(this.$options.methods)
+      this.$emit('tab-click')
+    },
+    request () {
+    },
+    add () {},
+    onSubmit () {
+      console.log('submit!')
+    }
+  },
+  components: {
+    mission,
+    enquierResult
+  }
+}
+</script>
+<style>
+.contain {
+  border: 1px solid #ebeef5;
+  margin-top: 20px;
+}
+.TopTitle {
+  border: 1px solid #ebeef5;
+  border-left: 20px solid rgb(255, 204, 0);
+  height: 50px;
+  line-height: 50px;
+  padding-left: 20px;
+  font-size: 18px;
+  font-weight: bolder;
+  background-color: rgb(242, 242, 242);
+  text-align: left;
+  margin-top: 20px;
+}
+.contain .el-date-editor {
+  width: 180px;
+}
+.contain .el-select .el-input{
+    width: 180px;
+}
+/* .is-top {
+  background: url('..\..\assets\enquiry.png') no-repeat;
+} */
+/* .el-tabs__active-bar{
+    display: none;
+} */
+#pane-0,
+#pane-1 {
+  text-align: left;
+  margin-left: 40px;
+}
+#pane-0,
+#pane-1 {
+  padding-left: 18px;
+  padding-right: 0px;
+}
+.el-tabs--top{
+  margin-top: 10px;
+}
+#pane-0 .el-tabs--top{
+    margin-left: -73px;
+}
+#pane-1 .el-tabs--top{
+    margin-left: -73px;
+}
+#pane-1 .enquierBut{
+  position: absolute;
+  margin-left: 630px;
+  top: 273px;
+}
+/* .is-active{
+    box-shadow: 2px 2px 1px #8B4513
+} */
+#pane-0 .el-form-item:nth-child(2) {
+  margin-left: 40px;
+}
+#pane-0 .el-form-item:nth-child(3) {
+  margin-left: 20px;
+}
+#pane-1 .el-form-item:nth-child(2) {
+  margin-left: 40px;
+}
+#pane-1 .el-form-item:nth-child(3) {
+  margin-left: 20px;
+}
+</style>

@@ -1,0 +1,39 @@
+package getPoint;
+import getPoint.getCircle.*;
+import getPoint.getLine.*;
+import java.lang.Math;
+public class getPoint {
+	public static void main(String args[]) {
+		double[] point = {3.00d,3.00d};
+		getCircle circle = new getCircle(point,3.00d);
+		String ruleString = circle.getRule(point,3.00d);
+		double ruleResult = circle.getRule(point,3.00d,3.00d);
+		System.out.println(ruleString);
+		System.out.println(ruleResult);
+		double[] linePoint1 = {9.00d,3.00d};
+		double[] linePoint2 = {6.00d,6.00d};
+		getLine line = new getLine(linePoint1, linePoint2);
+		String lineString = line.getLineRule(linePoint1, linePoint2);
+		double lineResult = line.getLineRule(linePoint1, linePoint2,5.00d);
+		System.out.println("---------------------------------------------------");
+		System.out.println(lineString);
+		System.out.println(lineResult);
+		double a,b,c,d,e;
+		a = circle.a;
+		b = circle.b;
+		c = circle.c;
+		d = line.a;
+		e = line.b;
+		double theA = 1+d*d;
+		double theB = -2*b;
+		double theC = b*b+(e-c)*(e-c)-a;
+		double result1 = -theB + Math.sqrt(theB*theB - 4*theA*theC);
+		double result2 = -theB - Math.sqrt(theB*theB - 4*theA*theC);
+		System.out.println("---------------------------------------------------");
+		System.out.println("theA:"+theA);
+		System.out.println("theB:"+theB);
+		System.out.println("theC:"+theC);
+		System.out.println("result1:"+result1);
+		System.out.println("result2:"+result2);
+	}
+}

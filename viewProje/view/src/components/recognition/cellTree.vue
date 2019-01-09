@@ -1,0 +1,105 @@
+<template>
+    <el-tree
+        :data="cellTree"
+        :props="defaultProps"
+        node-key="id"
+        :default-expanded-keys="[1,2]"
+        @node-click="handleNodeClick">
+    </el-tree>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      cellList: [],
+      bscList: [],
+      cellTree: [
+        {
+          id: 1,
+          label: '珠海移动',
+          children: []
+        }
+      ],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
+    }
+  },
+  created () {
+    this.getCell()
+  },
+  methods: {
+    handleNodeClick (data) {
+      this.$emit('selectCell', data.cell)
+    },
+    getCell () {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('cell')
+      this.$axios
+        .get(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            for (let i of response.data.data) {
+              this.cellList.push(i)
+            }
+            this.getBsc()
+            this.getBscTree()
+          } else {
+            console.log('错误码：' + response.data.code)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    getBsc () { // 设置bscList里的数据
+      var flag
+      for (var i = 0, len = this.cellList.length; i < len; i++) {
+        flag = false
+        for (var j = 0, len1 = this.bscList.length; j < len1; j++) {
+          if (this.cellList[i].bscID === this.bscList[j].bscID) {
+            flag = true
+          }
+        }
+        if (!flag) {
+          var obj = {
+            bscID: this.cellList[i].bscID,
+            bscName: this.cellList[i].bscName
+          }
+          this.bscList.push(obj)
+        }
+      }
+    },
+    getBscTree () { // 开始渲染基站层的树
+      this.id = this.cellTree[0].id
+      for (var i = 0, len = this.bscList.length; i < len; i++) {
+        var obj = {}
+        obj.id = ++this.id
+        obj.label = this.bscList[i].bscName
+        obj.children = this.getCellTree(this.bscList[i].bscID)
+        this.cellTree[0].children.push(obj)
+      }
+    },
+    getCellTree (bscID) { // 渲染小区层的树
+      var list = []
+      for (var i = 0, len = this.cellList.length; i < len; i++) {
+        var obj = {
+          id: 0,
+          label: '',
+          children: [],
+          cell: {}
+        }
+        if (this.cellList[i].bscID === bscID) {
+          obj.id = ++this.id
+          obj.label = this.cellList[i].cellName
+          obj.cell = this.cellList[i]
+          list.push(obj)
+        }
+      }
+      return list
+    }
+  }
+}
+</script>

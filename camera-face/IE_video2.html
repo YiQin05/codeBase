@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <div>
+      <!-- camera -->
+        <div id="camera" class="borderstyle"></div>
+        <canvas id="canvas" class="borderstyle" width="320px" height="240px"></canvas>
+        <div id="showImg"></div>
+        <ul id="cams"><li>空</li></ul>
+        <button class="play">拍照</button>
+    </div>
+    <style>
+      .borderstyle {
+        border: 1px solid #b6b6b6;
+        width: 320px;
+        height: 240px;
+      }
+      #camera {
+        float: left;
+        margin:10px;
+      }
+      #cams {
+        width: 500px;
+        height: 500px;
+        background-color: #b6b6b6
+      }
+      #canvas {
+        width: 320px;
+        height: 240px;
+        margin:10px;
+      }
+    </style>
+    <script src="./jquery-min.js"></script>
+    <!-- <script src="./jQuery-webcam-master/jquery.webcam.min.js"></script> -->
+    <script>
+      $(function () {
+    var w = 320, h = 240;
+    var pos = 0,
+      ctx = null,
+      saveCB;
+    var canvas = document.getElementById("canvas")
+      if (canvas.toDataURL) {
+        console.log(111111111)
+        ctx = canvas.getContext("2d");
+        var image = ctx.getImageData(0, 0, w, h);
+        // console.log(image)
+        // let data = image.data
+        saveCB = function (data) {
+          var col = data.split(";");
+          var img = image;
+          // console.log(4123456)
+          for (var i = 0; i < 320; i++) {
+              var tmp = parseInt(col[i]);
+              img.data[pos + 0] = (tmp >> 16) & 0xff;
+              img.data[pos + 1] = (tmp >> 8) & 0xff;
+              img.data[pos + 2] = tmp & 0xff;
+              img.data[pos + 3] = 0xff;
+              pos += 4;
+          }
+          console.log(ctx)
+          console.log(33333333)
+          if (pos >= 4 * 320 * 240) {
+              ctx.putImageData(img, 0, 0);
+              console.log(ctx)
+              var Imagedata = canvas.toDataURL().substring(22);  //上传给后台的图片数据
+  
+              pos = 0;
+          }
+        };
+      } else {
+        var image = [];
+        saveCB = function (data) {
+          image.push(data);
+          pos += 4 * 320;
+          if (pos >= 4 * 320 * 240) {
+              $.post(URL, {briStr: image.join(';')}, function (data) {
+                  console.log(data);
+                  //在页面显示base64图片处理
+                  pos = 0;
+                  image = [];
+              });
+          }
+        };
+      }
+      $("#camera").webcam({
+          width: w,
+          height: h,
+          mode: "callback", 
+          swffile: "./jQuery-webcam-master/jscam.swf",
+          // onSave: saveCB,
+          onCapture: function () {               //捕获图像
+              // webcam.onSave();
+              webcam.save();
+              //
+          },
+          capture: function () {},
+          debug: function (type, string) {       //控制台信息
+              console.log(type + ": " + string);
+          },
+          onLoad: function () {                   //flash 加载完毕执行
+            var cams = webcam.getCameraList();
+            for(var i in cams) {
+                jQuery("#cams").append("<li>" + cams[i] + "</li>");
+            }
+          }
+      });
+  
+      $(".play").click(function () {
+        console.log('687u98')
+        console.log(webcam)
+        webcam.capture();
+      });
+  
+  });
+  </script>
+  <script src="./jquery.webcam.js"></script>
+  </body>
+</html>

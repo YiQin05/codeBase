@@ -1,0 +1,55 @@
+﻿// MFCActiveXDemo.idl: ActiveX 控件项目的类型库源。
+
+// 此文件将由 MIDL 编译器工具处理以
+// 生成类型库(MFCActiveXDemo.tlb)，该类型库将成为
+// MFCActiveXDemo.ocx。
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(fbba94ef-4fb7-48ae-bbc7-67e63a6b37a9), version(1.0),
+  control ]
+library MFCActiveXDemoLib
+{
+	importlib(STDOLE_TLB);
+
+	//  CMFCActiveXDemoCtrl 的主调度接口
+	[ 
+		uuid(eff65b1d-9853-4c92-8997-0a2c998b0104)
+	]
+	dispinterface _DMFCActiveXDemo
+	{
+		properties:
+		methods:
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+			long get_TimeStyle();
+			void set_TimeStyle(long value);
+			void Start();
+	};
+
+	//  CMFCActiveXDemoCtrl 的事件调度接口
+
+	[ 
+		uuid(a189b913-dab3-423a-bdec-74db8b202d59)
+	]
+	dispinterface _DMFCActiveXDemoEvents
+	{
+		properties:
+			//  事件接口没有任何属性
+
+		methods:
+			[id(1)] void OnSend(BSTR lpstrTime);
+	};
+
+	//  CMFCActiveXDemoCtrl 的类信息
+	[
+		uuid(d1992727-e1d9-490b-8c1e-298e69d63cb4)
+	]
+	coclass MFCActiveXDemo
+	{
+		[default] dispinterface _DMFCActiveXDemo;
+		[default, source] dispinterface _DMFCActiveXDemoEvents;
+	};
+
+};

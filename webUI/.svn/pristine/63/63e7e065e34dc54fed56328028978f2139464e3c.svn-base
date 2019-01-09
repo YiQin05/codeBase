@@ -1,0 +1,75 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import App from '../App.vue'
+import Home from '../components/home/page-home.vue'
+import mission from '../components/missiondetail/mission.vue'
+import missionEdit from '../components/missiondetail/missionEdit.vue'
+import missionDetail from '../components/missiondetail/missionDetail.vue'
+import missionAbout from '../components/missiondetail/missionAbout.vue'
+import recognition from '../components/recognition/recognition.vue'
+import inquire from '../components/inquire/inquire.vue'
+import statistics from '../components/statistics/statistics.vue'
+import management from '../components/management/management.vue'
+import 'font-awesome/css/font-awesome.css'
+// import test from '../components/NewHello.vue'
+// import test1 from '../components/NewHello1.vue'
+// import newMission from '../components/mission/newMission.vue'
+
+Vue.use(ElementUI)
+Vue.use(Router)
+export default new Router({
+  routes: [
+    {
+      path: '/App',
+      name: 'App',
+      component: App
+    },
+    {
+      path: '/',
+      name: 'home',
+      component: Home
+    },
+    {
+      path: '/missionDetail',
+      name: 'missionDetail',
+      component: missionDetail
+    },
+    {
+      path: '/recognition',
+      name: 'recognition',
+      component: recognition
+    },
+    {
+      path: '/inquire',
+      name: 'inquire',
+      component: inquire
+    },
+    {
+      path: '/statistics',
+      name: 'statistics',
+      component: statistics
+    },
+    {
+      path: '/management',
+      name: 'management',
+      component: management
+    },
+    {
+      path: '/mission',
+      name: 'mission',
+      component: mission
+    },
+    {
+      path: '/missionEdit',
+      name: 'missionEdit',
+      component: missionEdit
+    },
+    {
+      path: '/missionAbout',
+      name: 'missionAbout',
+      component: missionAbout
+    }
+  ]
+})

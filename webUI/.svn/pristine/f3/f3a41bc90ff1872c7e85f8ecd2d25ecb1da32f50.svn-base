@@ -1,0 +1,422 @@
+<template>
+    <div>
+        <el-table
+        :data="cellList"
+        style="width: 100%"
+        class="cell"
+        size="small">
+            <el-table-column type="expand">
+                <template slot-scope="props">
+                    <el-form label-position="left" inline class="demo-table-expand">
+                        <el-form-item label="基站ID：">
+                            <span>{{ props.row.bscID }}</span>
+                        </el-form-item>
+                        <el-form-item label="小区ID：">
+                            <span>{{ props.row.cellID }}</span>
+                        </el-form-item>
+                        <el-form-item label="小区名称：">
+                            <span>{{ props.row.cellName }}</span>
+                        </el-form-item>
+                        <el-form-item label="小区位置：">
+                            <span>{{ props.row.lac }}</span>
+                        </el-form-item>
+                        <el-form-item label="经度：">
+                            <span>{{ props.row.longitude }}</span>
+                        </el-form-item>
+                        <el-form-item label="纬度：">
+                            <span>{{ props.row.latitude }}</span>
+                        </el-form-item>
+                        <el-form-item label="海拔高度：">
+                            <span>{{ props.row.altitude }}</span>
+                        </el-form-item>
+                        <el-form-item label="下倾角：">
+                            <span>{{ props.row.elevationAngle }}</span>
+                        </el-form-item>
+                        <el-form-item label="方向角：">
+                            <span>{{ props.row.directAngle }}</span>
+                        </el-form-item>
+                        <el-form-item label="覆盖方向角起点：">
+                            <span>{{ props.row.coverAngleBegin }}</span>
+                        </el-form-item>
+                        <el-form-item label="覆盖方向角终点：">
+                            <span>{{ props.row.coverAngleEnd }}</span>
+                        </el-form-item>
+                        <el-form-item label="覆盖距离：">
+                            <span>{{ props.row.coverDistance }}</span>
+                        </el-form-item>
+                    </el-form>
+                </template>
+            </el-table-column>
+            <el-table-column
+            label="小区ID"
+            prop="cellID"
+            width="130">
+            </el-table-column>
+            <el-table-column
+            label="小区名称"
+            prop="cellName"
+            width="130">
+            </el-table-column>
+            <el-table-column
+            label="小区位置"
+            prop="lac"
+            width="130">
+            </el-table-column>
+            <el-table-column
+            label="经度"
+            prop="longitude"
+            width="130">
+            </el-table-column>
+            <el-table-column
+            label="纬度"
+            prop="latitude"
+            width="130">
+            </el-table-column>
+            <el-table-column
+            label="海拔高度"
+            prop="altitude"
+            width="130">
+            </el-table-column>
+            <el-table-column label="操作"
+            width="150">
+            <template slot-scope="scope">
+                <el-button
+                size="mini"
+                type="primary"
+                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+            </el-table-column>
+        </el-table>
+        <el-dialog title="小区编辑" :visible.sync="visible">
+          <div class="cellEdit">
+            <el-form :inline="true" ref="form1" :model="editCell" :rules="rules" class="demo-form-inline demo-ruleForm" size="mini" label-width="120px">
+                <!-- string类型 -->
+                <el-form-item label="基站名称" prop="bscName">
+                    <el-input v-model="editCell.bscName"></el-input>
+                </el-form-item>
+                <!-- string类型 -->
+                <el-form-item label="小区名称" prop="cellName">
+                    <el-input v-model="editCell.cellName"></el-input>
+                </el-form-item>
+            </el-form>
+            <el-form :inline="true" :rules="rules" :model="editCell" ref="form2" class="demo-form-inline demo-ruleForm" size="mini" label-width="120px">
+                <!-- string类型 -->
+                <el-form-item label="小区位置" prop="lac">
+                    <el-input v-model="editCell.lac"></el-input>
+                </el-form-item>
+                <!-- double -->
+                <el-form-item label="经度" prop="longitude">
+                    <el-input v-model="editCell.longitude"></el-input>
+                </el-form-item>
+            </el-form>
+            <el-form :inline="true"  :model="editCell" ref="form3" :rules="rules" class="demo-form-inline demo-ruleForm" size="mini" label-width="120px">
+                <!-- double -->
+                <el-form-item label="纬度" prop="latitude">
+                    <el-input v-model="editCell.latitude"></el-input>
+                </el-form-item>
+                <!-- double -->
+                <el-form-item label="海拔高度" prop="altitude">
+                    <el-input v-model="editCell.altitude"></el-input>
+                </el-form-item>
+            </el-form>
+            <el-form :inline="true" ref="form4" :model="editCell" :rules="rules" class="demo-form-inline  demo-ruleForm" size="mini" label-width="120px">
+                <!-- float类型 -->
+                <el-form-item label="下倾角" prop="elevationAngle">
+                    <el-input v-model="editCell.elevationAngle"></el-input>
+                </el-form-item>
+                <!-- float类型 -->
+                <el-form-item label="方向角" prop="directAngle">
+                    <el-input v-model="editCell.directAngle"></el-input>
+                </el-form-item>
+            </el-form>
+            <el-form :inline="true" ref="form5" :model="editCell" :rules="rules" class="demo-form-inline  demo-ruleForm" size="mini" label-width="120px">
+                <!-- float类型 -->
+                <el-form-item label="覆盖方向角起点" prop="coverAngleBegin">
+                    <el-input v-model="editCell.coverAngleBegin"></el-input>
+                </el-form-item>
+                <!-- float类型 -->
+                <el-form-item label="覆盖方向角终点" prop="coverAngleEnd">
+                    <el-input v-model="editCell.coverAngleEnd"></el-input>
+                </el-form-item>
+            </el-form>
+            <el-form :inline="true" ref="form6" :model="editCell" :rules="rules" class="demo-form-inline single  demo-ruleForm" size="mini" label-width="120px">
+                <!-- int -->
+                <el-form-item label="覆盖距离" prop="coverDistance">
+                    <el-input v-model="editCell.coverDistance"></el-input>
+                </el-form-item>
+            </el-form>
+            <div class="bottomBtn">
+              <el-button size="mini" type="primary" @click="handleClick">提交</el-button>
+              <el-button size="mini" type="info" @click="clear">清空</el-button>
+            </div>
+          </div>
+        </el-dialog>
+    </div>
+</template>
+
+<script>
+export default {
+  data () {
+    var numberOnly = (rule, value, callback) => {
+      if (isNaN(this.editCell[rule.fullField])) {
+        callback(new Error('只能填数字！'))
+      } else if (parseFloat(this.editCell[rule.fullField]) < 0) {
+        callback(new Error('不能小于0！'))
+      } else {
+        this.editCell[rule.fullField] = parseFloat(
+          this.editCell[rule.fullField]
+        )
+        callback()
+      }
+    }
+    return {
+      userID: '',
+      cellList: [],
+      currentList: {},
+      editCell: {
+        bscID: '',
+        cellID: '',
+        cellName: '',
+        bscName: '',
+        lac: '',
+        longitude: '',
+        latitude: '',
+        altitude: '',
+        elevationAngle: '',
+        directAngle: '',
+        coverAngleBegin: '',
+        coverAngleEnd: '',
+        coverDistance: ''
+      },
+      checkForm: [],
+      visible: false,
+      result: false, // 用于判断表格输入信息是否符合
+      rules: {
+        bscID: [{ required: true, message: '不能为空！', trigger: 'blur' }],
+        cellID: [{ required: true, message: '不能为空！', trigger: 'blur' }],
+        cellName: [{ required: true, message: '不能为空！', trigger: 'blur' }],
+        bscName: [{ required: true, message: '不能为空！', trigger: 'blur' }],
+        lac: [{ required: true, message: '不能为空！', trigger: 'blur' }],
+        longitude: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        latitude: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        altitude: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        elevationAngle: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        directAngle: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        coverAngleBegin: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        coverAngleEnd: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        coverDistance: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ]
+      },
+      formList: ['form1', 'form2', 'form3', 'form4', 'form5', 'form6', 'form7'] // 表单列表
+    }
+  },
+  mounted () {
+    this.userID = this.getCookie('userID')
+    this.toCellList()
+    this.getCell()
+  },
+  methods: {
+    toCellList () {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('cell')
+      this.$axios
+        .get(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            for (let i of response.data.data) {
+              this.cellList.push(i)
+            }
+          } else {
+            console.log('错误码：' + response.data.code)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    handleEdit (index, row) {
+      for (var i in row) {
+        this.editCell[i] = row[i]
+        this.currentList[i] = row[i]
+      }
+      this.visible = true
+    },
+    clear () {
+      for (var i in this.editCell) {
+        this.editCell[i] = ''
+      }
+    },
+    handleDelete (index, row) {
+      this.$confirm('此操作将永久该小区及其任务, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.deleteCell(index, row)
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+    },
+    deleteCell (index, row) {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('cell/' + row.bscID + '/' + row.cellID)
+      this.$axios
+        .delete(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            this.openMsg('删除成功！', 'success', this)
+            this.cellList.length = 0
+            this.toCellList()
+          } else {
+            this.openMsg('失败，错误码：' + response.data.code, 'error', this)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    handleClick () {
+      // 将增加任务页面表格默认都是没验证
+      for (var i = 0; i < this.formList.length; i++) {
+        this.checkForm[i] = true
+      }
+      // 对每个表格进行规制检验
+      for (i = 0; i < this.formList.length; i++) {
+        this.checkRule(this.formList[i], i)
+      }
+      this.checkForm.forEach(element => {
+        this.result = this.result || element
+      })
+      if (!this.result) {
+        this.checkChange()
+      } else {
+        for (var j = 0; j < this.formList.length; j++) {
+          this.checkForm[j] = true
+        }
+      }
+      this.result = false
+    },
+    checkRule (formName, i) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.checkForm[i] = false
+        } else {
+          return false
+        }
+      })
+    },
+    checkChange () {
+      // var storageForm = this.getStorage(this.index)
+      // var changeFlag = false // 用于检测是否有修改
+      // for (var obj in this.editCell) {
+      //   for (var obj1 in storageForm) {
+      //     if (obj === obj1 && storageForm[obj1] !== this.editCell[obj]) {
+      //       changeFlag = true
+      //       this.cellSubmit()
+      //       break
+      //     }
+      //   }
+      // }
+      var flag = true
+      for (var i in this.currentList) {
+        if (this.currentList[i] !== this.editCell[i]) {
+          flag = false
+        }
+      }
+      if (flag) {
+        this.openMsg('请修改后再提交', 'error', this)
+      } else {
+        this.cellSubmit()
+      }
+    },
+    cellSubmit () {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('cell')
+      // let path = 'http://172.16.0.83:5000/cell'
+      params.append('bscID', this.editCell.bscID)
+      params.append('cellID', this.editCell.cellID)
+      params.append('bscName', this.editCell.bscName)
+      params.append('cellName', this.editCell.cellName)
+      params.append('lac', this.editCell.lac)
+      params.append('longitude', parseFloat(this.editCell.longitude))
+      params.append('latitude', parseFloat(this.editCell.latitude))
+      params.append('altitude', parseFloat(this.editCell.altitude))
+      params.append('elevationAngle', parseFloat(this.editCell.elevationAngle))
+      params.append('directAngle', parseFloat(this.editCell.directAngle))
+      params.append(
+        'coverAngleBegin',
+        parseFloat(this.editCell.coverAngleBegin)
+      )
+      params.append('coverAngleEnd', parseFloat(this.editCell.coverAngleEnd))
+      params.append('coverDistance', parseInt(this.editCell.coverDistance))
+      this.$axios
+        .put(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            this.openMsg('提交成功！', 'success', this)
+          } else {
+            this.openMsg('失败，错误码：' + response.data.code, 'error', this)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  }
+}
+</script>
+
+<style >
+.cell .el-tabs--border-card > .el-tabs__content {
+  padding: 0px;
+}
+.cell .demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 43%;
+  margin-left: 60px;
+}
+.cell .el-table__body .el-table__expanded-cell {
+  background-color: rgb(242, 242, 242);
+}
+.cell .el-table__body .el-table__expanded-cell:hover {
+  background-color: rgb(242, 242, 242) !important;
+}
+@media screen and (min-width: 1334px) {
+  .cellEdit .single {
+    margin-right: 317px;
+  }
+}
+</style>

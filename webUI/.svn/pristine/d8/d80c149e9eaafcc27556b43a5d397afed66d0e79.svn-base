@@ -1,0 +1,493 @@
+<template>
+  <div class="container missionDetail">
+    <div class="TopTitle">任务管理</div>
+    <el-tabs type="border-card" @tab-click="handleClick" v-model="activeName" @tab-remove="removeTab">
+      <el-tab-pane label="任务列表" name="missionList">
+        <el-form :inline="true" :model="missionList" class="formWidth" size="mini" label-width="90px">
+            <enquierResult ref="missionResult" @show="show"/>
+        </el-form>
+      </el-tab-pane>
+      <el-tab-pane :label="NewMissionLabelName" name="addMission" :disabled="userType === '2'? true:false">
+        <mission/>
+      </el-tab-pane>
+      <!-- :disabled="showPanel" -->
+      <el-tab-pane :label="editLabelName" name="editMission" :disabled="showPanel" >
+        <div class="editContain contain">
+            <el-form :inline="true"  :model="formInline"  class="demo-form-inline  demo-ruleForm" size="mini" label-width="120px">
+              <el-form-item label="基站ID/小区ID">
+                  <el-input v-model="formInline.bscIDCellID" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="任务ID">
+                  <el-input v-model="formInline.taskID" disabled></el-input>
+              </el-form-item>
+            </el-form>
+            <el-form :inline="true" ref="form1" :model="formInline" :rules="rules" class="demo-form-inline  demo-ruleForm" size="mini" label-width="120px">
+              <el-form-item label="任务名称" prop="taskName">
+                  <el-input v-model="formInline.taskName"></el-input>
+              </el-form-item>
+              <el-form-item label="拍摄经度" prop="takePhotoLongitude">
+                  <el-input v-model="formInline.takePhotoLongitude" placeholder="单位：度"></el-input>
+              </el-form-item>
+            </el-form>
+            <el-form :inline="true" :rules="rules" :model="formInline" ref="form2" class="demo-form-inline demo-ruleForm" size="mini" label-width="120px">
+              <!-- double类型 -->
+              <el-form-item label="拍摄纬度" prop="takePhotoLatitude">
+                  <el-input v-model="formInline.takePhotoLatitude" placeholder="单位：度"></el-input>
+              </el-form-item>
+              <!-- double类型 -->
+              <el-form-item label="海拔高度" prop="takePhotoAltitude">
+                  <el-input v-model="formInline.takePhotoAltitude" placeholder="单位：米"></el-input>
+              </el-form-item>
+            </el-form>
+            <el-form :inline="true" ref="form3" :model="formInline" :rules="rules" class="demo-form-inline demo-ruleForm" size="mini" label-width="120px">
+              <!-- float类型 -->
+              <el-form-item label="拍摄下倾角" prop="takePhotoElevationAngle">
+                  <el-input v-model="formInline.takePhotoElevationAngle" placeholder="单位：度"></el-input>
+              </el-form-item>
+              <!-- float类型 -->
+              <el-form-item label="拍摄方向角起点" prop="takePhotoDirectAngleBegin">
+                  <el-input v-model="formInline.takePhotoDirectAngleBegin" placeholder="单位：度"></el-input>
+              </el-form-item>
+            </el-form>
+            <el-form :inline="true"  :model="formInline" ref="form4" :rules="rules" class="demo-form-inline demo-ruleForm" size="mini" label-width="120px">
+              <!-- float类型 -->
+              <el-form-item label="拍摄方向角终点" prop="takePhotoDirectAngleEnd">
+                  <el-input v-model="formInline.takePhotoDirectAngleEnd" placeholder="单位：度"></el-input>
+              </el-form-item>
+              <!-- float类型 -->
+              <el-form-item label="拍摄偏移角" prop="takePhotoDirectAngleRotate">
+                  <el-input v-model="formInline.takePhotoDirectAngleRotate" placeholder="单位：度"></el-input>
+              </el-form-item>
+            </el-form>
+            <el-form :inline="true" :model="formInline" ref="form5" :rules="rules" class="demo-form-inline demo-ruleForm" size="mini" label-width="120px">
+              <!-- int类型 -->
+              <el-form-item label="拍摄图片数" prop="takePhotoNum">
+                  <el-input v-model="formInline.takePhotoNum" disabled></el-input>
+              </el-form-item>
+              <!-- string类型 -->
+              <el-form-item label="接收人" prop="taskConsumerID">
+                  <el-select v-model="formInline.taskConsumerID" placeholder="请选择">
+                    <el-option
+                      v-for="item in reciverList"
+                      :key="item.userID"
+                      :label="item.userID"
+                      :value="item.userID">
+                    </el-option>
+                  </el-select>
+              </el-form-item>
+            </el-form>
+            <el-form :inline="true" ref="form6" :model="formInline" :rules="rules" class="demo-form-inline secondForm missionStyle single demo-ruleForm" size="mini" label-width="120px">
+              <!-- 时间戳 -->
+              <el-form-item label="完成日期" prop="taskPlanCompleteTime">
+                  <el-date-picker type="date" placeholder="选择日期" v-model="formInline.taskPlanCompleteTime"></el-date-picker>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="clear" size="small">重置</el-button>
+              <el-button type="primary" @click="triggerClick" size="small">提交</el-button>
+            </div>
+        </div>
+        <div class="editMap">
+            <div v-if="openMap" style="border:solid lightblue 1px;height:100%;marginTop:10px">
+              <el-amap vid="amapCamera" :events="mapEvents" :center="center" :zoom="zoom">
+                  <el-amap-marker :position="position"></el-amap-marker>
+              </el-amap>
+            </div>
+          </div>
+        <!-- <div class="editMap">
+          <div v-if="openMap" style="border:solid lightblue 1px;height:100%;marginTop:10px">
+            <el-amap vid="amapCamera" :events="mapEvents" :center="center" :zoom="zoom">
+                <el-amap-marker :position="position" ></el-amap-marker>
+            </el-amap>
+          </div>
+        </div> -->
+      </el-tab-pane>
+    </el-tabs>
+  </div>
+</template>
+<script>
+import mission from './mission.vue'
+import enquierResult from './enquierResult.vue'
+export default {
+  data () {
+    var numberOnly = (rule, value, callback) => {
+      if (isNaN(this.formInline[rule.fullField])) {
+        callback(new Error('只能填数字！'))
+      } else if (parseFloat(this.formInline[rule.fullField]) < 0) {
+        callback(new Error('不能小于0！'))
+      } else {
+        this.formInline[rule.fullField] = parseFloat(this.formInline[rule.fullField])
+        callback()
+      }
+    }
+    var checkDirectAngleEnd = (rule, value, callback) => {
+      if (isNaN(this.formInline[rule.fullField])) {
+        callback(new Error('只能填数字！'))
+      } else if (parseFloat(this.formInline[rule.fullField]) <= parseFloat(this.formInline.takePhotoDirectAngleBegin)) {
+        callback(new Error('要比方向角起点大！'))
+      } else if (parseFloat(this.formInline[rule.fullField]) < 0) {
+        callback(new Error('不能小于0！'))
+      } else {
+        this.formInline[rule.fullField] = parseFloat(this.formInline[rule.fullField])
+        callback()
+      }
+    }
+    return {
+      missionList: {
+        cellName: '',
+        num: '',
+        missionName: '',
+        missionNum: '',
+        cellId: '',
+        cellLongit: '',
+        downtilt: '',
+        celldimen: '',
+        angle: '',
+        height: '',
+        devAngle: '',
+        number: '',
+        reciver: '',
+        finish: ''
+      },
+      activeName: 'missionList',
+      editLabelName: '',
+      NewMissionLabelName: '新增任务',
+      searchInput: '',
+      showPanel: true,
+
+      missionNameList: [],
+      taskIDList: [],
+      cellIDList: [],
+      publisherList: [],
+      reciverList: [],
+      position: [113.564221, 22.370364],
+      center: [], // 地图图标居中
+      zoom: 16,
+      currentList: {}, // 用于检测是否有修改
+      user: '',
+      openMap: true,
+      dialogTableVisible: false,
+      result: false, // 用于判断表格输入信息是否符合
+      checkForm: [],
+      userType: '',
+      formInline: {
+        taskName: '',
+        bscID: '',
+        cellID: '',
+        bscIDCellID: '',
+        taskID: '',
+        takePhotoLongitude: '',
+        takePhotoLatitude: '',
+        takePhotoAltitude: '',
+        takePhotoElevationAngle: '',
+        takePhotoDirectAngleBegin: '',
+        takePhotoDirectAngleEnd: '',
+        takePhotoDirectAngleRotate: '',
+        takePhotoNum: '',
+        taskProducerID: '',
+        taskProduceTime: '',
+        taskConsumerID: '',
+        taskPlanCompleteTime: ''
+      },
+      formList: ['form1', 'form2', 'form3', 'form4', 'form5', 'form6'], // 表单列表
+      rules: {
+        taskName: [
+          { required: true, message: '不能为空！', trigger: 'blur' }
+        ],
+        takePhotoLongitude: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        takePhotoLatitude: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        takePhotoDirectAngleBegin: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        takePhotoDirectAngleEnd: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: checkDirectAngleEnd, trigger: 'blur' }
+        ],
+        takePhotoDirectAngleRotate: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        takePhotoAltitude: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        takePhotoElevationAngle: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        taskConsumerID: [
+          { required: true, message: '不能为空！', trigger: 'blur' }
+        ],
+        taskPlanCompleteTime: [
+          { required: true, message: '不能为空！', trigger: 'blur' }
+        ]
+      },
+      mapEvents: {
+        'click': (e) => {
+          this.formInline.takePhotoLongitude = e.lnglat.lng
+          this.formInline.takePhotoLatitude = e.lnglat.lat
+          this.position = [e.lnglat.lng, e.lnglat.lat]
+        }
+      }
+    }
+  },
+  created () {
+    this.getReciver()
+    this.center = this.position
+    this.userType = this.getCookie('userType')
+    if (this.userType === '2') {
+      this.NewMissionLabelName = ''
+    }
+  },
+  watch: {
+    takePhotoLongitude (newVal, oldVal) {
+      if (newVal) {
+        this.position = [newVal, this.takePhotoLatitude]
+      }
+    },
+    takePhotoLatitude (newVal, oldVal) {
+      if (newVal) {
+        this.position = [this.takePhotoLongitude, newVal]
+      }
+    }
+  },
+  computed: {
+    takePhotoLongitude () {
+      return this.formInline.takePhotoLongitude
+    },
+    takePhotoLatitude () {
+      return this.formInline.takePhotoLatitude
+    }
+  },
+  methods: {
+    getReciver () {
+      this.reciverList.length = 0
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('getTakePhotoUser')
+      this.$axios
+        .get(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            for (let i of response.data.data) {
+              this.reciverList.push(i)
+            }
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    handleClick (tab, event) {
+      if (tab.name === 'missionList') {
+        this.$refs.missionResult.getMission()
+      }
+      if (tab.name !== 'editMission') {
+        this.showPanel = true
+        this.editLabelName = ''
+      }
+    },
+    show (index, row) {
+      this.showPanel = false
+      this.editLabelName = '编辑任务'
+      this.activeName = 'editMission'
+      for (var i in this.formInline) {
+        this.formInline[i] = row[i]
+        this.currentList[i] = row[i]
+      }
+      this.formInline.bscIDCellID = row.bscID + '/' + row.cellID
+      // 第一个参数是latitude，第二个是longitude
+      let change = this.wgsToGcj(this.formInline.takePhotoLatitude, this.formInline.takePhotoLongitude)
+      let longitude = change.lon
+      let latitude = change.lat
+      this.position = [longitude, latitude]
+      this.center = this.position
+    },
+    removeTab () {
+      this.showPanel = true
+      this.editLabelName = ''
+      this.activeName = 'addMission'
+    },
+    triggerClick () {
+      // 将增加任务页面表格默认都是没验证
+      for (var i = 0; i < this.formList.length; i++) {
+        this.checkForm[i] = true
+      }
+      for (i = 0; i < this.formList.length; i++) {
+        this.checkRule(this.formList[i], i)
+      }
+      this.checkForm.forEach(element => {
+        this.result = this.result || element
+      })
+      if (!this.result) {
+        var changeFlag = false
+        for (var k in this.currentList) {
+          if (this.currentList[k] !== this.formInline[k]) {
+            changeFlag = true
+          }
+        }
+        if (changeFlag) {
+          this.changeMission()
+        } else {
+          this.openMsg('请修改后再提交！', 'error', this)
+        }
+      } else {
+        for (var j = 0; j < this.formList.length; j++) {
+          this.checkForm[j] = true
+        }
+      }
+      this.result = false
+    },
+    checkRule (formName, i) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.checkForm[i] = false
+        } else {
+          return false
+        }
+      })
+    },
+    changeMission () {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('task')
+      // 第一个参数是latitude，第二个是longitude
+      let change = this.gcjToWgs(parseFloat(this.formInline.takePhotoLatitude), parseFloat(this.formInline.takePhotoLongitude))
+      let longitude = change.lon
+      let latitude = change.lat
+      params.append('taskID', this.formInline.taskID)
+      params.append('taskName', this.formInline.taskName)
+      params.append('bscID', this.formInline.bscID)
+      params.append('cellID', this.formInline.cellID)
+      params.append('takePhotoLongitude', longitude)
+      params.append('takePhotoLatitude', latitude)
+      params.append('takePhotoAltitude', this.formInline.takePhotoAltitude) // 海拔高度
+      params.append(
+        'takePhotoElevationAngle',
+        this.formInline.takePhotoElevationAngle // 下倾角
+      )
+      params.append(
+        'takePhotoDirectAngleBegin',
+        this.formInline.takePhotoDirectAngleBegin
+      )
+      params.append(
+        'takePhotoDirectAngleEnd',
+        this.formInline.takePhotoDirectAngleEnd
+      )
+      params.append(
+        'takePhotoDirectAngleRotate',
+        this.formInline.takePhotoDirectAngleRotate // 偏移角
+      )
+      params.append('takePhotoNum', this.formInline.takePhotoNum)
+      params.append('taskConsumerID', this.formInline.taskConsumerID)
+      params.append('taskPlanCompleteTime', parseInt((new Date(this.formInline.taskPlanCompleteTime.replace(/-/g, '/')).getTime()) / 1000))
+      this.$axios
+        .put(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            this.openMsg('修改成功！', 'success', this)
+            // this.dialogTableVisible = false
+            this.removeTab()
+          } else {
+            this.errorMsg(response.data.code, this)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    clear () {
+      for (var i in this.currentList) {
+        this.formInline[i] = this.currentList[i]
+      }
+      // 第一个参数是latitude，第二个是longitude
+      let change = this.wgsToGcj(this.formInline.takePhotoLatitude, this.formInline.takePhotoLongitude)
+      let longitude = change.lon
+      let latitude = change.lat
+      this.position = [longitude, latitude]
+      this.center = this.position
+    }
+  },
+  components: {
+    mission,
+    enquierResult
+  }
+}
+</script>
+<style scoped>
+#pane-1 {
+  text-align: left;
+  margin-left: 40px;
+}
+#pane-1 {
+  padding-left: 18px;
+  padding-right: 0px
+}
+.contain {
+  margin-top: 20px;
+}
+.contain .el-date-editor {
+  width: 180px;
+}
+.contain .el-select .el-input{
+    width: 180px;
+}
+.el-tabs--top{
+  margin-top: 10px;
+}
+.insidePanel {
+  margin-left: -72px;
+}
+#pane-1 .enquierBut{
+  position: absolute;
+  margin-left: 680px;
+  top: 275px
+}
+.formWidth{
+  min-width: 1030px;
+}
+/* #pane-0 .missionStyle>.el-form-item:nth-child(2) {
+  margin-left: 40px;
+}
+#pane-0 .missionStyle>.el-form-item:nth-child(3) {
+  margin-left: 20px;
+}
+#pane-1 .missionStyle>.el-form-item:nth-child(2) {
+  margin-left: 40px;
+}
+#pane-1 .missionStyle>.el-form-item:nth-child(3) {
+  margin-left: 20px;
+} */
+</style>
+<style>
+
+/* #tab-editMission .el-icon-close{
+  display: none
+} */
+#tab-editMission.is-disabled .el-icon-close{
+  display: none
+}
+#tab-addMission.is-disabled,
+#tab-editMission.is-disabled,
+#tab-addMission.is-disabled{
+  height: 0px;
+  width: 0px
+}
+.missionDetail .el-tabs__nav-scroll {
+  height: 40px;
+  overflow: hidden;
+}
+.missionDetail .editMap .el-vue-amap-container .amap-container{
+  min-height: 600px
+}
+@media screen and (min-width: 680px) {
+  .editContain .single {
+    margin-right: 317px;
+  }
+}
+</style>

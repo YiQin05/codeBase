@@ -1,0 +1,10 @@
+package getPoint;
+import getPoint.getCircle.*;
+public class getPoint {
+	public static void main(String args[]) {
+		getCircle circle = new getCircle();
+		double[] point = {3.00d,3.00d};
+		String ruleString = circle.getRule(point,3.00d);
+		System.out.print(ruleString);
+	}
+}

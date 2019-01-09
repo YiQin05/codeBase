@@ -1,0 +1,126 @@
+<template>
+  <div class="outer home">
+    <div class="top">
+        <img src="../../assets/news.png" alt="img">
+        <div>最新任务</div>
+        <div></div>
+        <div><a href="">更多<i class="el-icon-d-arrow-right"></i></a></div>
+    </div>
+    <el-table
+        :data="tableData3"
+        style="width: 100%">
+        <el-table-column
+            prop="date"
+            label="任务时间">
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="任务名称">
+        </el-table-column>
+        <el-table-column
+            prop="status"
+            label="状态">
+        </el-table-column>
+        <el-table-column
+            prop= "more"
+            label="详情">
+        </el-table-column>
+    </el-table>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      tableData3: [
+        {
+          date: '2018/10/22',
+          name: '全球通大夏',
+          status: '完成',
+          more: '查看'
+        },
+        {
+          date: '2018/10/22',
+          name: '全球通大夏',
+          status: '完成',
+          more: '查看'
+        },
+        {
+          date: '2018/10/22',
+          name: '全球通大夏',
+          status: '完成',
+          more: '查看'
+        },
+        {
+          date: '2018/10/22',
+          name: '全球通大夏',
+          status: '完成',
+          more: '查看'
+        },
+        {
+          date: '2018/10/22',
+          name: '全球通大夏',
+          status: '完成',
+          more: '查看'
+        },
+        {
+          date: '2018/10/22',
+          name: '全球通大夏',
+          status: '完成',
+          more: '查看'
+        }
+      ]
+    }
+  }
+}
+</script>
+<style>
+    .home .top{
+        display: flex;
+        flex-direction: row;
+        border-bottom: 1px solid #ebeef5;
+        height: 44px;
+        align-items: center;
+    }
+    .home .top img{
+        width: 38px;
+        height: 38px;
+        flex-basis: 40px;
+        flex-shrink: 0;
+        margin-left: 5px;
+    }
+    .home .top>div:nth-child(2){
+        flex-basis: 80px;
+        flex-shrink: 0;
+        font-weight: bolder;
+    }
+    .home .top>div:nth-child(3){
+        flex-basis: 400px;
+        flex-shrink: 1;
+    }
+    .home .top>div:nth-child(4){
+        flex-basis: 80px;
+        flex-shrink: 0;
+    }
+    .home .top a{
+        color: #909399;
+        font-size: 16px;
+        text-decoration: none;
+    }
+    .outer{
+        border: 1px solid #ebeef5;
+    }
+    .el-table{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .el-table__body-wrapper tr td{
+        border:0px;
+    }
+    .home .el-table__row>td:nth-child(4){
+        text-decoration: underline;
+        color: blue;
+        cursor: pointer;
+    }
+</style>

@@ -1,0 +1,300 @@
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+import ElementUI from 'element-ui'
+import VueResource from 'vue-resource'
+import 'element-ui/lib/theme-chalk/index.css'
+import 'font-awesome/css/font-awesome.css'
+import axios from 'axios'
+// import Vuex from 'vuex'
+import AMap from 'vue-amap'
+// Vue.use(Vuex)
+Vue.config.productionTip = false
+Vue.use(ElementUI)
+Vue.use(AMap)
+Vue.use(VueResource)
+Vue.use(router)
+Vue.prototype.$axios = axios
+
+// 高德地图
+Vue.use(AMap)
+AMap.initAMapApiLoader({
+  key: 'b780b44f8f55a82fede8eca6418afd15',
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
+  v: '1.4.4'
+})
+// 设置cookie
+Vue.prototype.setCookie = (cName, value, expiredays) => {
+  var exdate = new Date()
+  exdate.setDate(exdate.getDate() + expiredays)
+  if (isNaN(value)) {
+    var val = value.split(/[=&]/g)[1]
+  } else {
+    val = value
+  }
+  document.cookie =
+    cName +
+    '=' +
+    escape(val) +
+    (expiredays == null ? '' : ';expires=' + exdate.toGMTString())
+}
+
+Vue.prototype.setUrlCookie = (cName, value, expiredays) => {
+  var exdate = new Date()
+  exdate.setDate(exdate.getDate() + expiredays)
+  document.cookie =
+    cName +
+    '=' +
+    escape(value) +
+    (expiredays == null ? '' : ';expires=' + exdate.toGMTString())
+}
+
+// 获取cookie、
+function getCookie (name) {
+  var arr
+  var reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
+  if ((arr = document.cookie.match(reg))) return arr[2]
+  else return null
+}
+Vue.prototype.getCookie = getCookie
+
+// 删除cookie
+Vue.prototype.delCookie = name => {
+  var exp = new Date()
+  exp.setTime(exp.getTime() - 1)
+  var cval = getCookie(name)
+  if (cval != null) {
+    document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString()
+  }
+}
+
+function openMsg (mes, type, _this) {
+  _this.$message({
+    showClose: true,
+    message: mes,
+    type: type
+  })
+}
+Vue.prototype.openMsg = openMsg
+// 显示提示信息
+// Vue.prototype.openMsg = (mes, type, _this) => { // error,success,warning,什么type型参数也不传会是一条提示白色的信息
+//   this.loading = false
+//   _this.$message({
+//     showClose: true,
+//     message: mes,
+//     type: type
+//   })
+// }
+
+// 设置错误接口信息
+Vue.prototype.errorMsg = (errNum, _this) => {
+  switch (errNum) {
+    case 1:
+      openMsg('失败，用户名或密码错误', 'error', _this)
+      break
+    case 2:
+      openMsg('失败，该用户已存在，新增失败', 'error', _this)
+      break
+    case 3:
+      openMsg('失败，该用户已删除，更新/删除失败', 'error', _this)
+      break
+    case 4:
+      openMsg('失败，该用户无权限', 'error', _this)
+      break
+    case 5:
+      openMsg('失败，用户未登录，请先登录后再签到', 'error', _this)
+      break
+    case 6:
+      openMsg('失败，用户位置距离小区太远，签到失败', 'error', _this)
+      break
+    case 7:
+      openMsg('失败，不能设置该用户类型，admin只能是管理员类型，其他用户不能为管理员类型', 'error', _this)
+      break
+    case 8:
+      openMsg('失败，admin不能被删除', 'error', _this)
+      break
+    case 10:
+      openMsg('失败，该小区已有一个任务，不能增加', 'error', _this)
+      break
+    case 11:
+      openMsg('失败，该小区ID不存在', 'error', _this)
+      break
+    case 12:
+      openMsg('失败，该小区已存在', 'error', _this)
+      break
+    case 13:
+      openMsg('失败，该小区任务图片未上传完.', 'error', _this)
+      break
+    case 14:
+      openMsg('失败，小区的识别结果正在计算过程中，请稍后重试', 'error', _this)
+      break
+    case 20:
+      openMsg('失败，该任务已删除', 'error', _this)
+      break
+    case 21:
+      openMsg('失败，任务已开始', 'error', _this)
+      break
+    case 22:
+      openMsg('失败，任务设置的拍摄方向角不合适', 'error', _this)
+      break
+    case 23:
+      openMsg('失败，未发布的任务不能开始', 'error', _this)
+      break
+    case 30:
+      openMsg('失败，上传未选择文件', 'error', _this)
+      break
+    case 31:
+      openMsg('失败，文件格式不对，请上传jpg/jpeg格式文件。', 'error', _this)
+      break
+    case 32:
+      openMsg('失败，该图片打不开。', 'error', _this)
+      break
+    case 33:
+      openMsg('失败，图片不存在', 'error', _this)
+      break
+    case 34:
+      openMsg('失败，图片exif信息错误', 'error', _this)
+      break
+    case 35:
+      openMsg('失败，图片经纬度不合格', 'error', _this)
+      break
+    case 36:
+      openMsg('失败，图片方向角不合格', 'error', _this)
+      break
+    case 37:
+      openMsg('失败，图片下倾角不合格', 'error', _this)
+      break
+    case 50:
+      openMsg('失败，数据库错误，请稍后重试', 'error', _this)
+      break
+    case 60:
+      openMsg('失败，更新配置参数失败', 'error', _this)
+      break
+  }
+}
+// 设置接口路径
+Vue.prototype.setAPIPath = path => {
+  // return 'http://172.16.0.83:5000/' + path
+  return 'http://172.16.10.22:5000/' + path
+}
+Vue.prototype.setNewAPIPath = path => {
+  // return 'http://172.16.0.83:5000/' + path
+  return 'http://172.16.10.22:5000' + path
+}
+
+// 时间过滤器
+Vue.prototype.dateFormat = second => {
+  var date = new Date(second * 1000)
+  var y = date.getFullYear()
+  var m = date.getMonth() + 1
+  var d = date.getDate()
+  return `${y}/${m}/${d}`
+}
+
+// 将数据存为localstorage
+Vue.prototype.setStorage = (storageName, obj) => {
+  var storage = window.sessionStorage
+  // var d = JSON.stringify(obj)
+  storage.setItem(storageName, obj)
+}
+// 取localstorage的对象数据
+Vue.prototype.getStorage = (storageName) => {
+  var json = window.sessionStorage.getItem(storageName)
+  var jsonObj = JSON.parse(json)
+  return jsonObj
+}
+// 删除localstorage
+Vue.prototype.delStorage = (storageName) => {
+  window.sessionStorage.removeItem(storageName)
+}
+function delta (lat, lon) {
+  var PI = 3.14159265358979324
+  var a = 6378245.0 //  a: 卫星椭球坐标投影到平面地图坐标系的投影因子。
+  var ee = 0.00669342162296594323 //  ee: 椭球的偏心率。
+  var dLat = transformLat(lon - 105.0, lat - 35.0)
+  var dLon = transformLon(lon - 105.0, lat - 35.0)
+  var radLat = lat / 180.0 * PI
+  var magic = Math.sin(radLat)
+  magic = 1 - ee * magic * magic
+  var sqrtMagic = Math.sqrt(magic)
+  dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * PI)
+  dLon = (dLon * 180.0) / (a / sqrtMagic * Math.cos(radLat) * PI)
+  return {'lat': dLat, 'lon': dLon}
+}
+
+function transformLat (x, y) {
+  var PI = 3.14159265358979324
+  var ret = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.sqrt(Math.abs(x))
+  ret += (20.0 * Math.sin(6.0 * x * PI) + 20.0 * Math.sin(2.0 * x * PI)) * 2.0 / 3.0
+  ret += (20.0 * Math.sin(y * PI) + 40.0 * Math.sin(y / 3.0 * PI)) * 2.0 / 3.0
+  ret += (160.0 * Math.sin(y / 12.0 * PI) + 320 * Math.sin(y * PI / 30.0)) * 2.0 / 3.0
+  return ret
+}
+function transformLon (x, y) {
+  var PI = 3.14159265358979324
+  var ret = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.sqrt(Math.abs(x))
+  ret += (20.0 * Math.sin(6.0 * x * PI) + 20.0 * Math.sin(2.0 * x * PI)) * 2.0 / 3.0
+  ret += (20.0 * Math.sin(x * PI) + 40.0 * Math.sin(x / 3.0 * PI)) * 2.0 / 3.0
+  ret += (150.0 * Math.sin(x / 12.0 * PI) + 300.0 * Math.sin(x / 30.0 * PI)) * 2.0 / 3.0
+  return ret
+}
+
+function outOfChina (lat, lon) {
+  if (lon < 72.004 || lon > 137.8347) {
+    return true
+  }
+  if (lat < 0.8293 || lat > 55.8271) {
+    return true
+  }
+  return false
+}
+// 坐标系转换 GCJ-02 to WGS-84
+Vue.prototype.gcjToWgs = (wgsLat, wgsLon) => {
+  if (outOfChina(wgsLat, wgsLon)) {
+    return {'lat': wgsLat, 'lon': wgsLon}
+  }
+  var d = delta(wgsLat, wgsLon)
+  // console.log(1)
+  // console.log(wgsLat + d.lat, wgsLon + d.lon)
+  return {
+    'lat': wgsLat + d.lat, 'lon': wgsLon + d.lon
+  }
+}
+
+// 坐标系转换 WGS-84 to GCJ-02
+Vue.prototype.wgsToGcj = (wgsLat, wgsLon) => {
+  if (outOfChina(wgsLat, wgsLon)) {
+    return {'lat': wgsLat, 'lon': wgsLon}
+  }
+  var d = delta(wgsLat, wgsLon)
+  // console.log(2)
+  // console.log(wgsLat + d.lat, wgsLon + d.lon)
+  return {'lat': wgsLat + d.lat, 'lon': wgsLon + d.lon}
+}
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  render: c => c(App),
+  router,
+  // store,
+  created () {
+    this.checkLogin()
+  },
+  methods: {
+    checkLogin () {
+      // 检查是否存在session
+      if (!this.getCookie('')) {
+        // console.log('2:有session')
+        // console.log(this.getCookie('session'))
+        // // this.$router.push('/login')
+      } else {
+        // this.$router.push('/user_info')
+        // console.log('3:没有session')
+        this.$router.push('/home/:userID')
+      }
+    }
+  }
+})

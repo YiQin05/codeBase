@@ -1,0 +1,10 @@
+package getPoint.getLine;
+
+public class getLine {
+	public String getLineRule(double[] arr1,double[] arr2) {
+		double subY = arr1[1] - arr2[1];
+		double subX = arr1[0] - arr2[0];
+		String resultY = "((x-"+String.valueOf(arr2[0])+")*"+String.valueOf(subY)+")/"+String.valueOf(subX)+"+"String.valueOf(arr2[1]);
+		return resultY;
+	}
+}

@@ -1,0 +1,167 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="VI60_defaultClientScript" content="VBScript">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>视频显示</title>
+
+
+<script language="javascript">
+var Strview;	//设置全局变量,控制控件的相对控件ID,默认值.
+Strview 	= "XDView1";
+//登录方式1
+function Login(){
+  console.log(26451)
+  console.log($(Strview))
+  console.log(document.form1.url.value)
+  console.log($("XDView1"))
+  $(Strview).m_szUrl       = document.form1.url.value;		//'DVS地址
+  $(Strview).m_dwDataPort  = document.form1.port.value;		//'通讯端口
+  $(Strview).m_szUserName  = document.form1.uname.value; 	//用户名
+  $(Strview).m_szPassword  = document.form1.psw.value;		//密码
+	$(Strview).m_ProtocolType	= 0;
+	$(Strview).SetLoginMode(1);	//设置登录方式
+	$(Strview).Login();
+}
+
+//注销
+function logout(){
+	updateflag = true;
+	$("View").Value="0";
+	$("OnChannelView").style.background="#D4D0C8";
+	$(Strview).StopPreview();	//停止预览
+	$(Strview).Logout();
+}
+
+//启动预览
+function channelview(){
+	updateflag = true;
+ 	if(document.form1.View.Value=="0"){
+		$("View").Value="1";
+		$("OnChannelView").style.background="#88A797";
+		$(Strview).m_szUrl       = document.form1.url.value;		//'DVS地址
+		$(Strview).m_dwDataPort  = document.form1.port.value;		//'通讯端口
+		$(Strview).m_szUserName  = document.form1.uname.value; 	//用户名
+		$(Strview).m_szPassword  = document.form1.psw.value;		//密码
+		$(Strview).StartPreview();		//启动预览
+	}else{
+		$("View").Value="0";
+		$("OnChannelView").style.background="#D4D0C8";
+		$(Strview).StopPreview();	//停止预览
+	}    
+}
+
+// //设置DVS
+// function setNVS() {
+// 	//$(Strview).SetNVS(1);
+// }
+function $(){
+  var elements = new Array();
+  for (var i = 0; i < arguments.length; i++) {
+    var element = arguments[i];
+    if (typeof element == 'string')
+      element = document.getElementById(element);
+    if (arguments.length == 1)
+      return element;
+    elements.push(element);
+  }
+  return elements;
+}
+function RefreshCtrl(){
+	var fullsize = false;
+}
+
+var Filetype,updateflag = true;
+
+</script>
+<!-- <script language="javascript" for="XDView1" event="CBK_UpdateSendPercent(nPer)">
+$("upAlert").innerHTML = " CBK_UpdateSendPercent: " + nPer;
+console.log('新马克')
+UpdatePer(nPer,"0");
+</script> -->
+<!-- <script language="javascript" for="XDView1" event="CBK_UpdateSavePercent(nPer)">
+$("upAlert").innerHTML = " CBK_UpdateSendPercent: " + nPer;
+UpdatePer(nPer,"1");
+</script> -->
+
+<SCRIPT LANGUAGE="javascript" FOR="XDView1" EVENT="CBK_LoginResult(nResult)"> 
+console.log(8623156)
+//登录状态判断及相应处理。 如：预览视频
+if(nResult>=2){
+	var StartViewflag;
+	updateflag = false;
+	StartViewflag = $("XDView1").StartPreview();
+	if(StartViewflag==true){
+		$("View").Value="1";
+		$("OnChannelView").style.background="#88A797";
+	}
+}else{
+	updateflag = true;
+   alert("登录失败!");
+}
+// 
+</SCRIPT> 
+
+
+</head>
+<title>视频显示</title>
+<body topmargin="8" leftmargin="0" onLoad="RefreshCtrl()">
+<table width="860" border="0" cellspacing="1" cellpadding="3">
+  <tr>
+    <td colspan="2" align="center"> 
+      <div id=view1 style="WIDTH: 610px; POSITION:static ; HEIGHT: 470px; z-index:1;">
+        <object name="XDView1" ID="XDView1" width="640" height="480" CLASSID="CLSID:8DA9A0A7-AC21-4EA9-BB7E-43AEF89688A6" CODEBASE="/WebCMS.exe#Version=2,0,0,0">
+        </object>
+      </div>
+    </td>
+  </tr>
+  <form name="form1" method="post" action="" style="padding:0px; margin:0px;">
+    <tr>
+      <td width="53%" align="right">
+        <table width="210" border="0" cellpadding="2" cellspacing="1" bgcolor="#CCCCCC">
+          <tr>
+            <td height="33" colspan="2" align="left" bgcolor="#FFFFFF"><span class="STYLE2">先填写登录参数</span></td>
+          </tr>
+          <tr>
+            <td height="21" colspan="2" align="left" bgcolor="#FFFFFF">&nbsp;URL:
+              <input name="url" type="text" id="url" style="width:110px;" value="172.16.10.100">
+            </td>
+          </tr>
+          <tr>
+            <td height="21" colspan="2" align="left" bgcolor="#FFFFFF">端口:
+              <input name="port" type="text" id="port" style="width:110px;" value="5000">
+            </td>
+          </tr>
+          <tr>
+            <td height="21" colspan="2" align="left" bgcolor="#FFFFFF">用户:        
+              <input name="uname" type="text" id="uname" style="width:110px;" value="admin">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="left" valign="top" bgcolor="#FFFFFF">密码:
+              <input name="psw" type="text" id="psw" style="width:110px;" value="admin">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="left" valign="top" bgcolor="#FFFFFF">
+              <div id="pertopleft" style="position:relative;z-index:2;margin:0px; padding:0px; width:186px;" class="font12">
+                通道: <input name="Channel" type="text" id="Channel" style="width:110px;" value="0">
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td width="47%">
+        <input name="Login_1" type="button" id="Login_1" tabindex="1" value="登录" onClick="Login()"><br />
+        <input name="Logout" type="button" id="Logout" tabindex="3" value="注销" onClick="logout()"><br />
+        <input type="button" value="预览/停止" name="OnChannelView" onClick="channelview()">
+        <input name="View" type="hidden" id="View" value="0" />
+        <br />
+        <input name="SetNVS" type="button" id="SetNVS" value="设置NVS" onClick="setNVS()">	
+      </td>
+    </tr>
+  </form>
+</table>
+</body>
+</html>

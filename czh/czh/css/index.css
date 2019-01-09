@@ -1,0 +1,108 @@
+html,
+body {
+    width: 100%;
+    font-family: Adobe Heiti Std R;
+}
+
+#app{
+    width: 10rem;
+    margin: 0 auto;
+}
+
+.header_title {
+    width: 10rem;
+    height: 1.23rem;
+
+    font-size: 0.45rem;
+    color:rgba(0,0,0,1);
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.23rem;
+    letter-spacing:4px ;
+    background-color: rgba(255,255,255,1);
+}
+
+.m_container {
+    width: 10rem;
+    margin: 0 auto;
+    font-size: 0.44rem;
+    overflow-x: hidden;
+    background: #F4F4F4;
+    padding-bottom: 0.08rem;
+}
+/*#accNo,*/
+/*#mobileNo {*/
+    /*display: block;*/
+    /*height: 1.18rem;*/
+    /*width: 6.4rem;*/
+    /*margin-left: 1.4rem;*/
+    /*-webkit-border-radius: 0.06rem;*/
+    /*border-radius: 0.06rem;*/
+    /*border: none;*/
+    /*color:#333;*/
+/*}*/
+.banner {
+    width: 10rem;
+    height: 8.02rem;
+    background: url('../images/bank_banner@2x.png');
+    background-size: 100% 100%;
+    /*margin-bottom: 0.6rem;*/
+}
+
+
+.choose {
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+
+     /*padding-left: 0.23rem;*/
+     /*padding-right: 0.23rem;*/
+     padding:0 0.23rem;
+ }
+
+#choose_card,
+#choose_car {
+    display: block;
+}
+
+.choose a{
+    width:4.63rem;
+    height:3rem;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.choose_icon {
+    width: 1.17rem;
+    height: 1.19rem;
+    margin-bottom: 0.4rem;
+}
+
+.choose_text {
+    font-size: 0.49rem;
+    color:#252525
+}
+
+.mark {
+  padding-left: 0.55rem;
+  margin-top: 0.35rem;
+}
+
+.mark .mark_text {
+    list-style: decimal;
+    width: 9.11rem;
+}
+
+.mark_text li p{
+    font-family: MicrosoftYaHeiLight;
+    font-size: 0.24rem;
+    color:#020202;
+    line-height: 0.5rem;
+    font-weight: 300;
+}

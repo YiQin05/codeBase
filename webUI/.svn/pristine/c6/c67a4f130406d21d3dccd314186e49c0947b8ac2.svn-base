@@ -1,0 +1,157 @@
+<template >
+    <div>
+        <div class="container top">
+            <div class="logo"><img src="../../assets/logo.png" alt="img"></div>
+            <h3>{{ msg }}</h3>
+            <select id="select">
+                <option selected value="珠海">珠海</option>
+                <option value="广州">广州</option>
+                <option value="深圳">深圳</option>
+                <option value="佛山">佛山</option>
+                <option value="东莞">东莞</option>
+            </select>
+            <div class="panel"></div>
+            <div class="demo-input-suffix search">
+                <el-input placeholder="请输入您要查找的内容" v-model="input3">
+                    <template slot="append">搜索</template>
+                </el-input>
+            </div>
+        </div>
+        <div class="container navi">
+            <el-menu :default-active="activeIndex" active-text-color="white" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                <el-menu-item index="1"><router-link to="/" tag="a">首页</router-link></el-menu-item>
+                <el-menu-item index="2"><router-link to="/missionDetail" tag="a">任务详情</router-link></el-menu-item>
+                <el-menu-item index="3"><router-link to="/recognition" tag="a">场景识别</router-link></el-menu-item>
+                <el-menu-item index="4"><router-link to="/inquire" tag="a">场景查询</router-link></el-menu-item>
+                <el-menu-item index="5"><router-link to="/statistics" tag="a">统计分析</router-link></el-menu-item>
+                <el-menu-item index="6"><router-link to="/management" tag="a">系统管理</router-link></el-menu-item>
+                <img src="../../assets/QQ.png" alt="img">
+                <img src="../../assets/phone.png" alt="img">
+            </el-menu>
+        </div>
+    </div>
+</template>
+<script>
+export default {
+  name: 'header',
+  data () {
+    return {
+      msg: '中国移动网络场景识别平台',
+      activeIndex: '1'
+    }
+  },
+  mounted: function () {
+    var _this = this
+    if (_this.activeIndex === '1') {
+      _this.$router.push('/')
+    }
+  },
+  methods: {
+    handleSelect (key) {
+      var _this = this
+      switch (key) {
+        case '1':
+          _this.$router.push('/')
+          break
+        case '2':
+          _this.$router.push('/missionDetail')
+          break
+        case '3':
+          _this.$router.push('/recognition')
+          break
+        case '4':
+          _this.$router.push('/inquire')
+          break
+        case '5':
+          _this.$router.push('/statistics')
+          break
+        case '6':
+          _this.$router.push('/management')
+          break
+      }
+    }
+  }
+}
+</script>
+<style scoped>
+.top {
+  display: -webkit-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.logo img {
+  width: 180px;
+  height: 51px;
+}
+
+h3 {
+  color: blue;
+  flex-basis: 260px;
+  flex-shrink: 0;
+}
+
+select {
+  flex-basis: 80px;
+  flex-shrink: 0;
+}
+.panel {
+  flex-basis: 300px;
+  flex-shrink: 1;
+}
+.search {
+  flex-basis: 380px;
+  flex-shrink: 0;
+}
+.navi ul {
+  background-color: rgb(0, 153, 255);
+  padding-left: 80px;
+}
+.navi li {
+  color: black;
+}
+.navi li a {
+  text-decoration: none;
+}
+a:hover {
+  font-size: bolder;
+}
+.navi img {
+  width: 40px;
+  height: 38px;
+}
+</style>
+<style>
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+* {
+  margin: 0px;
+  padding: 0px;
+}
+.el-input .el-input__inner {
+  border: 2px solid rgb(46, 181, 251);
+  border-radius: 0px;
+}
+.el-input-group__append {
+  border: 2px solid rgb(46, 181, 251);
+  background-color: rgb(46, 181, 251);
+  border-radius: 0px;
+  font-size: 20px;
+  color: white;
+}
+.navi .el-menu-item:not(.is-disabled):hover {
+  background-color: rgb(46, 181, 251);
+}
+.navi .el-menu-item:not(.is-disabled):focus {
+  background-color: rgb(46, 181, 251);
+}
+.el-menu--horizontal > .el-menu-item {
+  height: 40px;
+  line-height: 40px;
+}
+.navi .el-menu.el-menu--horizontal {
+  border-bottom: 0px;
+}
+</style>

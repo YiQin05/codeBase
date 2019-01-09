@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>洗车美容</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="format-detection" content="telephone=no" />
+    <link charset="UTF-8" rel="stylesheet" href="css/reset.min.css">
+    <link charset="UTF-8" rel="stylesheet" href="css/wash_car.css?v=3.0">
+    <script src="js/vue.js"></script>
+    <script src="js/vue-resource.min.js"></script>
+    <script src="js/app.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        .near{
+            /*position: relative;*/
+        }
+        #loading{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            z-index: 999;
+        }
+        #loading img{
+            width: 1.2rem;
+            height: 1.2rem;
+            position: fixed;
+            left: 50%;
+            bottom: 20%;
+            z-index: 9999;
+            margin-left: -.6rem;
+            /*margin-top: -.6rem;*/
+
+        }
+
+    </style>
+    <script>
+        //清除所有cookie
+        function clearAllCookie() {
+            var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+            if(keys) {
+                for(var i = keys.length; i--;)
+                    document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+            }
+        }
+        clearAllCookie();
+        localStorage.removeItem("BMap_othersearch_vuizew");
+        localStorage.removeItem("BMap_scommon_efjngs");
+        localStorage.removeItem("BMap_map_44xrwi");
+        localStorage.removeItem("BMap_mapclick_l1jd53");
+        localStorage.removeItem("BMap_opmb_n0hysd");
+        localStorage.removeItem("BMap_canvablepath_lf2t4w");
+        localStorage.removeItem("BMap_common_sqwnmw");
+        localStorage.removeItem("BMap_symbol_xyb4di");
+        localStorage.removeItem("BMap_marker_tvysem");
+        localStorage.removeItem("BMap_hotspot_uwu3tl");
+    </script>
+    <script>
+        //->REM
+        ~function () {
+            var desW = 750,
+                    winW = document.documentElement.clientWidth || document.body.clientWidth;
+            if (winW > desW) {
+                return;
+            }
+            document.documentElement.style.fontSize = winW / desW * 100 + 'px';
+        }();
+
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?b3d1c2360d33d8180935f3c3ecb2a541";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+
+        (function () {
+            var src = 'js/eruda.min.js';
+            if (!/eruda=true/.test(window.location) && localStorage.getItem('active-eruda') != 'true') return;
+            document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
+            document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>');
+        })();
+    </script>
+</head>
+<body>
+<div id="app">
+    <div id="main" class="main">
+        <div class="header">
+            <img id="yhxc" src="images/img_banner.png" alt="">
+        </div>
+        <div class="coupon">
+            <div class="coupon_title" @click="goCoupons">
+                <h3 class="c_title">我的服务券</h3>
+                <i class="c_arrow"></i>
+            </div>
+            <div class="coupon_list" v-cloak>
+                <ul>
+                    <li v-for="coupon in couponList">
+                        <div class="coupon_detail">
+                            <h2 class="item_title">{{coupon.name}}</h2>
+                            <p class="item_content">{{coupon.memo}}</p>
+                            <p class="item_content item_date">有效期至：{{coupon.attrs.dateTo}}</p>
+                        </div>
+                        <div class="coupon_num">
+                            <div class="num_wrapper">
+                                <span class="num_x">X</span><span class="num">{{coupon.leftCount}}</span><span
+                                    class="num_unit">张</span>
+                            </div>
+                            <div class="coupon_use" @click="payNow(coupon.attrs.userCouponId)">立即使用</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="content_box">
+            <div class="page_tab" v-cloak>
+                <ul>
+                    <li class="tab_service active" v-if="isCzhApp">精选服务</li>
+                    <li class="tab_near" v-if="isCzhApp">附近门店</li>
+                    <!--<li class="tab_near">精选服务</li>-->
+                    <li class="tab_service active" style="left: 3.25rem" v-if="!isCzhApp">附近门店</li>
+                </ul>
+                <div id="sliderProgressBar" v-if="isCzhApp"></div>
+                <div v-if="!isCzhApp"
+                     style="position: absolute;bottom:0.02rem;width:1.28rem;height:0.04rem;background:rgba(51,51,51,1);left: 3.15rem;z-index:10;"></div>
+            </div>
+            <div class="service" v-if="isCzhApp" v-cloak>
+                <div class="xc_wrapper">
+                    <ul>
+                        <li onclick="toSHopDetail(159)" class="xc_30"><a href="javascript:;"></a></li>
+                        <li onclick="toSHopDetail(152)" class="xc_199"><a href="javascript:;"></a></li>
+                        <li onclick="toSHopDetail(153)" class="xc_299"><a href="javascript:;"></a></li>
+                    </ul>
+                </div>
+                <div class="dl_wrapper">
+                    <ul>
+                        <li onclick="toSHopDetail(384)" class="dl_69"><a href="javascript:;"></a></li>
+                        <li onclick="toSHopDetail(199)" class="dl_130"><a href="javascript:;"></a></li>
+                    </ul>
+                </div>
+                <div class="pq_wrapper">
+                    <ul>
+                        <li onclick="toSHopDetail(200)" class="pq_215"><a href="javascript:;"></a></li>
+                        <li onclick="toSHopDetail(201)" class="pq_598"><a href="javascript:;"></a></li>
+                    </ul>
+                </div>
+                <div class="use_explain">
+                    <h3 class="explain_title">使用说明</h3>
+                    <p>1、购买后，选择对应服务门店出示动态验证码使用；</p>
+                    <p>2、点击上方我的服务券，选择对应服务券点击“立即使用”；</p>
+                    <p>3、如在车智会 APP 购买，请使用填写的收货人手机登录 APP，即可使用；</p>
+                    <p>4、请向门店说明使用“巨会养车”服务，并确认所购服务适用门店/范围与当前位置相符；</p>
+                    <p>5、确认收货7天后不支持退款；</p>
+                    <p>6、如有疑问，请联系客服热线：4008-520-893</p>
+                </div>
+            </div>
+            <div class="near">
+                <!--<p class="title">在我附近</p>-->
+                <div id="loading">
+                    <img src="images/dot_loading.svg" alt="">
+                </div>
+                <ul class="clear">
+                    <li class="active">洗车</li>
+                    <li>打蜡</li>
+                    <li>喷漆</li>
+                    <li>优惠买单</li>
+                </ul>
+                <div class="lists">
+                    <ul id="shops">
+
+                    </ul>
+                </div>
+                <div id="noPlace"
+                     style="width: 100%;height: 3rem;font-size:0.28rem;color:rgba(171,171,171,1);line-height:0.4rem;text-align: center;padding-top: 1.22rem;display: none;">
+                    <p>无法获取您的定位</p>
+                    <p>请在【设置】中开启【定位服务】权限</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p id="bottom-words" style="text-align: center;font-size: 0.24rem;color: #9e9e9e;margin-top: .08rem;display: none">上拉加载</p>
+<script charset="UTF-8" type="text/javascript" src="js/fastclick.min.js"></script>
+<script charset="UTF-8" type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script charset="UTF-8" type="text/javascript" src="js/toast.js"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=9df59d0c6527653fc12d03b82469531f"></script>
+<script src="js/wappNative-1.0.0.js"></script>
+<!--<script src="js/eruda.min.js"></script>
+<script>
+    var isDebug = true;
+    if(isDebug){
+        eruda.init();
+    }
+</script>-->
+<script>
+    var locData = {"area":"","lng":"","lat":"","scid":32,"pageIndex":1};
+    //alert(navigator.userAgent);
+    /*解决移动端点击300ms延迟*/
+    FastClick.attach(document.body);
+
+    function getVersion() {
+        //获取app经纬度
+        wapp.function.getUserInfo(function (res) {
+            res = JSON.parse(res);
+            var version = res.versionName;
+            var versionNum = parseInt(version.split('.').join('').substring(0,2));
+            // APP版本号大于7.2.0才能使用
+
+            if(versionNum >= 72){
+                location_native(function (res) {
+                    res = JSON.parse(res);
+                    if(res.code == 200){
+                        var lat = res.params.latitude;
+                        var lng = res.params.longitude;
+                        if (lat.indexOf("E") != -1 || lat.indexOf("e") != -1 || lng.indexOf("E") != -1 || lng.indexOf("e") != -1) {
+                            getGmapLocation();
+                            return;
+                        }
+                        //百度经纬度转高德经纬度
+                        var bdDecrypt = bd_decrypt(lng, lat);
+                        locData.lng = bdDecrypt.lng;
+                        locData.lat = bdDecrypt.lat;
+                        App.data("lng",bdDecrypt.lng);
+                        App.data("lat",bdDecrypt.lat);
+                        if(loadFlag) {
+                            loadList(false);
+                        }
+                    } else {
+                        alert('从APP获取定位失败，使用以前h5定位');
+                        getGmapLocation();
+                    }
+                });
+            }else {
+                // 小于7.2.0 用以前的H5定位逻辑
+                alert('当前版本小于7.2.0 用以前的H5定位逻辑');
+                getGmapLocation();
+            }
+        });
+    }
+
+
+    function getGmapLocation(){
+        var map, geolocation;
+        //加载地图，调用浏览器定位服务
+        map = new AMap.Map('container', {
+            resizeEnable: true
+        });
+        map.plugin('AMap.Geolocation', function() {
+            geolocation = new AMap.Geolocation({
+                enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                timeout: 10000          //超过10秒后停止定位，默认：无穷大
+            });
+            map.addControl(geolocation);
+            geolocation.getCurrentPosition();
+            AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+            AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+
+        });
+        //解析定位结果
+        function onComplete(data) {
+            //setCity(data.position.getLng(),data.position.getLat());
+            locData.lng = data.position.getLng();
+            locData.lat = data.position.getLat();
+            App.data("lng",data.position.getLng());
+            App.data("lat",data.position.getLat());
+            loadList(false);
+        }
+        //解析定位错误信息
+        function onError(data) {
+            $('#loading').hide();
+            Toast("定位失败，请打开手机定位服务",1000);
+        }
+    }
+
+
+    App.create({
+        data:{
+            couponList:[],
+            conmetType: 0,
+            lng:0,
+            lat:0,
+            isCzhApp:App.isCzhApp(),
+            area:"",
+            page:1,
+            scid: "",
+        },
+        methods:{
+
+            payNow: function (id) {
+                var params = "h5=true&ucid=" + id + "&czh_token=" + newToken;
+                App.open("/usr/useshowcode.html", params);
+
+            },
+            goCoupons: function () {
+                App.open("/usr/mytickets.html","h5=true");
+            },
+        },
+        mounted: function (vm) {
+            var firstIn = localStorage.getItem("window.location.href") != window.location.href;
+            if (vm.params("czh_token") && firstIn) {
+                localStorage.setItem("window.location.href", window.location.href);
+                vm.callApi("czh/login", {czh_token: vm.params("czh_token")}, null, function (data, vm, flag, err) {
+                    if (flag) {
+                        App.params("suk", data.token);
+                        vm.callApi("coupon/list", {type: 1}, "",function (data, vm, flag, err) {
+                            vm.couponList = data.coupons;
+                        });
+                    } else {
+                        Toast(err,1000);
+                        return;
+                    }
+                });
+            } else if (vm.params("czh_token") && !firstIn) {
+                vm.callApi("coupon/list", {type: 1}, "",function (data, vm, flag, err) {
+                    vm.couponList = data.coupons;
+                });
+            }else {
+                vm.callApi("coupon/list", {type: 1}, "",function (data, vm, flag, err) {
+                    vm.couponList = data.coupons;
+                });
+            }
+
+            if(!App.isCzhApp()){
+                $('#loading').show();
+                getGmapLocation();
+                //$('#sliderProgressBar').stop().animate({"left":"4.83rem"},300);
+                $(".near").show();
+                $(".service").hide();
+                curTab=2;
+                if (isLocalStore) {
+                    $('#loading').hide();
+                    return;
+                }
+                $('#shops').html('');
+                isLocalStore = true;
+                vm.page=1;
+            }else {
+                    wapp.init(false);
+                    wapp.utils.addEventListener('ready', function () {
+                        getVersion();
+                    });
+            }
+
+            App.callApi("shop/near", {
+                area: '',
+                lng: App.data("lng"),
+                lat:  App.data("lat"),
+                //cid: App.data("cid"),
+                cid: App.data("newcid"),
+                //scid: App.data("scid"),
+                scid: App.data("scid"),
+                page: App.data("page"),
+                pageSize: App.data("pageSize"),
+                ids: App.cookie("fixed_ids")=="1" && !App.isWxPn() ? App.data("ids") : "",
+                withService: 1,
+                noRound: App.data("noRound"),
+                shopNameOrService: App.data("shopNameOrService"),  //查询条件
+                fullSubtraction: App.data("fullSubtraction")   //满减
+            }, null, function (data, vm, flag) {
+
+
+            });
+
+        }
+
+    });
+
+    var customerId = '${customerId}';
+    var adUrl = '${adUrl}';
+    var adId = '${adId}';
+    var newToken = '${newToken}';
+    var curTab = 1;
+    var loadFlag = false;
+    var isLocalStore = false;
+
+    // 点击附近门店内部切换tab
+    $('.near ul li').click(function () {
+        $(this).addClass('active').siblings().removeClass('active');
+        var url = window.location.href;
+        if (url.indexOf("wx.autoxiaoer") != -1) {
+            if ($(this).html() == '洗车') {
+                App.data("conmetType", 32);
+                App.data("fullSubtraction", -1);
+                getList(32);
+
+            } else if ($(this).html() == '打蜡') {
+                App.data("conmetType", 53);
+                App.data("fullSubtraction", -1);
+                getList(53);
+            } else if ($(this).html() == '喷漆') {
+                App.data("conmetType", 40);
+                App.data("fullSubtraction", -1);
+                getList(40);
+            }
+            // else if ($(this).html() == '优惠买单') {
+            //     App.data("conmetType", -1);
+            //     getList(-1);
+            // }
+        } else {
+            if ($(this).html() == '洗车') {
+                App.data("conmetType", 32);
+                App.data("fullSubtraction", -1);
+                getList(32);
+            } else if ($(this).html() == '打蜡') {
+                App.data("conmetType", 35);
+                App.data("fullSubtraction", -1);
+                getList(35);
+            } else if ($(this).html() == '喷漆') {
+                App.data("conmetType", 40);
+                App.data("fullSubtraction", -1);
+                getList(40);
+            } else if ($(this).html() == '优惠买单') {
+                App.data("conmetType", 0);
+                App.data("fullSubtraction", 0);
+                getList(0);
+            }
+        }
+
+
+    });
+    //执行切换
+    function getList(scid){
+        $('#loading').show();
+        $('#shops').html('');
+        $('#bottom-words').html('');
+        locData.scid = scid;
+        locData.pageIndex = 1;
+        App.data("scid",locData.scid);
+        App.data("page",locData.pageIndex);
+        loadList(true);
+    }
+    //点击tab
+    $(".page_tab ul li").click(function(){
+        $(this).addClass('active').siblings().removeClass('active');
+        if($(this).html() == '精选服务'){
+            isLocalStore = false;
+            $('#sliderProgressBar').stop().animate({"left":"1.4rem"},300);
+            $(".service").show();
+            $(".near,#bottom-words").hide();
+            curTab =1;
+        }else if($(this).html() == '附近门店'){
+            $('#loading').show();
+            $('#sliderProgressBar').stop().animate({"left":"4.83rem"},300);
+            $(".near").show();
+            $(".service").hide();
+            curTab=2;
+            if(locData.lng == '' || locData.lat == ''){
+                loadFlag = true;
+                return;
+            }
+            if (isLocalStore) {
+                $('#loading').hide();
+                return;
+            }
+            $('#shops').html('');
+            isLocalStore = true;
+            locData.pageIndex = 1;
+            App.data("page",locData.pageIndex);
+            loadList(false);
+        }
+    });
+    //加载分页
+    function loadList(isSwitchTab){
+        if(App.data("lat") == '' || App.data("lng") == ''){
+            $('#bottom-words').hide();
+            $('.lists').hide();
+            $('#noPlace').show();
+            return;
+        }else {
+            $('.lists').show();
+            $('#noPlace').hide();
+        }
+        locData.area = "";
+        if (!locData.scid) {
+            locData.scid = App.data("conmetType");
+            App.data("scid",locData.scid);
+        }
+        App.callApi("shop/near", {
+            area: locData.area,
+            lng: locData.lng,
+            lat: locData.lat,
+            //cid: App.data("cid"),
+            cid: App.data("newcid"),
+            //scid: App.data("scid"),
+            scid: locData.scid,
+            page: locData.pageIndex,
+            pageSize: App.data("pageSize"),
+            ids: App.cookie("fixed_ids")=="1" && !App.isWxPn() ? App.data("ids") : "",
+            withService: 1,
+            noRound: App.data("noRound"),
+            shopNameOrService: App.data("shopNameOrService"),  //查询条件
+            fullSubtraction: App.data("fullSubtraction")   //满减
+        }, null, function (data, vm, flag) {
+            if (flag) {
+                var list = data.shops;
+                if(list.length > 0){
+                    var html = '';
+                    for(var i in list){
+                        var shop = list[i];
+
+                        html += '<li class="clear" onclick="toDetail('+ shop.id +')">' +
+                            '<img src="'+ shop.img +'" alt="">' +
+                            '<div class="details">' +
+                            '<p class="shop_name">'+ shop.name +'</p>' +
+                            '<p class="time">' +
+                            '<i></i>' +
+                            '<span>'+ shop.serviceStartTime +'</span>' +
+                            '</p>' +
+                            '<p class="location">' +
+                            '<i></i>' +
+                            '<span><span>'+ Math.round(shop.distance*100)/100 +'</span>公里</span>' +
+                            '</p>' +
+                            '</div>' +
+                            '</li>';
+                    }
+                    $('#loading').hide();
+                    if(isSwitchTab || locData.pageIndex == 1){
+                        $('#shops').html(html);
+                    } else {
+                        $('#shops').append(html);
+                    }
+                    $('#bottom-words').show();
+                    if(list.length < 10){
+                        $('#bottom-words').html('已全部加载完成');
+                    }
+                }else{
+                    if (locData.pageIndex == 1) {
+                        $('#shops').html('');
+                    }
+                    $('#loading').hide();
+                    $('#bottom-words').html(locData.pageIndex == 1 ? '暂无可用门店' : '已全部加载完成');
+                }
+                locData.pageIndex = data.pageIndex;
+                App.data("page", locData.pageIndex);
+
+            }
+        });
+
+    }
+
+
+    function toSHopDetail(id) {
+        var str = window.location.href;
+        if(str.indexOf(" https://bbc.carrieym.com")>-1){
+            str =  "https://bbc.carrieym.com/wap/passport-gologin.html?ssotoken=__ssotoken__&type=item&item_id="
+        }else {
+            str = "https://test-bbc-other.iauto360.cn/wap/passport-gologin.html?ssotoken=__ssotoken__&type=item&item_id=";
+        }
+        var url = str + id;
+
+        window.open(url);
+    }
+
+    //去详情
+    function toDetail(id) {
+        //正式地址 http://wx.autoxiaoer.com/usr/networkdetails.html    test.autoxiaoer.com   10.1.1.42:8813
+        var url = '/usr/networkdetails.html?id=' + id + "&h5=true&partner=czh&customerId=" + customerId +
+                "&adUrl=" + adUrl + "&adId=" + adId + "&czh_token=" + newToken;
+        window.open(url);
+    }
+
+    // $('#yhxc').click(function () {
+    //     //正式地址 http://app-site.iauto360.cn/promotion/car-wash-activity  app-site.t.hq.in.ecpark.cn
+    //     var url = "${contextPath}/promotion/car-wash-activity";
+    //     window.open(url);
+    // });
+
+    //--------------上拉加载更多---------------
+    //获取滚动条当前的位置
+    function getScrollTop() {
+        var scrollTop = 0;
+        if(document.documentElement && document.documentElement.scrollTop) {
+            scrollTop = document.documentElement.scrollTop;
+        } else if(document.body) {
+            scrollTop = document.body.scrollTop;
+        }
+        return scrollTop;
+    }
+
+    //获取当前可视范围的高度
+    function getClientHeight() {
+        var clientHeight = 0;
+        if(document.body.clientHeight && document.documentElement.clientHeight) {
+            clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight);
+        } else {
+            clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+        }
+        return clientHeight;
+    }
+
+    //获取文档完整的高度
+    function getScrollHeight() {
+        return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    }
+
+    //滚动事件触发
+    window.onscroll = function() {
+        if(getScrollTop() + getClientHeight() == getScrollHeight()) {
+            if(curTab == 2){
+                $('#bottom-words').html('正在加载中...');
+                loadList(false);
+            }
+        }
+    }
+    //百度坐标转高德（传入经度、纬度）
+    function bd_decrypt(bd_lng, bd_lat) {
+        var X_PI = Math.PI * 3000.0 / 180.0;
+        var x = bd_lng - 0.0065;
+        var y = bd_lat - 0.006;
+        var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * X_PI);
+        var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * X_PI);
+        var gg_lng = z * Math.cos(theta);
+        var gg_lat = z * Math.sin(theta);
+        return {lng: gg_lng, lat: gg_lat}
+    }
+
+    /*手势滑动左右切换tab*/
+    var startX,startY,moveEndX,moveEndY,X,Y;
+    $("#content_box").on("touchstart", function(e) {
+        startX = e.originalEvent.changedTouches[0].pageX,
+            startY = e.originalEvent.changedTouches[0].pageY;
+    });
+    $("#content_box").on("touchend", function(e) {
+        moveEndX = e.originalEvent.changedTouches[0].pageX,
+            moveEndY = e.originalEvent.changedTouches[0].pageY,
+            X = moveEndX - startX,
+            Y = moveEndY - startY;
+        // 左滑
+        if (  Math.abs(X) > Math.abs(Y) && X < -$(window).width()/2.8 && App.isCzhApp()) {
+            $(".tab_near").addClass('active').siblings().removeClass('active');
+            $('#sliderProgressBar').stop().animate({"left":"4.83rem"},300);
+            $(".near").show();
+            $(".service").hide();
+            $('#loading').show();
+            curTab=2;
+            if(locData.lng == '' || locData.lat == ''){
+                loadFlag = true;
+                return;
+            }
+            if (isLocalStore) {
+                $('#loading').hide();
+                return;
+            }
+            $('#shops').html('');
+            isLocalStore = true;
+            locData.pageIndex = 1;
+            App.data("page",locData.pageIndex);
+            loadList(false);
+        }
+        // 右滑
+        else if( Math.abs(X) > Math.abs(Y) && X > $(window).width()/2.8 && App.isCzhApp()){
+            $(".tab_service").addClass('active').siblings().removeClass('active');
+            $('#sliderProgressBar').stop().animate({"left":"1.4rem"},300);
+            $(".service").show();
+            $(".near").hide();
+        }
+        // 向下
+        else if ( Math.abs(Y) > Math.abs(X) && Y > 0){
+
+        }
+        // 向上
+        else if ( Math.abs(Y) > Math.abs(X) && Y < 0 ) {
+
+        }
+
+    });
+    if (!App.isCzhApp()) {
+        $.getScript('js/nav.js',function(){});
+    }
+</script>
+</body>
+</html>

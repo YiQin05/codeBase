@@ -1,0 +1,70 @@
+$fontSmall: .55rem;
+$fontMiddle: .6rem;
+$fontBig: .75rem;
+$bgcolor: #999;
+$titleFontColor: #666;
+$borderColor: #e4e4e4;
+$fontColor: #3190e8;
+@mixin flexPosition($justify){
+  display: flex;
+  justify-content: $justify;
+  align-items: center;
+}
+@mixin City($color){
+  margin-top: 20px;
+  border-bottom: 1px solid $borderColor;
+  border-top: 2px solid $borderColor;
+  box-sizing: border-box;
+  .city{
+    ul{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      li{
+        box-sizing: border-box;
+        border-bottom: 0.025rem solid $borderColor;
+        border-right: 0.025rem solid $borderColor;
+        width: 25%;
+        height: 2rem;
+        line-height: 2rem;
+        color: $color;
+        font-size: $fontMiddle;
+      }
+      li:nth-of-type(4n){
+        border-right: 0px;
+      }
+    }
+  }
+}
+@mixin svgIcon($color){
+  stroke: $color;
+  stroke-width:2;
+  fill: transparent;
+  stroke-linecap: "square";
+}
+@mixin paddingAside($disten){
+  padding-left: $disten;
+  padding-right: $disten;
+}
+@mixin borderTB($Top, $bottom){
+  border-top: $Top solid $borderColor;
+  border-bottom: $bottom solid $borderColor;
+}
+@mixin listStyle(){
+  ul{
+    li{
+      padding: .65rem .8rem;
+      border-bottom: 1px solid $borderColor;
+      h5{
+        font-size: .65rem;
+        text-align: left;
+      }
+      p{
+        font-size: $fontSmall;
+        color: $bgcolor;
+        text-align: left;
+        margin-top: .30rem;
+      }
+    }
+  }
+}

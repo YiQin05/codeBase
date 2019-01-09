@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FeedBack  </title>
+    <link rel="stylesheet" href="/public/lib/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+    <div class="contain">
+        <h1>首页</h1>
+        <a href="/post"><button class="btn btn-success" type="button" onclick="changetext()">发表留言</button></a>
+        <div class="Message">
+            <h2>已有留言</h2>
+            <ul class="list-unstyled list-group">
+                {{each message}}
+                <li class="list-group-item">{{ $value.name }}说：{{ $value.msg }}<span class="pull-right">{{ $value.dateTime }}</span></li>
+                {{ /each }}
+            </ul>
+        </div>
+    </div>
+    
+</body>
+<script>
+    function changetext(){
+        
+    }
+</script>
+<style>
+h1{
+    color: aquamarine
+}
+.contain{
+    max-width: 1200px;
+    margin: 0 auto
+}
+</style>
+</html>

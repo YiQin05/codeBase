@@ -1,0 +1,86 @@
+<template>
+  <div class="container layout">
+    <div class="banner"><img src="../../assets/u152.jpg" alt="img"></div>
+    <div class="middle">
+      资源总数：
+      <div class="iconPlane">任务总数<span>450</span>项</div>
+      <div class="iconPlane">已完任务<span>400</span>项</div>
+      <div class="iconPlane">拍摄数据<span>5703</span>项</div>
+      <div class="iconPlane">小区数<span>304</span>个</div>
+      <div class="iconPlane">场景识别<span>276</span>个</div>
+    </div>
+    <div class="bottom">
+      <div class="left">
+        <left/>
+      </div>
+      <div class="right">
+        <right/>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import left from './left.vue'
+import right from './right.vue'
+export default {
+  data () {
+    return {
+    }
+  },
+  components: {
+    left,
+    right
+  }
+}
+</script>
+<style scoped>
+  .container{
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .banner img{
+    width: 100%;
+    height: 376px;
+  }
+  .middle,.bottom{
+    display: flex;
+    flex-direction: row;
+  }
+  .middle{
+    border: 1px solid #ebeef5;
+    border-left: 20px solid rgb(0, 153, 255);
+    height: 90px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+    padding-left: 20px;
+    font-size: 20px;
+    font-weight: bolder;
+  }
+  .middle>div{
+    font-weight: normal;
+    border: 1px solid #ebeef5;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 150px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+  }
+  .middle>div span{
+    font-size: 25px;
+    color: rgb(255, 153, 0);
+    font-weight: bolder;
+  }
+  .bottom .left,.right{
+    width: 50%;
+  }
+  .layout{
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+  }
+</style>

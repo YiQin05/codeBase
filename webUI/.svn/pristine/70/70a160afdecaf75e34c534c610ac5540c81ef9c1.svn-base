@@ -1,0 +1,62 @@
+<template>
+  <div class="container">
+    <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
+    </el-radio-group>
+    <el-tabs :tab-position="tabPosition" >
+      <el-tab-pane label="新建任务">
+        <newMission/>
+      </el-tab-pane>
+      <el-tab-pane label="任务修改">
+        <modifyMission/>
+      </el-tab-pane>
+      <el-tab-pane label="任务查询">
+        <missionEnquiry/>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
+</template>
+<script>
+import newMission from './newMission.vue'
+import modifyMission from './modifyMission.vue'
+import missionEnquiry from './missionEnquiry.vue'
+export default {
+  data () {
+    return {
+      tabPosition: 'left'
+    }
+  },
+  components: {
+    newMission,
+    modifyMission,
+    missionEnquiry
+  }
+}
+</script>
+<style>
+.container .is-left {
+  font-size: 18px;
+  font-weight: bolder;
+  width:40px;
+  text-align:center;
+
+}
+.container .el-tabs__item{
+  height: auto;
+  padding: 10px 11px;
+  line-height: 22px;
+}
+.container .el-tabs__item.is-active {
+  color: white;
+  background-color: rgb(0, 122, 255);
+}
+.container .el-tabs__nav{
+  white-space: normal;
+}
+</style>
+<style scoped>
+  .test{
+    width: 20px;
+    height: 100px;
+    float:none
+  }
+</style>

@@ -1,0 +1,169 @@
+html,
+body {
+  width: 100%;
+}
+.m_container {
+  width: 10rem;
+  margin: 0 auto;
+  font-size: 0.44rem;
+  overflow-x: hidden;
+  background: #F4F4F4;
+  padding-bottom: 0.6rem;
+}
+#accNo,
+#mobileNo {
+  display: block;
+  height: 1.18rem;
+  width: 6.4rem;
+  margin-left: 1.4rem;
+  -webkit-border-radius: 0.06rem;
+  border-radius: 0.06rem;
+  border: none;
+  color:#333;
+}
+.banner {
+  width: 10rem;
+  height: 4.26rem;
+  background: url('../images/banner_unionpay.png');
+  background-size: 100% 100%;
+  margin-bottom: 0.6rem;
+}
+.cardbox,
+.phonebox {
+  position: relative;
+  width: 9.2rem;
+  height: 1.18rem;
+  margin: 0 auto;
+  /*border: 0.02rem solid #ccc;*/
+  background: #fff;
+  -webkit-border-radius: 0.06rem;
+  border-radius: 0.06rem;
+  margin-bottom: 0.4rem;
+}
+.iconcard {
+  width: 0.6133rem;
+  height: 0.48rem;
+  background: url('../images/unionpay.fw.png') 0 0 no-repeat;
+  background-size: 4.9333rem 1.8667rem;
+  position: absolute;
+  left: 0.4rem;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+}
+.iconphone {
+  width: 0.4667rem;
+  height: 0.6rem;
+  background: url('../images/unionpay.fw.png') -0.7333rem 0 no-repeat;
+  background-size: 4.9333rem 1.8667rem;
+  position: absolute;
+  left: 0.4rem;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+}
+.code {
+  margin:0 auto 0.8rem;
+  width:9.2rem;
+  overflow: hidden;
+}
+.code #vcode {
+  width: 5.7rem;
+  height: 1.18rem;
+  display: block;
+  float: left;
+  text-indent: 0.5rem;
+  /*margin-left: 1rem;*/
+  /*border: 0.02rem solid #ccc;*/
+  -webkit-border-radius: 0.06rem;
+  border-radius: 0.06rem;
+  border:0;
+}
+.code .getCode {
+  width: 2.9rem;
+  height: 1.18rem;
+  line-height: 1.2rem;
+  text-align: center;
+  margin-left: 0.52rem;
+  border: 0.02rem solid #0E8FE8;
+  float: right;
+  color: #0E8FE8;
+  background: #fff;
+  -webkit-border-radius: 0.12rem;
+  border-radius: 0.12rem;
+}
+.getNow {
+  width: 9.2rem;
+  margin: 0 auto;
+  height: 1.34rem;
+  line-height: 1.34rem;
+  text-align: center;
+  color: #fff;
+  -webkit-border-radius: 0.06rem;
+  border-radius: 0.06rem;
+  background:linear-gradient(90deg,rgba(46,195,253,1) 0%,rgba(68,169,239,1) 100%);
+  margin-bottom: 0.64rem;
+}
+.getcard {
+  width: 9.2rem;
+  margin: 0 auto;
+  height: 1.34rem;
+  line-height: 1.34rem;
+  text-align: center;
+  color: #BE0018;
+  -webkit-border-radius: 0.06rem;
+  border-radius: 0.06rem;
+  border: 0.04rem solid #2EC3FD;
+  margin-bottom: 1rem;
+}
+.activitybox {
+  width: 6rem;
+  height: 1rem;
+  margin: 0 auto;
+  position: relative;
+}
+.activitybox .bar {
+  width: 5rem;
+  height: 0.04rem;
+  background: #DDD;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  z-index: 10;
+}
+.activitybox p {
+  width: 3rem;
+  height: 1.2rem;
+  line-height: 1.1rem;
+  text-align: center;
+  margin: 0 auto;
+  background: #F4F4F4;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, 0);
+  -webkit-transform: translate(-50%, 0);
+  z-index: 100;
+  font-size:0.38rem;
+  font-weight:500;
+  color:rgba(103,111,120,1);
+}
+.useform,
+.activityRule {
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+.useform p,
+.activityRule p {
+  color: #676F78;
+  font-size: 0.34rem;
+  line-height: 0.5rem;
+  margin-bottom: 0.1rem;
+}
+.useform p:first-child,
+.activityRule p:first-child {
+  margin-bottom: 0.2rem;
+}

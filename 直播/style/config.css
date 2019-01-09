@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+.mainpagelanguage{ display:none; } 
+
+.ImagesGamdisply{ display:; }
+
+.NewEmail{ display:; }
+.OldEmail{ display:none; }
+
+.DNSNew{ display:none; }
+.DNSOld{ display:; }

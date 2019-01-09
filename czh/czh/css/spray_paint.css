@@ -1,0 +1,183 @@
+@charset "utf-8";
+/*REM布局*/
+html {
+  font-size: 100px;
+}
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+body {
+  font-size: .28rem;
+  background-color: #F4F4F4;
+}
+a,
+a:active,
+a:visited,
+a:hover,
+a:target {
+  display: block;
+}
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  -webkit-backface-visibility: hidden;
+}
+input.checkbox {
+  -webkit-appearance: checkbox;
+}
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.main {
+  width: 7.5rem;
+  margin: 0 auto;
+}
+.main .header {
+  width: 100%;
+}
+.main .header img {
+  width: 100%;
+  display: block;
+}
+.main .content {
+  width: 100%;
+}
+.main .content .con-top {
+  width: 100%;
+  height: .98rem;
+  background-color: #fff;
+  border-bottom: 1px solid #E6EBF1;
+  position: relative;
+}
+.main .content .con-top i {
+  position: absolute;
+  width: .28rem;
+  height: .28rem;
+  background: url('../../../images/promotion/car_cosmetology/css_sprites.png') no-repeat;
+  background-size: 4.28rem 3.09rem;
+}
+.main .content .con-top .icon1 {
+  left: .3rem;
+  top: 50%;
+  margin-top: -0.14rem;
+  background-position: -3.58rem -1.7rem;
+}
+.main .content .con-top .icon2 {
+  width: .17rem;
+  height: .17rem;
+  right: .3rem;
+  top: 50%;
+  margin-top: -0.085rem;
+  background-position: -4.06rem -1.7rem;
+}
+.main .content .con-top p.my_quan {
+  float: left;
+  height: 0.98rem;
+  font-size: 0.28rem;
+  color: #37474f;
+  line-height: 0.98rem;
+  padding-left: .3rem;
+}
+.main .content .con-top p.keyong {
+  float: right;
+  height: 0.98rem;
+  font-size: 0.28rem;
+  color: #f5a623;
+  line-height: 0.98rem;
+  padding-right: .58rem;
+}
+.main .content .con-lists {
+  width: 100%;
+  background-color: #fff;
+}
+.main .content .con-lists ul {
+  width: 100%;
+}
+.main .content .con-lists ul li {
+  float: left;
+  width: 50%;
+  height: 1.78rem;
+  padding-left: .3rem;
+  border-bottom: 1px solid #E6EBF1!important;
+  box-sizing: border-box;
+  position: relative;
+}
+.main .content .con-lists ul li i {
+  position: absolute;
+  background: url('../../../images/promotion/car_cosmetology/css_sprites.png') no-repeat;
+  background-size: 4.28rem 3.12rem;
+}
+.main .content .con-lists ul li .first {
+  width: .96rem;
+  height: .4rem;
+  left: 0;
+  top: 0;
+  background-position: -2.42rem -1.26rem;
+}
+.main .content .con-lists ul li .big_icon {
+  width: .96rem;
+  height: .96rem;
+  right: .28rem;
+  top: .34rem;
+  background-position: -0.1rem -0.1rem;
+}
+.main .content .con-lists ul li .car_icon {
+  width: .96rem;
+  height: .96rem;
+  right: .28rem;
+  top: .36rem;
+  background-position: -1.26rem -1.26rem;
+}
+.main .content .con-lists ul li p:nth-of-type(1) {
+  height: 0.42rem;
+  font-size: 0.3rem;
+  color: #37474f;
+  line-height: 0.42rem;
+  font-weight: 500;
+  margin-top: .48rem;
+}
+.main .content .con-lists ul li p:nth-of-type(2) {
+  height: 0.34rem;
+  font-size: 0.24rem;
+  color: #9e9e9e;
+  line-height: 0.34rem;
+  margin-top: 0.04rem;
+}
+.main .content .con-lists ul li p.money {
+  color: #F5A623;
+  font-weight: 500;
+}
+.main .content .con-lists ul li p.money span {
+  height: 0.28rem;
+  font-size: 0.2rem;
+  color: #cccccc;
+  line-height: 0.28rem;
+  font-weight: 300;
+  text-decoration: line-through;
+  margin-left: .05rem;
+}
+.main .content .con-lists ul li:nth-of-type(odd) {
+  border-right: 1px solid #E6EBF1;
+}
+.main .content .con-lists ul li p.area{
+  width: 1.74rem;
+  font-size:0.2rem;
+  color:rgba(158,158,158,1);
+  line-height:0.28rem;
+  margin-top: 0.02rem;
+}
+.main .content .con-lists ul li p.mgt{
+  margin-top: .34rem;
+}
+.main .content .con-lists ul li p.mgt2{
+  margin-top: .02rem;
+}
+.main .content .con-lists ul li:nth-of-type(3),
+.main .content .con-lists ul li:nth-of-type(4) {
+  border-bottom:none;
+}

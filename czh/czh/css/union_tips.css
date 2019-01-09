@@ -1,0 +1,147 @@
+html,
+body,
+#app {
+  height: 100%;
+}
+.m_container {
+  width: 10rem;
+  height: 100%;
+  margin: 0 auto;
+  background: #F4F4F4;
+  overflow: hidden;
+}
+.openbox {
+  width: 9.2rem;
+  height: 4.2rem;
+  margin: 0 auto;
+  margin-top: 0.26rem;
+  background: #ffffff;
+  box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 0.1067rem;
+  border-radius: 0.1067rem;
+  padding-top: 0.53rem;
+  margin-bottom: 0.426rem;
+}
+.openbox .payright {
+  width: 1.173rem;
+  height: 1.12rem;
+  margin: 0 auto;
+  background: url('../images/pay_success.png') no-repeat;
+  background-size: 100% 100%;
+  margin-bottom: 0.26rem;
+}
+.openbox p {
+  text-align: center;
+}
+.openbox .tip {
+  color: #5BC968;
+  text-align: center;
+  margin-bottom: 0.26rem;
+  font-size:0.42rem;
+  font-weight:400;
+  color:rgba(91,201,104,1);
+  line-height:0.42rem;
+}
+.openbox .paynum {
+  font-size: 0.5rem;
+  margin-bottom: 0.13rem;
+  color: #383C41;
+  font-weight: 500;
+}
+.openbox .tipb {
+  font-size: 0.36rem;
+  color: #676F78;
+}
+.washcar {
+  width: 9.1067rem;
+  margin: 0 auto;
+  height: 2.4267rem;
+  font-size: 0.44rem;
+  line-height: 1.3rem;
+  text-align: center;
+  -webkit-border-radius: 0.12rem;
+  border-radius: 0.12rem;
+  background: url('../images/type1-bg.png') no-repeat;
+  background-size: 100% 100%;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.washcar .wcl {
+  float: left;
+  width: 6rem;
+  padding-left: 0.2rem;
+  padding-top: 0.25rem;
+}
+.washcar .wcl p {
+  font-size: 0.4rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 0.4rem;
+}
+.washcar .wcl p:nth-child(1) {
+  height: 0.8rem;
+  line-height: 0.8rem;
+  text-align: left;
+}
+.washcar .wcl p:nth-child(2) {
+  color: #383C41;
+  height: 0.5rem;
+  line-height: 0.5rem;
+  font-size: 0.3rem;
+  text-align: left;
+  margin-bottom: 0.2rem;
+}
+.washcar .wcl p:nth-child(3) {
+  color: #999;
+  font-size: 0.28rem;
+  height: 0.5rem;
+  text-align: left;
+  line-height: 0.5rem;
+}
+.washcar .wc {
+  width: 2rem;
+  height: 0.9rem;
+  line-height: 0.9rem;
+  font-size: 0.42rem;
+  background: #BE0018;
+  color: #fff;
+  -webkit-border-radius: 0.1067rem;
+  border-radius: 0.1067rem;
+  position: absolute;
+  right: 0.34rem;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+}
+.pickme {
+  color: #676F78;
+  font-size: 0.28rem;
+  height: 0.5rem;
+  line-height: 0.5rem;
+  padding-left: 0.6rem;
+}
+.tips_center{
+  text-align: center;
+}
+.ac_tips{
+  display: inline-block;
+  margin:0 auto;
+  width:4.5rem;
+  font-size:0.32rem;
+  font-weight:400;
+  color:rgba(153,153,153,1);
+  line-height:0.46rem;
+}
+.ac_code img{
+  margin-bottom:0.26rem;
+  width:4rem;
+  height:4rem;
+}
+.ac_code p{
+  width:4.18rem;
+  font-size:0.32rem;
+  font-weight:400;
+  color:rgba(153,153,153,1);
+  line-height:0.46rem;
+}

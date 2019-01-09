@@ -1,0 +1,55 @@
+package helloEclipse;
+
+public class HelloWorld {
+	public char arr[] = {'A', 'D', 'R', 'K', 'L', 'V', 'J', 'Y', 'F', 'Q', 'U', 'P', 'Z'};
+	public void qSort(char arr[], int p) {
+		int star=0,end=arr.length-1,flag=0,n=arr[p];
+		while(star<end) {
+			switch(flag) {
+			case 0:
+				System.out.println(0);
+				for(int i=end; i>0; i--) {
+					end--;
+					if(arr[i]<n) {
+						char q = arr[i];
+						arr[i] = arr[p];
+						arr[p] = q;
+						flag = 1;
+						break;
+					}
+				}
+				break;
+			case 1:
+				System.out.println(1);
+				for(int i=star; i<end; i++) {
+					star++;
+					if(arr[i]>n) {
+						char q = arr[i];
+						arr[i] = arr[p];
+						arr[p] = q;
+						flag = 0;
+						break;
+					}
+				}
+			}
+			System.out.print(arr);
+		}
+		if(star!=end) {
+			int num = star+1;
+			char leftArr[] = new char[num];
+			char rightArr[] = new char[num];
+			for(int i=0;i<star;i++) {
+				leftArr[i]=arr[i];
+			}
+			for(int i=arr.length-1;i>star;i++) {
+				rightArr[i]=arr[i];
+			}
+			this.qSort(leftArr, 0);
+			this.qSort(rightArr, 0);
+		}
+	}
+	public static void  main (String[] args) {
+		HelloWorld helloworld = new HelloWorld();
+		helloworld.qSort(helloworld.arr, 0);
+	}
+}

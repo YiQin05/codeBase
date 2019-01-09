@@ -1,0 +1,94 @@
+<template>
+  <div class="container">
+    <div class="TopTitle">任务管理</div>
+    <el-tabs type="border-card">
+      <el-tab-pane label="任务列表">
+        <el-form :inline="true" :model="missionList" class="formWidth" size="mini" label-width="90px">
+            <enquierResult/>
+        </el-form>
+      </el-tab-pane>
+      <el-tab-pane label="新增任务">
+        <mission/>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
+</template>
+<script>
+import mission from './mission.vue'
+import enquierResult from './enquierResult.vue'
+export default {
+  data () {
+    return {
+      missionList: {
+        cellName: '',
+        num: '',
+        missionName: '',
+        missionNum: '',
+        cellId: '',
+        cellLongit: '',
+        downtilt: '',
+        celldimen: '',
+        angle: '',
+        height: '',
+        devAngle: '',
+        number: '',
+        reciver: '',
+        finish: ''
+      },
+      labelName: '',
+      searchInput: ''
+    }
+  },
+  methods: {
+  },
+  components: {
+    mission,
+    enquierResult
+  }
+}
+</script>
+<style scoped>
+#pane-1 {
+  text-align: left;
+  margin-left: 40px;
+}
+#pane-1 {
+  padding-left: 18px;
+  padding-right: 0px
+}
+.contain {
+  margin-top: 20px;
+}
+.contain .el-date-editor {
+  width: 180px;
+}
+.contain .el-select .el-input{
+    width: 180px;
+}
+.el-tabs--top{
+  margin-top: 10px;
+}
+.insidePanel {
+  margin-left: -72px;
+}
+#pane-1 .enquierBut{
+  position: absolute;
+  margin-left: 680px;
+  top: 275px
+}
+.formWidth{
+  min-width: 908px;
+}
+/* #pane-0 .missionStyle>.el-form-item:nth-child(2) {
+  margin-left: 40px;
+}
+#pane-0 .missionStyle>.el-form-item:nth-child(3) {
+  margin-left: 20px;
+}
+#pane-1 .missionStyle>.el-form-item:nth-child(2) {
+  margin-left: 40px;
+}
+#pane-1 .missionStyle>.el-form-item:nth-child(3) {
+  margin-left: 20px;
+} */
+</style>

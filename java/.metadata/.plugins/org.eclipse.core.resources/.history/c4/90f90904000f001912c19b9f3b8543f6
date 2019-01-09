@@ -1,0 +1,44 @@
+package helloSort;
+
+public class helloSort {
+	public int arr[] = {5,3,4,23,9,45,31};
+	public void newSort(int star, int end) {
+		int current = this.arr[star];
+		int firstStar = star;
+		int firstEnd = end;
+//		boolean flag = false;
+		while(star != end){
+			if(current == this.arr[star]) {
+				if(current > this.arr[end]) {
+					int p = this.arr[star];
+					this.arr[star] = this.arr[end];
+					this.arr[end] = p;
+					current = this.arr[end];
+					star++;
+				} else {
+					end--;
+				}
+			} else {
+				if(current < this.arr[star]) {
+					int p = this.arr[star];
+					this.arr[star] = this.arr[end];
+					this.arr[end] = p;
+					current = this.arr[star];
+					end--;
+				} else {
+					star++;
+				}
+			}
+		}
+		if (firstStar != firstEnd) {
+			newSort(firstStar,star);
+			newSort(star++,firstEnd);
+		}
+	}
+	public static void main (String[] args) {
+		helloSort hello = new helloSort();
+//		hello.newSort(0,hello.arr.length-1);
+		System.out.println("´óº£UN");
+	}
+
+}

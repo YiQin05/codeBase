@@ -1,0 +1,20 @@
+[OPTIONS]
+CONTENTS=main_index
+TITLE=OCXPROJECT Control Help
+COMPRESS=true
+WARNING=2
+HLP=ocxProject.hlp
+ERRORLOG=ocxProject.log
+
+[FILES]
+hlp\ocxProject.rtf
+
+[BITMAPS]
+; miscellaneous
+hlp\Bullet.bmp
+
+[ALIAS]
+HIDD_ABOUTBOX_OCXPROJECT = HID_APP_ABOUT_OCXPROJECT
+
+[MAP]
+#include <hlp\ocxProject.hm>

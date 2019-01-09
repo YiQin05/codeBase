@@ -1,0 +1,25 @@
+{"code":0,
+    "data":[{
+        "email":"support@zhongshicon.com",
+        "location":"\u73e0\u6d77",
+        "mobile":"12345678901",
+        "userID":"admin",
+        "userName":"\u7ba1\u7406\u5458",
+        "userType":0
+        },{
+        "email":"",
+        "location":"",
+        "mobile":"",
+        "userID":"consumer",
+        "userName":"",
+        "userType":2
+        },{
+        "email":"",
+        "location":"",
+        "mobile":"",
+        "userID":"producer",
+        "userName":"",
+        "userType":1
+        }],
+    "message":""
+}

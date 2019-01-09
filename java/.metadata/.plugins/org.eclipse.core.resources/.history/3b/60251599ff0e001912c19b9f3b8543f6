@@ -1,0 +1,21 @@
+package helloSort;
+
+public class helloSort {
+	public int arr[] = {5,3,4,23,9,45,31};
+	public void newSort(int star, int end) {
+		int current = this.arr[star];
+		while(star != end){
+			if(current == this.arr[star]) {
+				if(current > this.arr[end]) {
+					int p = this.arr[star];
+					this.arr[star] = this.arr[end];
+					this.arr[end] = p;
+					current = this.arr[end];
+					star++;
+				} else {
+					end--;
+				}
+			}
+		}
+	}
+}

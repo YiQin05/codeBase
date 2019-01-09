@@ -1,0 +1,16 @@
+package getPoint;
+import getPoint.getCircle.*;
+import getPoint.getLine.*;
+public class getPoint {
+	public static void main(String args[]) {
+		getCircle circle = new getCircle();
+		double[] point = {3.00d,3.00d};
+		String ruleString = circle.getRule(point,3.00d);
+		System.out.println(ruleString);
+		getLine line = new getLine();
+		double[] linePoint1 = {3.00d,3.00d};
+		double[] linePoint2 = {6.00d,6.00d};
+		double lineString = line.getLineRule(linePoint1, linePoint2,5.00d);
+		System.out.print(lineString);
+	}
+}

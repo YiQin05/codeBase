@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <!-- 需要用到Jquery吗？？？ -->
+</head>
+<style>
+#app .el-input{
+  width: 50%;
+}
+</style>
+
+<body>
+  
+
+  <template id="tmp1">
+        <el-table
+        :data="list==''? tableData:list"
+        style="width: 100%">
+        <el-table-column
+          prop="date"
+          label="日期"         
+          width="180"
+          :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
+          :filter-method="filterHandler"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="姓名"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="地址"
+          :formatter="formatter">
+        </el-table-column>
+        <el-table-column
+          prop="tag"
+          label="标签"
+          width="100"
+          :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
+          :filter-method="filterTag"
+          filter-placement="bottom-end">
+          <template slot-scope="scope">
+            <el-tag
+              :type="scope.row.tag === '家' ? 'primary' : 'success'"
+              disable-transitions>{{scope.row.tag}}</el-tag>
+          </template>
+        </el-table-column>
+      </el-table>
+  </template> 
+  <div id="app">
+    <el-row>
+      <el-input v-model="input" placeholder="请输入搜索内容" size="small"  ></el-input>
+      <el-button type="primary">搜索</el-button>
+    </el-row>    
+      <enquier-Result v-bind:pareninput="input"></enquier-Result>
+    </div>
+<script>
+Vue.component('enquierResult', {
+  template: '#tmp1',
+  data: function () {
+        // return dataObj
+        return {
+            tableData: [{
+            date: '2016-05-02',
+            name: '王小李',
+            address: '上海市普陀区金沙江路 1518 弄',
+            tag: '家'
+            }, {
+            date: '2016-05-04',
+            name: '王小张',
+            address: '上海市普陀区金沙江路 1517 弄',
+            tag: '公司'
+            }, {
+            date: '2016-05-01',
+            name: '王小赵',
+            address: '上海市普陀区金沙江路 1519 弄',
+            tag: '家'
+            }, {
+            date: '2016-05-03',
+            name: '王小钱',
+            address: '上海市普陀区金沙江路 1516 弄',
+            tag: '公司'
+            }],
+            list: []
+        }
+      },
+      props: ['pareninput'],
+      methods: {
+        filterTag(value, row) {
+          console.log('2')
+          console.log(value)
+          console.log(row)          
+          return row.tag === value
+        },
+        formatter(row, column) {
+          console.log('1')
+          console.log(this.tableData[0].date)
+          return row.address
+        },        
+        filterHandler(value, row, column) {
+          console.log('3')
+          console.log(value)
+          console.log(row)
+          console.log(column)
+          const property = column['property'];
+          return row[property] === value;
+        },
+        change(newVal,oldVal){
+          console.log('到这')
+          console.log('新'+newVal)
+          console.log('旧'+oldVal)
+          console.log(this.list.length)
+          var len=this.tableData.length
+          this.list.length = 0
+          console.log(this.list)
+          for(var i=0; i<len; i++){
+            if(this.tableData[i].date.indexOf(newVal) > -1){
+              console.log("这里")
+              var man = {date: this.tableData[i].date, name: this.tableData[i].name, address: this.tableData[i].address, tag: this.tableData[i].tag}
+              console.log(man);
+              if(this.list.length!=0 && i<this.list.length){
+                for(var j=0;j<this.list.length;j++){
+                  if(this.list[i].name != this.list[j].name){
+                    this.list.push(man)
+                  }
+                }
+              }else{
+                this.list.push(man)
+              }              
+            }
+          }
+          if(this.list.length==0){
+            var man = {date: '无数据', name: '', address: '', tag: ''}
+            this.list.push(man)
+          }
+          console.log('终于')
+          console.log(this.list)
+        }    
+      },
+      mounted() {   
+      },
+      watch: {
+        pareninput(newVal, oldVal){
+          this.change(newVal,oldVal)
+          // console.log(this)
+          // // console.log(this.tableData[0].date)
+          // console.log('flag')
+          // if(this.tableData != ''){
+          //   this.tableData.length = 0
+          // }else if(oldVal != ''){
+          //   this.tableData = this.list
+          // }
+          // console.log(this.list.length)
+          // for(var i=0; i<this.list.length; i++){
+          //       console.log('哈哈哈')
+          //       console.log(i)
+          //       console.log(this.list[i].date)
+          //       if(list[i].date.indexOf('1') > -1){
+          //         var man = {date: list[i].date, name: list[i].name, address: list[i].address, tag: list[i].tag, }
+          //         console.log(man);
+          //         this.tableData.push(man)
+          //       }
+          //   }
+          //   console.log('终于')
+          //   console.log(this.tableData)
+          // for(var i = 0; i <= this.list.length; i++){
+          //   console.log(i)
+          //   console.log(this.list)
+          //   if(list[0].date.indexOf('1') > -1){
+          //     var man = {date: list[i].date, name: list[i].name, address: list[i].address, tag: list[i].tag, }
+          //     this.tableData.push(man)
+          //   }
+          // }
+        }
+      }
+})
+var vm = new Vue({
+     el: '#app',
+    data: {
+      input: ''
+    },
+    methods: {
+
+    }
+});
+
+</script>
+</body>
+
+</html>

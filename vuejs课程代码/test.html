@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>动画测试</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="./animate.css">
+  <!-- 需要用到Jquery吗？？？ -->
+  <!-- 2. 自定义两组样式，来控制 transition 内部的元素实现动画 -->
+  <style>
+    /* v-enter 【这是一个时间点】 是进入之前，元素的起始状态，此时还没有开始进入 */
+    /* v-leave-to 【这是一个时间点】 是动画离开之后，离开的终止状态，此时，元素 动画已经结束了 */
+    /* div.container{
+  position:relative;
+}
+.item{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100px;
+  height:100px;
+  border:1px solid #ccc;
+}
+.opa{
+   opacity:0;
+   z-index:5;
+}
+span{
+  position:absolute;
+  top:5px;
+  right:5px;
+  z-index:10;
+} */
+#app{
+  position: relative;
+}
+.opa{
+  position: absolute;
+  top: 10px;
+   opacity:0;
+   z-index:0;
+}
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" @keyup.enter ="submit1" class="opa">
+    <el-input v-model="input" placeholder="请输入内容"  @keyup.enter ="submit"></el-input>
+    <el-button size="medium" class="item" @click="submit"  v-loading.fullscreen.lock="loading" autofocus @keyup.enter="submit">登录</el-button>
+  </div>
+
+  <script>
+    // 创建 Vue 实例，得到 ViewModel
+    var vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+            show2: true,
+            input: ''
+        }
+        // 
+      },
+      methods: {
+        submit1 () {
+          console.log('触发')
+        },
+        newInput () {
+          console.log('新触发')
+        },
+        deleteDiv(){
+          alert("delete");
+        },
+        submit(){
+          alert("登录");
+        }
+
+      }
+    });
+  </script>
+</body>
+
+</html>

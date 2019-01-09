@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <!-- 需要用到Jquery吗？？？ -->
+</head>
+<style>
+#app .el-input{
+  width: 50%;
+}
+</style>
+
+<body>
+  <div id="app">
+    <el-form :inline="true" ref="form1" :model="formInline" :rules="rules" class="demo-form-inline missionStyle demo-ruleForm" size="mini" label-width="120px">
+      <!-- int类型 -->
+      <el-form-item label="小区编号" prop="cellID">
+          <el-input v-model="formInline.cellID" ></el-input>
+      </el-form-item>
+      <!-- string类型 -->
+      <el-form-item label="基站ID" prop="bscID">
+          <el-input v-model="formInline.bscID"></el-input>
+      </el-form-item>
+    </el-form>
+    <el-form :inline="true" :rules="rules" :model="formInline" ref="fn1" class="demo-form-inline missionStyle demo-ruleForm" size="mini" label-width="120px">
+       <!-- string类型  -->
+      <el-form-item label="任务名称" prop="taskName">  
+          <el-input v-model="formInline.taskName"></el-input>
+      </el-form-item>
+      <!-- double类型  -->
+      <el-form-item label="拍摄经度" prop="takePhotoLongitude">
+          <el-input v-model.number="formInline.takePhotoLongitude"></el-input>
+      </el-form-item>
+    </el-form>
+    <el-input v-model="inputTest"></el-input>
+    <el-button type="primary" @click="test('form1')">点击</el-button>
+    <el-button type="primary" @click="addMission1">点击2</el-button>
+    <el-button type="primary" @click="test()">测试</el-button>
+  </div>
+<script>
+var vm = new Vue({
+     el: '#app',
+    data()  {
+      var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('不能为空！'));
+        } else if(isNaN(this.formInline.cellID)) {
+          callback(new Error('只能填数字！'));
+        }else{
+          callback()
+        }
+      };
+      return {
+        formList:['form1','fn1'],
+        index: 0,
+        checkNull: [true,true],
+        result: false,
+        formInline: {
+          cellID: '',
+          bscID: '',
+          taskName: '',
+          takePhotoLongitude: '',    
+          takePhoto: 0 ,
+          takePhotoDirectAngleRotate: 15 
+        },
+        formInline1: {
+          taskName: '',
+          takePhotoLongitude: '',
+        },
+        rules: {
+          cellID: [
+            { validator: validatePass, trigger: 'blur' }
+          ],
+          bscID: [
+            { required: true, message: '不能为空！', trigger: 'blur' },
+          ],
+          taskName: [
+            { required: true, message: '不能为空！', trigger: 'blur' },
+          ],
+          takePhotoLongitude: [
+            { validator: validatePass, trigger: 'blur' }
+          ],
+        }  
+      }
+    },
+    created(){      
+      // var date =new Date()
+      console.log('日期')
+      console.log(typeof(new Date().getTime()))
+      console.log(parseInt(new Date().getTime()))
+    },
+    watch: {    
+      inputTest(newVal, oldVal) {
+        this.formInline.takePhoto = newVal
+        console.log(this.formInline.takePhotoLongitude)
+        console.log('cellId: '+this.formInline.cellID)
+        console.log(this.formInline.takePhoto)
+      }
+    },
+    computed: {
+      inputTest(){
+        return  Math.ceil((this.formInline.takePhotoLongitude - this.formInline.cellID)/this.formInline.takePhotoDirectAngleRotate)
+      }
+    },
+    methods: {
+      test(){
+        for(var i=0;i<this.formList.length;i++){
+          this.addMission1(this.formList[i],i)
+        }
+        console.log('cellID类型：')
+        console.log(typeof(parseFloat(this.formInline.cellID)))
+        console.log('cellID：')
+        console.log(this.formInline.cellID)
+        console.log(isNaN(this.formInline.cellID))
+        this.checkNull.forEach(element => {
+          console.log('前result: '+this.result)
+          console.log('element: '+element)
+          this.result = this.result || element
+          console.log('后result: '+this.result)
+        });
+        console.log('result: '+this.result)
+        if(!this.result){
+          alert('submit!')
+        }else {
+          for(var i=0;i<this.formList.length;i++){
+            this.checkNull[i] = true
+          }        
+        }
+        this.result = false
+      },
+      submitForm(formName) {
+        console.log('1: '+formName)
+        this.$refs[formName].validate((valid) => {
+          if (valid && this.index == this.formList.length) {
+            alert('submit!');
+          } else{
+            if(this.index < this.formList.length && ++this.index !== this.formList.length){
+              console.log('index:' +this.index)
+              this.submitForm(this.formList[this.index])
+            }
+            console.log('error submit!!');
+            console.log(this.index)
+            return false;
+          }
+        });
+      },
+      addMission1 (formName,i) {
+        console.log('1: '+formName)
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            console.log(formName+' 成功')
+            this.checkNull[i] = false
+          } else{
+            console.log('error submit!!');
+            console.log(this.index)
+            return false;
+          }
+        });        
+      }
+    }
+});
+
+</script>
+</body>
+
+</html>

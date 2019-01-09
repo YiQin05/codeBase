@@ -1,0 +1,73 @@
+// ActiveXDemo.odl : type library source for ActiveX Control project.
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (ActiveXDemo.tlb) that will become a resource in
+// ActiveXDemo.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(21F64912-E74E-4553-8CA4-30B50EB1AC3F), version(1.0),
+  helpfile("ActiveXDemo.hlp"),
+  helpstring("ActiveXDemo ActiveX Control module"),
+  control ]
+library ACTIVEXDEMOLib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	//  Primary dispatch interface for CActiveXDemoCtrl
+
+	[ uuid(CA1C8CC5-8B5C-4417-BE5F-4A16059F26F3),
+	  helpstring("Dispatch interface for ActiveXDemo Control"), hidden ]
+	dispinterface _DActiveXDemo
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CActiveXDemoCtrl)
+			[id(1)] long TimeStyle;
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CActiveXDemoCtrl)
+			[id(2)] void Start();
+			[id(3)] void End();
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for CActiveXDemoCtrl
+
+	[ uuid(FA75D060-540B-478A-B18B-BE152554F09B),
+	  helpstring("Event interface for ActiveXDemo Control") ]
+	dispinterface _DActiveXDemoEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(CActiveXDemoCtrl)
+			[id(1)] void Onsent(BSTR* lpstrTime);
+			//}}AFX_ODL_EVENT
+	};
+
+	//  Class information for CActiveXDemoCtrl
+
+	[ uuid(6504E889-B1EB-4671-ADAB-E55CDEF8ED07),
+	  helpstring("ActiveXDemo Control"), control ]
+	coclass ActiveXDemo
+	{
+		[default] dispinterface _DActiveXDemo;
+		[default, source] dispinterface _DActiveXDemoEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

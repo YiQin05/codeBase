@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>1元洗车活动</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.min.css">
+    <link rel="stylesheet" type="text/css" href="css/union_card.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/flexible.js"></script>
+    <!--<script src="../usr/js/utils.js"></script>-->
+    <!--<script src="js/vue.js"></script>-->
+    <!--<script src="js/vue-resource.min.js"></script>-->
+    <!--<script src="js/app.js"></script>-->
+    <style>
+        html,body{
+            min-height: 100%;
+            height:100%;
+            background: #F4F4F4;
+        }
+        @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+        /*底部按钮上移*/
+            .m_container{
+                padding-bottom: 0.4533rem !important;
+            }
+        }
+        .useform{
+            margin-top:0.12rem;
+        }
+        .useform p{
+            font-size:0.32rem;
+            font-weight:400;
+            color:rgba(153,153,153,1);
+            line-height:0.46rem;
+            text-align: center;
+        }
+    </style>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?078a8ee14e56f2d3645f0323b03bcafe";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>
+<body>
+<div id="app">
+	<div class="m_container">
+            <div class="banner"></div>
+            <div class="cardbox">
+                    <i class="iconcard"></i>
+                    <input type="text" id='accNo' v-model="accNo" placeholder='请输入银行卡号' maxlength='19' onkeyup="value=value.replace(/[^\w\.\/]/ig,'')">
+            </div>
+            <div class="phonebox">
+                    <i class="iconphone"></i>
+                    <input type="tel" id='mobileNo' v-model="mobileNo" placeholder='请输入手机号' maxlength='11' onkeyup="value=value.replace(/[^0-9]/g,'')" onpaste="value=value.replace(/[^0-9]/g,'')" oncontextmenu ="value=value.replace(/[^0-9]/g,'')">
+            </div>
+       
+            <div class="code">
+                <input type="number" id='vcode' v-model="vcode" placeholder='验证码' onkeyup="value=value.replace(/[^\w\.\/]/ig,'')">
+                <div class="getCode" v-if="count==0" @click="getVCode">获取验证码</div>
+                <div class="getCode" v-if="count>0" v-text="count+'s'"></div>
+            </div>
+            <div class="getNow" @click="getNow">立即领取</div>
+            <!--<div class="getcard" @click="getcard">立即办卡</div>-->
+            <div class="activitybox">
+                <div class="bar"></div>
+                <p>活动说明</p>
+            </div>
+            <div class="useform"><p>领取后请关注"车智汇"公众号或下载"车智汇"APP进行使用。</p></div>
+            <!--<div class="useform">
+                <p>使用说明</p>
+                <p>方式一</p>
+                <p> 客户购买成功并获得洗车券后凭手机号到洗车网点验证使用； </p>
+                <p>方式二</p>
+                <p> 关注“巨会养车”微信公众号，点击一键用券进行使用；</p>
+            </div>
+            <div class="activityRule">
+                <p>活动规则</p>
+                <p>1、本活动仅限苏州广发信用卡用户参加； </p>
+                <p>2、达标客户在线支付1元即可购买洗车券一张。每人限购一次，每周一、三、五上午10：00开抢，洗车券数量有限，先购先得，活动日期12月3日-12月31； </p>
+                <p>3、洗车券有效期为自领取之日（支付成功起计算）内有效期为1个月，到期未使用则自动失效，每张洗车券仅能使用一次；</p>
+                <p>4、本活动仅限巨会养车苏州地区使用，一张洗车券提供一次普洗服务；</p>
+                <p>5、活动期间，洗车网点会不定期调整，如遇洗车网点调整请就近选择其他网点洗车。以“附近网点”链接的洗车店列表为准；</p>
+                <p>6、有疑问可致电客服热线：<span style='color:#0E8FE8;'>4008-520-893</span></p>
+            </div>-->
+   	</div>
+   	<input type="hidden" id="activityDate" value="请在每周一、三、五领取，感谢您的参与" placeholder="活动时间提示">
+</div>   
+   <script src="../usr/js/fastclick.js"></script>
+   <script>
+    /*解决移动端点击300ms延迟*/
+    FastClick.attach(document.body);
+    
+	//获取请求参数
+	function paraMap() {
+	    var url = window.location.href;
+	    var obj = {};
+	    var reg = /[?&][^?&]+=[^?&]+/g;
+	    var arr = url.match(reg);
+	    if (arr === null) return obj;
+	    arr.forEach(function (item) {
+	        var tempArr = item.substring(1).split('=');
+	        var key = decodeURIComponent(tempArr[0]);
+	        var val = decodeURIComponent(tempArr[1]);
+	        obj[key] = val;
+	    });
+	    return obj;
+	};
+
+	var paras = paraMap();
+    function secondDown(vm) {
+        setTimeout(function () {
+            if (vm.count > 0) {
+                vm.count--;
+            }
+            if (vm.count > 0) {
+                secondDown(vm);
+            }
+        }, 1000);
+    }
+    function checkVcode(vcode) {
+    	var reg = /^[0-9]{4}$/
+    	if (vcode == '' || !vcode) {
+    		Toast('请填写验证码');
+    		return false;
+    	}
+    	return true;
+    }
+    
+    function checkPhone(phone) {
+    	var reg = /^[1][3,4,5,7,8][0-9]{9}$/
+    	if (!reg.test(phone)) {
+    		Toast('请输入正确手机号码');
+    		return false;
+    	}
+    	return true;
+    }
+    
+    function checkBankNo(bankno) {
+      　　//var bankno = $.trim(t_bankno.val());
+      　　if(bankno == "") {
+        　　//$("#banknoInfo").html("请填写银行卡号");
+       	 Toast("请填写银行卡号");
+         return false;
+       }
+       if(bankno.length < 16 || bankno.length > 19) {
+    	   Toast("银行卡号长度必须在16到19之间");
+         //$("#banknoInfo").html("银行卡号长度必须在16到19之间");
+         return false;
+       }
+       var num = /^\d*$/; //全数字
+       if(!num.exec(bankno)) {
+    	   Toast("银行卡号必须全为数字");
+         //$("#banknoInfo").html("银行卡号必须全为数字");
+         return false;
+       }
+       //开头6位
+       var strBin = "10,18,30,35,37,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,58,60,62,65,68,69,84,87,88,94,95,98,99";
+       if(strBin.indexOf(bankno.substring(0, 2)) == -1) {
+    	   Toast("银行卡号开头6位不符合规范");
+         //$("#banknoInfo").html("银行卡号开头6位不符合规范");
+         return false;
+       }
+       //Luhm校验（新）
+       //if(!luhnCheck(bankno))
+         //return false;
+       //$("#banknoInfo").html("验证通过!");
+       return true;
+    }
+    
+  //银行卡号码检测
+    function luhnCheck(bankno) {
+        var lastNum = bankno.substr(bankno.length - 1, 1); //取出最后一位（与luhn进行比较）
+        var first15Num = bankno.substr(0, bankno.length - 1); //前15或18位
+        var newArr = new Array();
+        for (var i = first15Num.length - 1; i > -1; i--) { //前15或18位倒序存进数组
+            newArr.push(first15Num.substr(i, 1));
+        }
+        var arrJiShu = new Array(); //奇数位*2的积 <9
+        var arrJiShu2 = new Array(); //奇数位*2的积 >9
+        var arrOuShu = new Array(); //偶数位数组
+        for (var j = 0; j < newArr.length; j++) {
+            if ((j + 1) % 2 == 1) { //奇数位
+                if (parseInt(newArr[j]) * 2 < 9) arrJiShu.push(parseInt(newArr[j]) * 2);
+                else arrJiShu2.push(parseInt(newArr[j]) * 2);
+            } else //偶数位
+            arrOuShu.push(newArr[j]);
+        }
+
+        var jishu_child1 = new Array(); //奇数位*2 >9 的分割之后的数组个位数
+        var jishu_child2 = new Array(); //奇数位*2 >9 的分割之后的数组十位数
+        for (var h = 0; h < arrJiShu2.length; h++) {
+            jishu_child1.push(parseInt(arrJiShu2[h]) % 10);
+            jishu_child2.push(parseInt(arrJiShu2[h]) / 10);
+        }
+
+        var sumJiShu = 0; //奇数位*2 < 9 的数组之和
+        var sumOuShu = 0; //偶数位数组之和
+        var sumJiShuChild1 = 0; //奇数位*2 >9 的分割之后的数组个位数之和
+        var sumJiShuChild2 = 0; //奇数位*2 >9 的分割之后的数组十位数之和
+        var sumTotal = 0;
+        for (var m = 0; m < arrJiShu.length; m++) {
+            sumJiShu = sumJiShu + parseInt(arrJiShu[m]);
+        }
+
+        for (var n = 0; n < arrOuShu.length; n++) {
+            sumOuShu = sumOuShu + parseInt(arrOuShu[n]);
+        }
+
+        for (var p = 0; p < jishu_child1.length; p++) {
+            sumJiShuChild1 = sumJiShuChild1 + parseInt(jishu_child1[p]);
+            sumJiShuChild2 = sumJiShuChild2 + parseInt(jishu_child2[p]);
+        }
+        //计算总和
+        sumTotal = parseInt(sumJiShu) + parseInt(sumOuShu) + parseInt(sumJiShuChild1) + parseInt(sumJiShuChild2);
+
+        //计算luhn值
+        var k = parseInt(sumTotal) % 10 == 0 ? 10 : parseInt(sumTotal) % 10;
+        var luhn = 10 - k;
+
+        if (lastNum == luhn) {
+            //$("#banknoInfo").html("luhn验证通过");
+            return true;
+        } else {
+            //$("#banknoInfo").html("银行卡号必须符合luhn校验");
+            return false;
+        }
+    }
+    
+    
+    App.create({
+            data: {
+                header: true,
+                title: "巨会洗车",
+                commodityName: "1元洗车",
+                txnAmt: 1,
+                accNo: "",
+                mobileNo: "",
+                msgCode: "",
+                vcode: "",
+                count: 0,
+            },
+            mounted: function (vm) {
+            	if (paras['error']) {
+            		if ('activityDate' == paras['error']) {
+            			Toast($('#activityDate').val());
+            		} else {
+            			//直接显示反馈信息
+	            		Toast(paras['error']);
+            		}
+            	} else if (!paras['activityId']) {
+            		Toast('请从活动链接进入');
+            	}
+            	
+            	if (paras['accNo']) {
+            		vm.accNo = paras['accNo'];
+            		$('#accNo').val();
+            	}
+            	if (paras['mobileNo']) {
+            		vm.mobileNo = paras['mobileNo'];
+            	}
+            	
+            },
+            methods: {
+            	getcard: function () {
+            		 window.location.href = "https://wap.cgbchina.com.cn/cardFriendLanding.do?seqno=DYNxftfyR-QeSUcudwTvsPp_9bDaB959mbBb9b59B&createTime=0SUtf-SscyPUQfeRTdpDBbb_B9a15Bb_b&ACTIVITY_ID=mGTRcPfdyeQsRpS-9BmB5B4BBBDDu";
+            	},
+            	getNow: function () {
+            	    // TODO
+                    //window.location.href = "/usr/networklist.html";
+            		if (!paras['activityId']) {
+            			Toast('请从活动链接进入');
+            			return;
+            		}
+            		if(!checkBankNo(this.accNo) || !checkPhone(this.mobileNo) || !checkVcode(this.vcode)){
+            			return;
+            		}
+            		
+            		App.callApi("activity/czh_pay",
+            				{
+		            			accNo:this.accNo,
+		            			mobileNo: this.mobileNo,
+		            			vcode: this.vcode,
+		            			activityId: paras['activityId'],
+		            			activity_url: '/czh/activity.html?activityId='+paras['activityId'],
+		            			fail_url: '/czh/activity_error.html?activityId='+paras['activityId'],
+		            			success_url: '/czh/activity_success.html?activityId='+paras['activityId']
+            				}, 
+            				null, 
+            				function (data, vm, flag, err){
+		                        if (flag == 1) {
+		                        	window.location.href = data.redirect_url;
+		                        } else {
+		                        	Toast(err);
+		                        }
+		                    }
+         			);
+                },
+                getVCode: function () {
+                	if(!checkPhone(this.mobileNo)){
+                		return;
+                	}
+                	
+                    var cookieTime = document.cookie;
+                    var arrcookie = cookieTime.split("; ");//分割
+                    var cookieTimes ;
+                    //遍历匹配
+                    for ( var i = 0; i < arrcookie.length; i++) {
+                        var arr = arrcookie[i].split("=");
+                        if (arr[0] == "timeTo"){
+                            cookieTimes = arr[1] ;
+                        }
+                    }
+                    App.callApi("activity/getvcode", {mobileNo: this.mobileNo,cookieTime:cookieTimes,czhActivity:1}, null, function (data, vm, flag){
+                        if (flag) {
+                            document.cookie="timeTo="+data.ValidityTimeTo+data.vcode; //将date赋值给expires
+                        }
+                    });
+                    this.count = 60;
+                    secondDown(this);
+                }
+            }
+        }
+    )
+           	
+    </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<template>
+    <div class="modifyMission">
+        <el-form ref="form" :model="sizeForm" label-width="85px" size="mini">
+            <div class="TopTitle">任务发布</div>
+            <el-form-item label="任务名称">
+                <el-input v-model="sizeForm.name"></el-input>
+            </el-form-item>
+            <el-form-item label="任务地址" >
+                <el-form :inline="true" class="demo-form-inline" size="mini">
+                    <el-form-item>
+                        <el-input v-model="sizeForm.region1"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-input v-model="sizeForm.region2"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-input v-model="sizeForm.region3"></el-input>
+                    </el-form-item>
+                </el-form>
+            </el-form-item>
+            <el-form-item label="拍摄放向角">
+                <el-form :inline="true" class="demo-form-inline" size="mini">
+                    <el-form-item>
+                        <el-select v-model="sizeForm.angle">
+                            <el-option label="角度一" value=""></el-option>
+                            <el-option label="角度二" value=""></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="拍摄距离">
+                        <el-select v-model="sizeForm.distance">
+                            <el-option label="距离一" value=""></el-option>
+                            <el-option label="距离二" value=""></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-form>
+            </el-form-item>
+            <el-form-item label="拍摄下倾角">
+                <el-form :inline="true" class="demo-form-inline" size="mini">
+                    <el-form-item>
+                        <el-select v-model="sizeForm.downtilt">
+                            <el-option label="下倾角一" value=""></el-option>
+                            <el-option label="下倾角二" value=""></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-form>
+            </el-form-item>
+            <el-form-item label="发布人">
+                <el-form :inline="true" class="demo-form-inline" size="mini">
+                    <el-form-item>
+                        <el-input v-model="sizeForm.announcer"></el-input>
+                    </el-form-item>
+                    <el-form-item label="接收人">
+                        <el-input v-model="sizeForm.recipient"></el-input>
+                    </el-form-item>
+                </el-form>
+            </el-form-item>
+            <el-form-item label="创建日期">
+                <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.build"></el-date-picker>
+            </el-form-item>
+            <el-form-item label="完成日期">
+                <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.finish"></el-date-picker>
+            </el-form-item>
+            <el-form-item size="large">
+                <el-button type="primary" @click="onSubmit">修改</el-button>
+                <el-button>返回</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      sizeForm: {
+        // 此处数据名称要改
+        name: '',
+        region1: '',
+        region2: '',
+        region3: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      }
+    }
+  },
+  methods: {
+    onSubmit () {
+      console.log('submit!')
+    }
+  },
+  mounted: () => {
+  }
+}
+</script>
+
+<style>
+.modifyMission{
+    border:1px solid #ebeef5;
+    margin-bottom: 10px;
+}
+.modifyMission .el-button+.el-button{
+    margin-left: 10%;
+}
+.modifyMission .el-button--primary{
+    margin-left: 20%
+}
+</style>

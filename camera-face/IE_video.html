@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <object style="z-index: 100" id="My_Cam" align="middle" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+    codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
+    height="400" viewastext="在线拍照" width="500">
+    <param name="allowScriptAccess" value="sameDomain" />
+    <param name="movie" value="../../js/MyCamera.swf" />
+    <param name="quality" value="high" />
+    <param name="bgcolor" value="#ffffff" />
+    <param name="wmode" value="transparent" />
+    <embed style="z-index: 100" align="middle" allowscriptaccess="sameDomain" bgcolor="#ffffff" height="400"
+        name="My_Cam" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high"  wmode="transparent"
+        src="../../js/MyCamera.swf" type="application/x-shockwave-flash" width="500">
+    </embed>
+  </object>
+  <canvas id="myCanvas" width="200" height="100"></canvas>
+  <script src="./jquery-min.js"></script>
+  <script src="./jquery.webcam.js"></script>
+</body>
+</html>

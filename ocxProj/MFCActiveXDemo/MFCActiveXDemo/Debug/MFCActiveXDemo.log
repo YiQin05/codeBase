@@ -1,0 +1,25 @@
+﻿  Processing .\MFCActiveXDemo.idl
+  MFCActiveXDemo.idl
+  Processing D:\Windows Kits\10\Include\10.0.17763.0\um\oaidl.idl
+  oaidl.idl
+  Processing D:\Windows Kits\10\Include\10.0.17763.0\um\objidl.idl
+  objidl.idl
+  Processing D:\Windows Kits\10\Include\10.0.17763.0\um\unknwn.idl
+  unknwn.idl
+  Processing D:\Windows Kits\10\Include\10.0.17763.0\shared\wtypes.idl
+  wtypes.idl
+  Processing D:\Windows Kits\10\Include\10.0.17763.0\shared\wtypesbase.idl
+  wtypesbase.idl
+  Processing D:\Windows Kits\10\Include\10.0.17763.0\shared\basetsd.h
+  basetsd.h
+  Processing D:\Windows Kits\10\Include\10.0.17763.0\shared\guiddef.h
+  guiddef.h
+  Processing D:\Windows Kits\10\Include\10.0.17763.0\um\oaidl.acf
+  oaidl.acf
+  stdafx.cpp
+  MFCActiveXDemo.cpp
+  MFCActiveXDemoCtrl.cpp
+  MFCActiveXDemoPropPage.cpp
+  正在生成代码...
+    正在创建库 E:\code\ocxProj\MFCActiveXDemo\Debug\MFCActiveXDemo.lib 和对象 E:\code\ocxProj\MFCActiveXDemo\Debug\MFCActiveXDemo.exp
+  MFCActiveXDemo.vcxproj -> E:\code\ocxProj\MFCActiveXDemo\Debug\MFCActiveXDemo.ocx

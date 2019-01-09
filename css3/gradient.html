@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>gradient</title>
+</head>
+<style>
+  .liner-gradient{
+    width: 1000px;
+    margin: 50px auto;
+    text-align: center;
+  }
+  .liner-gradient p{
+    width: 100px;
+    height: 100px;
+    float: left;
+    border: 1px #999 solid;
+    line-height: 100px;
+    margin-right: 100px;
+    font-size: 20px;
+  }
+  .liner-gradient p:first-child{
+    background: -webkit-linear-gradient(top, #09f, #fff 20px, #0c0)
+    /* 参数解析： 起点，起点颜色，过渡色（从20px处开始），终点颜色 */
+  }
+  .liner-gradient p:last-child{
+    background: -webkit-linear-gradient(20deg, #09f, #fff, #0c0)
+    /* 参数解析： 角度，起点颜射，过渡色，终点颜色 */
+  }
+</style>
+<body>
+  <div class="liner-gradient">
+    <p>普通渐变</p>
+    <p>角度渐变</p>
+  </div>
+</body>
+</html>

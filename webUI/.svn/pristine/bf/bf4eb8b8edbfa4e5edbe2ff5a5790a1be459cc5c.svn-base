@@ -1,0 +1,79 @@
+<template>
+  <div class="outer home">
+    <div class="top">
+        <img src="../../assets/notice.png" alt="img">
+        <div>最新数据</div>
+        <div></div>
+        <div><a href="">更多<i class="el-icon-d-arrow-right"></i></a></div>
+    </div>
+    <el-table
+        :data="tableData3"
+        style="width: 100%">
+        <el-table-column
+            prop="date"
+            label="上传时间">
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="任务编号">
+        </el-table-column>
+        <el-table-column
+            prop="number"
+            label="小区编号">
+        </el-table-column>
+        <el-table-column
+            prop= "more"
+            label="详情">
+        </el-table-column>
+    </el-table>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      tableData3: [
+        {
+          date: '2018/10/22',
+          name: '20181001',
+          number: 'cell1',
+          more: '查看'
+        },
+        {
+          date: '2018/10/22',
+          name: '20181001',
+          number: 'cell2',
+          more: '查看'
+        },
+        {
+          date: '2018/10/22',
+          name: '20181001',
+          number: 'cell3',
+          more: '查看'
+        },
+        {
+          date: '2018/10/22',
+          name: '20181001',
+          number: 'cell4',
+          more: '查看'
+        },
+        {
+          date: '2018/10/22',
+          name: '20181001',
+          number: 'cell5',
+          more: '查看'
+        },
+        {
+          date: '2018/10/22',
+          name: '20181001',
+          number: 'cell6',
+          more: '查看'
+        }
+      ]
+    }
+  }
+}
+</script>
+<style>
+</style>

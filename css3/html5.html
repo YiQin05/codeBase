@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>h5</title>
+</head>
+<body>
+  <!-- 不常用，很多浏览器不兼容 -->
+  <input type="text" list="subjects">
+  <datalist id="subjects">
+    <option value="0" label="2333"></option>
+  </datalist>
+
+
+  <fieldset>
+    <legend>学生档案</legend>
+  </fieldset>
+
+  <!-- 音频：
+  controls: 播放器控制面板
+  autoplay：自动播放
+  loop: 自动循环 -->
+  <audio src="" controls></audio>
+
+  <!-- 视频：
+  controls: 播放器控制面板
+  autoplay：自动播放
+  loop: 自动循环
+  width：宽度
+  height：高度
+  poster：当视频还没完全下载，或者用户还没有点击播放前的默认显示封面。默认显示当前视频文件的第一帧
+  注意：当设置宽高时，一般情况下只设置宽或高，让其等比例缩放。如果同时设置宽和高，除非设置的值刚好成比例，否则视频显示会比较奇怪 -->
+   <video src="" poster="文件路径" controls></video>
+  <!-- source的使用：准别多个格式的视频文件，让浏览器自动选择 -->
+  <video>
+    <source type="video/flv" src="">
+    <source type="video/mp4" src="">
+      <!-- 这是都不支持时显示的信息 -->
+    您的浏览器不支持播放
+  </video>
+</body>
+</html>

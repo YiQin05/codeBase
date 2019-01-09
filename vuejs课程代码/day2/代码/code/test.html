@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <!-- 需要用到Jquery吗？？？ -->
+</head>
+<style>
+#app .el-input{
+  width: 50%;
+}
+</style>
+
+<body>
+  
+<div id="app">
+    <input type="text" v-model="input" :placeholder="msg==''? msg:msg1">
+    <h1>{{ msg }}</h1>
+    <div>{{ classObj.red }}</div>
+    <h2>{{ list[1] }}</h2>
+</div>
+ 
+<script>
+var vm = new Vue({
+    el: '#app',
+    data: {
+    msg: '到这',
+    msg1: '到这哈',
+    classObj: { red: true, thin: true, italic: false, active: false },
+    list: ['1','2','3'],
+    input: ''
+    },
+    methods: {},
+    mounted() {
+        console.log("7")
+        console.log(this.list)
+    },
+    watch:{
+        input(newVal,oldVal){
+            console.log(this.list);
+            for(var i=0; i<= this.list.length; i++){
+                console.log('哈哈哈')
+                console.log(i)
+                console.log(newVal)
+            }
+        }
+    }
+});
+
+
+</script>
+</body>
+
+</html>

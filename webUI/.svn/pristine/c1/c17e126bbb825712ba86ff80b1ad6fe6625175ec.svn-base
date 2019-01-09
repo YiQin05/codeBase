@@ -1,0 +1,783 @@
+<template>
+    <div class="enResult">
+        <el-table
+            :data="missionList"
+            :header-row-style="{
+                'background-color': '#007AFF',
+                'color': 'white',
+                'font-size': '16px'
+            }"
+            :header-cell-style="{
+                'background-color': '#007AFF',
+                'color': 'white',
+                'font-size': '14px'
+            }">
+            <el-table-column type="expand">
+                <template slot-scope="props">
+                    <el-form inline class="demo-table-expand">
+                    <el-form-item label="拍摄经度：">
+                        <span>{{ props.row.takePhotoLongitude }}</span>
+                    </el-form-item>
+                    <el-form-item label="拍摄纬度：">
+                        <span>{{ props.row.takePhotoLatitude }}</span>
+                    </el-form-item>
+                    <el-form-item label="海拔高度：">
+                        <span>{{ props.row.takePhotoAltitude }}</span>
+                    </el-form-item>
+                    <el-form-item label="拍摄下倾角：">
+                        <span>{{ props.row.takePhotoElevationAngle }}</span>
+                    </el-form-item>
+                    <el-form-item label="方向角起点：">
+                        <span>{{ props.row.takePhotoDirectAngleBegin }}</span>
+                    </el-form-item>
+                    <el-form-item label="方向角终点：">
+                        <span>{{ props.row.takePhotoDirectAngleEnd }}</span>
+                    </el-form-item>
+                    <el-form-item label="拍摄偏移角：">
+                        <span>{{ props.row.takePhotoDirectAngleRotate }}</span>
+                    </el-form-item>
+                    <el-form-item label="拍摄图片数：">
+                        <span>{{ props.row.takePhotoNum }}</span>
+                    </el-form-item>
+                    <el-form-item label="创建者：">
+                        <span>{{ props.row.taskProducerID }}</span>
+                    </el-form-item>
+                    <el-form-item label="创建时间：">
+                        <span>{{ props.row.taskProduceTime }}</span>
+                    </el-form-item>
+                    <el-form-item label="任务状态：">
+                        <span>{{ props.row.taskStatus }}</span>
+                    </el-form-item>
+                    <el-form-item label="实际完成日期：" v-if="props.row.taskStatus === '完成'">
+                        <span>{{ props.row.taskFactCompleteTime }}</span>
+                    </el-form-item>
+                    </el-form>
+                </template>
+            </el-table-column>
+            <el-table-column
+                prop="taskName"
+                label="任务名称"
+                header-align="center"
+                align="center"
+                :filters="missionNameList"
+                :filter-method="filterHandler">
+            </el-table-column>
+            <el-table-column
+                prop="taskID"
+                label="任务ID"
+                header-align="center"
+                align="center"
+                :filters="taskIDList"
+                :filter-method="filterHandler">
+            </el-table-column>
+            <el-table-column
+                prop="bscID"
+                label="基站ID"
+                header-align="center"
+                align="center"
+                :filters="bscIDList"
+                :filter-method="filterHandler">
+            </el-table-column>
+            <el-table-column
+                prop="cellID"
+                label="小区ID"
+                header-align="center"
+                align="center"
+                :filters="cellIDList"
+                :filter-method="filterHandler">
+            </el-table-column>
+            <el-table-column
+                prop="taskProducerID"
+                label="发布人"
+                header-align="center"
+                align="center"
+                :filters="publisherList"
+                :filter-method="filterHandler">
+            </el-table-column>
+            <el-table-column
+                prop="taskConsumerID"
+                label="接收人"
+                header-align="center"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="taskPublishTime"
+                label="发布日期"
+                header-align="center"
+                align="center"
+                width="148">
+            </el-table-column>
+            <el-table-column
+                prop="taskPlanCompleteTime"
+                label="计划完成日期"
+                header-align="center"
+                align="center"
+                width="148">
+            </el-table-column>
+            <el-table-column
+                prop="taskStatus"
+                label="状态"
+                header-align="center"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                header-align="center"
+                align="center"
+                width="230"
+                label="操作">
+                <template slot-scope="scope">
+                  <!-- :disabled="(scope.row.taskStatus === '创建' && userType !== '2')? false:true" -->
+                    <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row, 1)" :disabled="disabledFun(scope.row).disable">{{ disabledFun(scope.row).msg }}</el-button>
+                    <el-button size="mini" @click="alertMess(scope.$index, scope.row, 2)" :disabled="(scope.row.taskStatus === '创建' && userType !== '2')? false:true">{{scope.row.showBotton}}</el-button>
+                    <el-button size="mini" type="danger" @click="alertMess(scope.$index, scope.row, 3)" :disabled="userType !== '2'? false:true">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <!-- <el-dialog title="编辑任务" :visible.sync="dialogTableVisible">
+          <div class="contain">
+            <el-form :inline="true" ref="form1" :model="formInline" :rules="rules" class="demo-form-inline missionStyle demo-ruleForm" size="mini" label-width="120px">
+              <el-form-item label="任务名称" prop="taskName">
+                  <el-input v-model="formInline.taskName"></el-input>
+              </el-form-item>
+              <el-form-item label="拍摄经度" prop="takePhotoLongitude">
+                  <el-input v-model="formInline.takePhotoLongitude"></el-input>
+              </el-form-item>
+            </el-form>
+            <el-form :inline="true" :rules="rules" :model="formInline" ref="form2" class="demo-form-inline missionStyle demo-ruleForm" size="mini" label-width="120px">
+              double类型
+              <el-form-item label="拍摄纬度" prop="takePhotoLatitude">
+                  <el-input v-model="formInline.takePhotoLatitude"></el-input>
+              </el-form-item>
+              double类型
+              <el-form-item label="海拔高度" prop="takePhotoAltitude">
+                  <el-input v-model="formInline.takePhotoAltitude"></el-input>
+              </el-form-item>
+            </el-form>
+            <el-form :inline="true" ref="form3" :model="formInline" :rules="rules" class="demo-form-inline missionStyle demo-ruleForm" size="mini" label-width="120px">
+              float类型
+              <el-form-item label="拍摄下倾角" prop="takePhotoElevationAngle">
+                  <el-input v-model="formInline.takePhotoElevationAngle"></el-input>
+              </el-form-item>
+              float类型
+              <el-form-item label="拍摄方向角起点" prop="takePhotoDirectAngleBegin">
+                  <el-input v-model="formInline.takePhotoDirectAngleBegin"></el-input>
+              </el-form-item>
+            </el-form>
+            <el-form :inline="true"  :model="formInline" ref="form4" :rules="rules" class="demo-form-inline missionStyle demo-ruleForm" size="mini" label-width="120px">
+              float类型
+              <el-form-item label="拍摄方向角终点" prop="takePhotoDirectAngleEnd">
+                  <el-input v-model="formInline.takePhotoDirectAngleEnd"></el-input>
+              </el-form-item>
+              float类型
+              <el-form-item label="拍摄偏移角" prop="takePhotoDirectAngleRotate">
+                  <el-input v-model="formInline.takePhotoDirectAngleRotate"></el-input>
+              </el-form-item>
+            </el-form>
+            <el-form :inline="true" :model="formInline" ref="form5" :rules="rules" class="demo-form-inline missionStyle demo-ruleForm" size="mini" label-width="120px">
+              int类型
+              <el-form-item label="拍摄图片数" prop="takePhotoNum">
+                  <el-input v-model="formInline.takePhotoNum" disabled=true></el-input>
+              </el-form-item>
+              string类型
+              <el-form-item label="接收人" prop="taskConsumerID">
+                  <el-select v-model="formInline.taskConsumerID" placeholder="请选择">
+                    <el-option
+                      v-for="item in reciverList"
+                      :key="item.userID"
+                      :label="item.userID"
+                      :value="item.userID">
+                    </el-option>
+                  </el-select>
+              </el-form-item>
+            </el-form>
+            <el-form :inline="true" ref="form6" :model="formInline" :rules="rules" class="demo-form-inline secondForm missionStyle single demo-ruleForm" size="mini" label-width="120px">
+              时间戳
+              <el-form-item label="完成日期" prop="taskPlanCompleteTime">
+                  <el-date-picker type="date" placeholder="选择日期" v-model="formInline.taskPlanCompleteTime"></el-date-picker>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="clear" size="small">重置</el-button>
+              <el-button type="primary" @click="triggerClick" size="small">提交</el-button>
+            </div>
+          </div>
+          <div class="editMap">
+            <div v-if="isOpenMap" style="border:solid lightblue 1px;height:100%;marginTop:10px">
+              <el-amap vid="amapCamera" :events="mapEvents" :center="center">
+                  <el-amap-marker :position="position" ></el-amap-marker>
+              </el-amap>
+            </div>
+          </div>
+        </el-dialog> -->
+    </div>
+</template>
+
+<script>
+export default {
+  data () {
+    var numberOnly = (rule, value, callback) => {
+      if (isNaN(this.formInline[rule.fullField])) {
+        callback(new Error('只能填数字！'))
+      } else if (parseFloat(this.formInline[rule.fullField]) < 0) {
+        callback(new Error('不能小于0！'))
+      } else {
+        this.formInline[rule.fullField] = parseFloat(this.formInline[rule.fullField])
+        callback()
+      }
+    }
+    var checkDirectAngleEnd = (rule, value, callback) => {
+      if (isNaN(this.formInline[rule.fullField])) {
+        callback(new Error('只能填数字！'))
+      } else if (parseFloat(this.formInline[rule.fullField]) <= parseFloat(this.formInline.takePhotoDirectAngleBegin)) {
+        callback(new Error('要比方向角起点大！'))
+      } else if (parseFloat(this.formInline[rule.fullField]) < 0) {
+        callback(new Error('不能小于0！'))
+      } else {
+        this.formInline[rule.fullField] = parseFloat(this.formInline[rule.fullField])
+        callback()
+      }
+    }
+    return {
+      buttonMsg: {
+        msg: '编辑',
+        disabled: false
+      },
+      missionNameList: [],
+      taskIDList: [],
+      bscIDList: [],
+      cellIDList: [],
+      publisherList: [],
+      missionList: [],
+      reciverList: [],
+      position: [113.58811, 22.23263],
+      center: [], // 地图图标居中
+      currentList: {}, // 用于检测是否有修改
+      user: '',
+      userType: '',
+      disable: false,
+      showPanel: false,
+      // isOpenMap: true,
+      dialogTableVisible: false,
+      result: false, // 用于判断表格输入信息是否符合
+      checkForm: [],
+      formInline: {
+        taskName: '',
+        bscID: '',
+        cellID: '',
+        takePhotoLongitude: '',
+        takePhotoLatitude: '',
+        takePhotoAltitude: '',
+        takePhotoElevationAngle: '',
+        takePhotoDirectAngleBegin: '',
+        takePhotoDirectAngleEnd: '',
+        takePhotoDirectAngleRotate: '',
+        takePhotoNum: '',
+        taskProducerID: '',
+        taskProduceTime: '',
+        taskConsumerID: '',
+        taskPlanCompleteTime: ''
+      },
+      formList: ['form1', 'form2', 'form3', 'form4', 'form5', 'form6'], // 表单列表
+      rules: {
+        taskName: [
+          { required: true, message: '不能为空！', trigger: 'blur' }
+        ],
+        takePhotoLongitude: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        takePhotoLatitude: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        takePhotoDirectAngleBegin: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        takePhotoDirectAngleEnd: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: checkDirectAngleEnd, trigger: 'blur' }
+        ],
+        takePhotoDirectAngleRotate: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        takePhotoAltitude: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        takePhotoElevationAngle: [
+          { required: true, message: '不能为空！', trigger: 'blur' },
+          { validator: numberOnly, trigger: 'blur' }
+        ],
+        taskConsumerID: [
+          { required: true, message: '不能为空！', trigger: 'blur' }
+        ],
+        taskPlanCompleteTime: [
+          { required: true, message: '不能为空！', trigger: 'blur' }
+        ]
+      },
+      mapEvents: {
+        'click': (e) => {
+          // 第一个参数是latitude，第二个是longitude
+          let change = this.gcjToWgsExactly(e.lnglat.lat, e.lnglat.lng)
+          let longitude = change.lon
+          let latitude = change.lat
+          this.formInline.takePhotoLongitude = Math.ceil(longitude * 100000) / 100000
+          this.formInline.takePhotoLatitude = Math.ceil(latitude * 100000) / 100000
+          this.position = [e.lnglat.lng, e.lnglat.lat]
+        }
+      }
+    }
+  },
+  created () {
+    this.user = this.getCookie('userID')
+    this.userType = this.getCookie('userType')
+    this.getMission()
+    this.getReciver()
+    this.center = this.position
+  },
+  computed: {
+    disabledFun () {
+      return function (row) {
+        if (this.userType === '0') {
+          if (row.taskStatus !== '创建' && row.taskStatus !== '完成') {
+            return {
+              disable: true,
+              msg: '进行中'
+            }
+          } else {
+            var msg = ''
+            if (row.taskStatus === '完成') {
+              msg = '重拍'
+            } else {
+              msg = '编辑'
+            }
+            return {
+              disable: false,
+              msg: msg
+            }
+          }
+        } else {
+          if (row.taskStatus !== '创建' && row.taskStatus !== '完成') {
+            return {
+              disable: true,
+              msg: '进行中'
+            }
+          } else {
+            msg = ''
+            if (row.taskStatus === '完成') {
+              msg = '完成'
+            } else {
+              msg = '编辑'
+            }
+            return {
+              disable: true,
+              msg: msg
+            }
+          }
+        }
+      }
+    }
+  },
+  methods: {
+    getReciver () {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('getTakePhotoUser')
+      this.$axios
+        .get(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            for (let i of response.data.data) {
+              this.reciverList.push(i)
+            }
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    handleEdit (index, row) {
+      // this.showPanel = !this.showPanel
+      // scope.row.taskStatus === '创建' && userType !== '2')? false:true
+      if (row.taskStatus !== '完成') {
+        this.getCell(index, row, row.bscID, row.cellID)
+      } else {
+        this.alertMess(index, row, 1)
+      }
+      // if (this.userType !== '2' && row.taskStatus === '创建') {
+      //   this.buttonMsg.edit = false
+      // } else {
+      //   this.getCell(index, row, row.bscID, row.cellID)
+      // }
+      // for (var i in this.formInline) {
+      //   this.formInline[i] = row[i]
+      //   this.currentList[i] = row[i]
+      // }
+      // this.position = [this.formInline.takePhotoLongitude, this.formInline.takePhotoLatitude]
+      // this.center = this.position
+      // this.dialogTableVisible = true
+    },
+    alertMess (index, row, operate) {
+      switch (operate) {
+        case 1:
+          this.$confirm('确定要重拍该任务?点击确定后将清除所有以上传的图片，请谨慎操作！', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.redoTask(index, row)
+          }).catch(() => {
+            this.openMsg('取消重拍！', '', this)
+          })
+          break
+        case 2:
+          this.$confirm('确定要发布该任务?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.handlePublic(index, row)
+          }).catch(() => {
+            this.openMsg('取消发布！', '', this)
+          })
+          break
+        case 3:
+          this.$confirm('此操作将永久删除该任务, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.handleDelete(index, row)
+          }).catch(() => {
+            this.openMsg('取消删除！', '', this)
+          })
+          break
+      }
+    },
+    redoTask (index, row) {
+      let params = new URLSearchParams()
+      let path = this.setNewAPIPath('/redoTask/' + row.taskID)
+      this.$axios
+        .put(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            // this.missionList[index].taskStatus = '发布'
+            this.getMission()
+            this.openMsg('任务已重置！', 'success', this)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    handleDelete (index, row) {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('task/' + row.taskID)
+      this.$axios
+        .delete(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            this.getMission()
+            this.openMsg('删除成功！', 'success', this)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    handlePublic (index, row) {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('publishTask/' + row.taskID)
+      // console.log(path)
+      this.$axios
+        .put(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            // this.missionList[index].taskStatus = '发布'
+            this.getMission()
+            this.openMsg('发布成功！', 'success', this)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    getCell (index, row, bscID, cellID) {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('cell')
+      this.$axios
+        .get(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            for (let i of response.data.data) {
+              if (i.bscID === bscID && i.cellID === cellID) {
+                this.$emit('show', index, row, i.directAngle)
+              }
+            }
+          } else {
+            this.errorMsg(response.data.code, this)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    getMission () {
+      this.missionList.length = 0
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('task/' + this.user)
+      this.$axios
+        .get(path, params)
+        .then(response => {
+          // console.log(response.data.data[5].taskStatus)
+          if (response.data.code === 0) {
+            for (var i = 0; i < response.data.data.length; i++) {
+              var resData = response.data.data[i]
+              var missionStatus = ''
+              switch (resData.taskStatus) {
+                case 0:
+                  missionStatus = '创建'
+                  break
+                case 1:
+                  missionStatus = '发布'
+                  break
+                case 2:
+                  missionStatus = '拍摄'
+                  break
+                case 3:
+                  missionStatus = '上传'
+                  break
+                case 4:
+                  missionStatus = '完成'
+                  break
+                default:
+                  missionStatus = ''
+                  break
+              }
+              resData.taskPublishTime = this.dateFormat(
+                resData.taskPublishTime
+              )
+              resData.taskPlanCompleteTime = this.dateFormat(
+                resData.taskPlanCompleteTime, 1
+              )
+              resData.taskProduceTime = this.dateFormat(
+                resData.taskProduceTime
+              )
+              resData.taskFactCompleteTime = this.dateFormat(
+                resData.taskFactCompleteTime
+              )
+              resData.taskStatus = missionStatus
+              if (resData.taskStatus !== '创建') {
+                resData.showBotton = '已发布'
+              } else {
+                resData.showBotton = '发布'
+              }
+              this.missionList.push(response.data.data[i])
+            }
+            this.setList(this.missionNameList, 'taskName')
+            this.setList(this.taskIDList, 'taskID')
+            this.setList(this.cellIDList, 'cellID')
+            this.setList(this.bscIDList, 'bscID')
+            this.setList(this.publisherList, 'taskProducerID')
+            // var flag = false
+            // for(let j of this.missionList) {
+            //   var list = {
+            //     text: j.taskName,
+            //     value: j.taskName
+            //   }
+            //   if (this.missionNameList) {
+            //     for(let k of this.missionNameList) {
+            //       if(k.text === j.taskName) {
+            //         flag = true
+            //       }
+            //     }
+            //     if(!flag){
+            //       this.missionNameList.push(list)
+            //     }
+            //   } else {
+            //     this.missionNameList.push(list)
+            //   }
+            // }
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    setList (targeList, targeProperty) {
+      for (let j of this.missionList) {
+        var flag = false
+        var list = {
+          text: j[targeProperty],
+          value: j[targeProperty]
+        }
+        if (targeList) {
+          for (let k of targeList) {
+            if (k.text === j[targeProperty]) {
+              flag = true
+            }
+          }
+          if (!flag) {
+            targeList.push(list)
+          }
+        } else {
+          targeList.push(list)
+        }
+      }
+      if (parseInt(targeList[0].text) > 0) {
+        targeList = targeList.sort(this.compare('text'))
+      }
+    },
+    compare (property) {
+      return function (obj1, obj2) {
+        var value1 = parseInt(obj1[property])
+        var value2 = parseInt(obj2[property])
+        return value1 - value2 // 升序
+      }
+    },
+    filterHandler (value, row, column) {
+      const property = column['property']
+      return row[property] === value
+    },
+    triggerClick () {
+      // 将增加任务页面表格默认都是没验证
+      for (var i = 0; i < this.formList.length; i++) {
+        this.checkForm[i] = true
+      }
+      for (i = 0; i < this.formList.length; i++) {
+        this.checkRule(this.formList[i], i)
+      }
+      this.checkForm.forEach(element => {
+        this.result = this.result || element
+      })
+      if (!this.result) {
+        var changeFlag = false
+        for (var k in this.currentList) {
+          if (this.currentList[k] !== this.formInline[k]) {
+            changeFlag = true
+          }
+        }
+        if (changeFlag) {
+          this.changeMission()
+        } else {
+          this.openMsg('请修改后再提交！', 'error', this)
+        }
+      } else {
+        for (var j = 0; j < this.formList.length; j++) {
+          this.checkForm[j] = true
+        }
+      }
+      this.result = false
+    },
+    checkRule (formName, i) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.checkForm[i] = false
+        } else {
+          return false
+        }
+      })
+    },
+    changeMission () {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('task')
+      params.append('taskID', this.formInline.taskID)
+      params.append('taskName', this.formInline.taskName)
+      params.append('bscID', this.formInline.bscID)
+      params.append('cellID', this.formInline.cellID)
+      params.append('takePhotoLongitude', this.formInline.takePhotoLongitude)
+      params.append('takePhotoLatitude', this.formInline.takePhotoLatitude)
+      params.append('takePhotoAltitude', this.formInline.takePhotoAltitude) // 海拔高度
+      params.append(
+        'takePhotoElevationAngle',
+        this.formInline.takePhotoElevationAngle // 下倾角
+      )
+      params.append(
+        'takePhotoDirectAngleBegin',
+        this.formInline.takePhotoDirectAngleBegin
+      )
+      params.append(
+        'takePhotoDirectAngleEnd',
+        this.formInline.takePhotoDirectAngleEnd
+      )
+      params.append(
+        'takePhotoDirectAngleRotate',
+        this.formInline.takePhotoDirectAngleRotate // 偏移角
+      )
+      params.append('takePhotoNum', this.formInline.takePhotoNum)
+      params.append('taskConsumerID', this.formInline.taskConsumerID)
+      params.append('taskPlanCompleteTime', parseInt((new Date(this.formInline.taskPlanCompleteTime.replace(/-/g, '/')).getTime()) / 1000))
+      this.$axios
+        .put(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            this.openMsg('修改成功！', 'success', this)
+            this.dialogTableVisible = false
+          } else {
+            this.errorMsg(response.data.code, this)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    clear () {
+      for (var i in this.currentList) {
+        this.formInline[i] = this.currentList[i]
+      }
+      // 第一个参数是latitude，第二个是longitude
+      let change = this.wgsToGcj(this.formInline.takePhotoLatitude, this.formInline.takePhotoLongitude)
+      let longitude = change.lon
+      let latitude = change.lat
+      this.position = [longitude, latitude]
+      this.center = this.position
+    }
+  }
+}
+</script>
+<style>
+.enResult .el-table {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.enResult .cell .el-button + .el-button {
+  margin-left: 0px;
+}
+.enResult .cell .el-button--default{
+  width: 68px;
+}
+.enResult .demo-table-expand {
+  font-size: 0;
+}
+.enResult .demo-table-expand label {
+  width: 110px;
+}
+.enResult .demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+.enResult .el-table__body .el-table__expanded-cell {
+  background-color: rgb(242, 242, 242);
+}
+.enResult .el-table__body .el-table__expanded-cell:hover {
+  background-color: rgb(242, 242, 242) !important;
+}
+.enResult .el-table__column-filter-trigger i {
+  color: white
+}
+.enResult .editMap .el-vue-amap-container .amap-container{
+  min-height: 300px
+}
+.missionDetail .el-tabs--border-card>.el-tabs__content {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+@media screen and (min-width: 1334px) {
+  .enResult .single {
+    margin-right: 317px;
+  }
+}
+
+</style>

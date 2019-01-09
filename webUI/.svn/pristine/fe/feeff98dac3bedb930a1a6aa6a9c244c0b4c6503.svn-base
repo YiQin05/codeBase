@@ -1,0 +1,126 @@
+<template>
+    <div class="enResult">
+        <el-table
+            :data="tableData3"
+            style="width: 100%"
+            height="250"
+            :header-row-style="{
+                'background-color': '#007AFF',
+                'color': 'white',
+                'font-size': '16px'
+            }"
+            :header-cell-style="{
+                'background-color': '#007AFF',
+                'color': 'white',
+                'font-size': '14px',
+                'border-right': '1px solid gray'
+            }"
+            :cell-style="{
+                'border-right': '1px solid gray',
+                'border-bottom': '1px solid gray'
+            }"
+            >
+            <el-table-column
+                prop="num"
+                label="任务编号"
+                header-align="center"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="name"
+                label="任务名称"
+                header-align="center"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="address"
+                label="任务地址"
+                header-align="center"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="angle"
+                label="拍摄方向角"
+                header-align="center"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="downtilt"
+                label="拍摄下倾角"
+                header-align="center"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="announcer"
+                label="任务发布人"
+                header-align="center"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="receiver"
+                label="任务接收人"
+                header-align="center"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="anTime"
+                label="发布日期"
+                header-align="center"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="finTime"
+                label="完成日期"
+                header-align="center"
+                align="center">
+            </el-table-column>
+            <el-table-column
+                prop="editer"
+                label="编辑"
+                header-align="center"
+                align="center">
+            </el-table-column>
+        </el-table>
+    </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      tableData3: [
+        {
+          num: '001',
+          name: '全球通小区',
+          address: '全球通大夏顶楼',
+          angle: '30',
+          downtilt: '20',
+          announcer: '李红',
+          receiver: '张平',
+          anTime: '2018-09-20',
+          finTime: '2018-09-31',
+          editer: '修改'
+        },
+        {
+          num: '001',
+          name: '全球通小区',
+          address: '全球通大夏顶楼',
+          angle: '30',
+          downtilt: '20',
+          announcer: '李红',
+          receiver: '张平',
+          anTime: '2018-09-20',
+          finTime: '2018-09-31',
+          editer: '修改'
+        }
+      ]
+    }
+  }
+}
+</script>
+<style>
+.enResult .el-table{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+</style>

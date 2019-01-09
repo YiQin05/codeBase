@@ -1,0 +1,75 @@
+html,
+body,
+#app {
+  height: 100%;
+}
+.m_container {
+  width: 10rem;
+  height: 100%;
+  margin: 0 auto;
+  background: #F4F4F4;
+ /* padding-top: 0.4rem;*/
+  overflow: hidden;
+}
+.openbox {
+  width: 9.2rem;
+  height: 4.2rem;
+  margin: 0 auto;
+  margin-top: 0.26rem;
+  background: #ffffff;
+  box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 0.1067rem;
+  border-radius: 0.1067rem;
+  padding-top: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+.openbox .error {
+  width: 1.173rem;
+  height: 1.12rem;
+  margin: 0 auto;
+  background: url('../images/pay_fail.png') no-repeat;
+  background-size: 100% 100%;
+  margin-bottom: 0.35rem;
+}
+.openbox p {
+  text-align: center;
+  font-size: 0.42rem;
+}
+.openbox .tip {
+  color: #F74640;
+  text-align: center;
+  margin-bottom: 0.26rem;
+  font-size:0.42rem;
+  font-weight:400;
+  line-height:0.42rem;
+}
+.openbox .tipl {
+  color: #999999;
+  font-size: 0.34rem;
+}
+.tipb {
+  margin-bottom: 0.7rem;
+}
+.getcard {
+  width: 9.2rem;
+  margin: 0 auto;
+  height: 1.33rem;
+  font-size: 0.42rem;
+  line-height: 1.33rem;
+  text-align: center;
+  color: #0E8FE8;
+  -webkit-border-radius: 0.06rem;
+  border-radius: 0.06rem;
+  background: transparent;
+  margin-bottom: 1rem;
+  border:0.01rem solid #0E8FE8;
+  font-weight:500;
+  box-sizing: border-box;
+}
+.repeat_accept{
+  margin-top:0.8rem;
+  font-size:0.32rem !important;
+  font-weight:400;
+  color:rgba(103,111,120,1);
+  line-height:0.34rem;
+}

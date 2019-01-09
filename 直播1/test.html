@@ -1,0 +1,559 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html> 
+<head>
+<title>直播1</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<meta http-equiv=X-UA-Compatible content=IE=EmulateIE8 >
+<script type="text/javascript" src="./m.js"></script>
+<script type="text/javascript" src="./more.js"></script>
+<script type="text/javascript" src="./common.js"></script>
+<script type="text/javascript" src="./functions.js"></script>
+<script type="text/javascript" src="./language.js"></script>
+<script type="text/javascript" src="./ajax.js"></script>
+<script type="text/javascript" src="./flush_string.js"></script>
+<script type="text/javascript" src="./base64.js"></script>
+<script type="text/javascript" src="./md5.js"></script>
+<script type="text/javascript" src="./DES3.js"></script>
+<!-- <script src="jsmain/MD16.js" type="text/javascript" charset="utf-8"></script> -->
+<script type="text/javascript" src="./getcookie.js"></script>
+<script type="text/javascript" src="./index.js"></script>
+<script type="text/javascript" src="./liveview.js"></script>
+<script type="text/javascript" src="./send.js"></script>
+<script type="text/javascript" src="./replay.js"></script>
+<!-- <script type="text/javascript" src="./test.js"></script> -->
+<script type="text/javascript" language="javascript" src="./js/maskarea.js"></script>
+
+<link rel="stylesheet" type="text/css" media="screen" href="./style/index.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="./style/menus.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="./style/replay.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="./style/config.css" />
+</head>
+<!-- <script language="javascript" for="WebCMS" event="CBK_LoginResult(nRESULT)">
+	console.log(1451)
+	// onLoginNVS(nRESULT);
+	onLoginNVS(2);
+</script>
+<script language="javascript" for="WebCMS" event="CBK_ChangeWindow(nWINDOW)">
+	console.log(654561)
+	$("nwindows").value = nWINDOW;
+	//btnStatus();	
+</script>
+<script language="javascript" for="WebCMS" event="CBK_SaveCaptureFile(szFILENAME)">
+	console.log(1321)
+	window.status	= "Save:" + szFILENAME;
+	setTimeout("window.status='';",5000);
+</script>
+<script language="javascript" for="WebCMS" event="CBK_ViewChannelNum(nCHTOTAL)">
+	console.log(4156)
+	console.log(nCHTOTAL)
+	if(nCHTOTAL==1){
+		if(parseInt($("zoomin").value)==2){
+			$("WebCMS").ImageZoomIn(0);
+			$("zoomin").value	= 0;
+			$("b_zoom").className	= "leftbtn zoom1";
+		}
+	}else{
+		$("WebCMS").ImageZoomIn(0);
+		$("zoomin").value	= 2;
+		$("b_zoom").className	= "leftbtn zoom2";
+	}
+</script>
+<script language="javascript" for="WebCMS" event="CBK_Alarms(nALARMS)">
+	console.log(4562)
+	if(nALARMS == "4112")
+	{
+		$("d_alarmtip").style.display="none";
+	}
+	onAlarms(nALARMS);
+</script> -->
+
+<script language="javascript" for="ReVideoX" event="CBK_SearchFileResult(szChannel, szFileName)">
+	console.log(556415)
+	console.log(szChannel)
+	//result_Rt(szChannel, szFileName);	//搜索回调
+</script>
+<script language="javascript" for="ReVideoX" event="CBK_SearchFileResultEx(nRecType, szChannel, nmark, szFileName, nRecSize)">
+	CBK_SearchResultProgressEx(nRecType, szChannel, nmark, szFileName, nRecSize);
+</script>
+<script language="javascript" for="ReVideoX" event="CBK_SearchFileFinish()">
+	$("btnSearchRecord").innerHTML = ATTRTITLESEARCH;	//搜索完成时回调
+	$("bSearch").value	= 0;
+</script>
+<script language="javascript" for="ReVideoX" event="CBK_ChangeWindow(nWindow)">
+	$("nwindows").value = nWindow;	//选定的窗口回调
+</script>
+<script language="javascript" for="ReVideoX" event="CBK_ChangePlayStatus(nWindow,nFlag))">
+	$("nwindows").value = nWindow;	//选定的窗口回放事件标志回调
+	$("winstor").value 	= nFlag;	// 0＝无回放任务  1＝回放远程图片 2＝回放远程录像 3＝回放本地图片 4＝回放本地录像
+</script>
+<script language="javascript" for="ReVideoX" event="CBK_NetOpenFile(nResult)">
+	CBK_OpenFileErr(nResult);	//当打开网络文件失败时返回错误码
+</script>
+<script language="javascript" for="ReVideoX" event="CBK_PlayProgressEx(nWindow,nTotalTime,nUseTime)">
+	CBK_PlayProgressEx(nWindow,nTotalTime,nUseTime);	//回放进度回调
+</script>
+<script language="javascript" for="ReVideoX" event="CBK_RefreshPlayStatus(nPLAY,nPAUSE,nSTOP,nBACK,nFORWARD,nSTEPBACK,nSTEPIN,nAUDIO,nLOOP,nCAPTURE)">
+	CBK_RefreshPlayStatus(nPLAY,nPAUSE,nSTOP,nBACK,nFORWARD,nSTEPBACK,nSTEPIN,nAUDIO,nLOOP,nCAPTURE);
+</script>
+<script>
+
+function SearchWifiList(floag)
+{		
+       //判断是否安装控件
+		if(document.all.WebCMS.object ==null ) { 
+		        alert(ALERTLOGINif);
+		}
+	var base64 = new Base64();  
+	var stringvc=$("WebCMS").WebEncryptString($("passwordset").value);
+	var pswurl=base64.encode(stringvc);
+	
+try{
+	window.status = "";
+	var strurl = "/webs/btnHitEx";
+	var xmlText 	= "<Message><flag>"+floag+"</flag>";
+	if(floag==2100)
+		xmlText	= xmlText + "<password>"+pswurl+"</password>";
+	
+	xmlText			= xmlText + "</Message>";
+	CreateAjax();
+	if(!oSend){window.status = CREATEXMLHTTPERROR; return false;}
+	strurl	= strurl + "?flag="+floag+"";                     
+	if(floag==2100)
+	
+	strurl	= strurl + "&password="+pswurl+"";      //设置密码
+	
+	//alert(strurl);
+//	window.status = strurl;
+	oSend.onreadystatechange = function (){}
+	oSend.open("POST",strurl,true);
+	oSend.setRequestHeader("CONTENT-TYPE", "text/xml")
+	oSend.send(xmlText);
+ }catch(e){window.status = SENDXMLHTTPERROR; return false;}	
+}
+function languagechange(value)
+{
+	$("vlanguage").value = value;
+	SearchWifiList(2048);
+	initLanguage();
+}
+
+
+
+function initpassword()
+{
+if(parseInt(pwStrength2($("passwordset").value)) < 2)
+	{
+		alert(ALERTNAMEERR1);
+		return;
+	}
+	var passwordset=$("passwordset").value;
+	
+	if(!check_com(passwordset,USERCHECKSTRING1)){
+	           alert(ALERTNAMEERROR1);	
+		return false;
+   }
+	SearchWifiList(2100);
+	
+	$("password").value =$("passwordset").value;
+	//$("passwd").value =base64.encode($("passwordset").value);
+	login();
+}
+//判断输入密码的类型  
+function CharMode(iN){  
+	if (iN>=48 && iN <=57) //数字  
+		return 1;  
+	if (iN>=65 && iN <=90) //大写  
+		return 2;  
+	if (iN>=97 && iN <=122) //小写  
+		return 4;  
+	else  
+		return 8;   
+}  
+//bitTotal函数  
+//计算密码模式  
+function bitTotal(num){  
+	modes=0;  
+	for (i=0;i<4;i++){ 
+		if (num & 1) 
+			modes++;  
+		num>>>=1;  
+	}  
+	return modes;  
+}  
+//返回强度级别  
+function checkStrong(sPW){  
+	if (sPW.length<8)  
+		return 0; //密码太短  
+	Modes=0;  
+	for (i=0;i<sPW.length;i++){  
+		//密码模式  
+		Modes|=CharMode(sPW.charCodeAt(i));  
+	}  
+	return bitTotal(Modes);  
+}  
+  
+//显示颜色  
+function pwStrength(pwd){  
+
+	var S_level = 0;
+	O_color="#eeeeee";  
+	L_color="#FF0000";  
+	M_color="#FF9900";  
+	H_color="#33CC00";  
+	if (pwd==null||pwd==''){  
+		Lcolor=Mcolor=Hcolor=O_color;  
+		return S_level; 
+	}  
+	else{  
+		S_level=checkStrong(pwd);  
+		switch(S_level) {  
+		case 0:  
+			Lcolor=Mcolor=Hcolor=O_color;  
+		case 1:  
+			Lcolor=L_color;  
+			Mcolor=Hcolor=O_color;  
+		break;  
+		case 2:  
+			Lcolor=Mcolor=M_color;  
+			Hcolor=O_color;  
+		break;  
+		default:  
+			Lcolor=Mcolor=Hcolor=H_color;  
+		}  
+	}  
+	
+	document.getElementById("strength_L").style.background=Lcolor;  
+	document.getElementById("strength_M").style.background=Mcolor;  
+	document.getElementById("strength_H").style.background=Hcolor;  
+	
+	return S_level;  
+}  
+//返回强度级别  
+function checkStrong(sPW){  
+	if (sPW.length<8)  
+		return 0; //密码太短  
+	Modes=0;  
+	for (i=0;i<sPW.length;i++){  
+		//密码模式  
+		Modes|=CharMode(sPW.charCodeAt(i));  
+	}  
+	return bitTotal(Modes);  
+}  
+  
+//检查密码强度 
+function pwStrength2(pwd){  
+
+	var S_level = 0;
+	if (pwd==null||pwd==''){  
+		Lcolor=Mcolor=Hcolor=O_color;  
+		return S_level; 
+	}  
+	else{  
+		S_level=checkStrong(pwd);  
+	}  
+	return S_level;  
+}  
+
+
+</script>
+<body>
+<div id="lg_out">
+  <div id="login">
+    <div id="lg">
+		<div class="logo"><img src="image/loginlogo.jpg" style="display:none;" /></div>
+		<div id="div_logincon" class="logincon">
+			
+			<ul>
+			  <li class="titlelog" id="liUserName"></li>
+			  <li class="tvalue"><input id="username" type="text" onFocus="this.select();" onMouseOver="this.focus();" /></li>
+			</ul>
+			<ul>
+			  <li class="titlelog" id="liPassword"></li>
+			  <li class="tvalue">
+				  <input id="password" type="password" onFocus="this.select();" onMouseOver="this.focus();" />
+				  <input type="hidden" value="0" 	id="ftppassword"  	name="ftppassword" value ="YWRtaW4"/>
+			  </li>
+			</ul>
+			<div class="lg_con_in">
+			  <div class="lg_con_in_1"><a id="b_login" href="javascript:;"></a><a id="b_cancel_l" href="javascript:;"></a></div>
+			</div>
+            <div id="LoginMsg"></div>					     
+			<div id="liOCX"></div>
+            				     
+		</div> 
+		
+		<div id="div_passwordset" class="logincon" style="margin-top:160px; display: none;">
+			<ul>
+			  <li class="titlelog" id="liPassword2"></li>
+			  <li class="tvalue">
+				  <input id="passwordset" type="password" onFocus="pwStrength(this.value);" onMouseOver="pwStrength(this.value);" onKeyUp="pwStrength(this.value);" onBlur="pwStrength(this.value);"/>
+			  </li>
+			 </ul>
+			 <ul style="margin-left:140px;">
+			  <li class="tvalue">
+			  	<table width="210" border="1" cellspacing="0" cellpadding="1" bordercolor="#eeeeee" height="22" style='display:inline'>  
+					<tr align="center" bgcolor="#f5f5f5">  
+					<td width="33%" id="strength_L">弱</td>  
+					<td width="33%" id="strength_M">中</td>  
+					<td width="33%" id="strength_H">强</td>  
+					</tr>  
+				</table>  
+			  </li>
+			</ul>
+			<ul style="margin-left:100px; width:350px;">
+			    <li id="passwordtip"></li>
+			</ul>
+			<div class="lg_con_in">
+			  <div class="lg_con_in_1" style="margin-top:95px;"><a id="b_login2" onclick="initpassword();" href="javascript:;"></a></div>
+			</div>	
+		  
+		</div>
+	</div>
+  </div>
+</div>
+<!-----Login end-------->
+<!-----辅助信息-------->
+<div style="display:none; width:0px; height:0px;">
+<form name="outcfg_frm" id="outcfg_frm" method="post" action="" style="height:0px;">
+	<input type="hidden" value="1" 	id="nwindows"  	name="nwindows" >
+	<input type="hidden" value="0" 	id="zoomin"  	name="zoomin" >
+	<input type="hidden" value="0" 	id="bCenterWeb" name="bCenterWeb" >
+	<input type="hidden" value="1" 	id="vlanguage" 	name="vlanguage" ><!--0EngLish	1Chinese//-->
+	
+	<input type="hidden" value="0" 	id="digest"  	name="digest" >
+	<input type="hidden" value="1" 	id="ipc"  		name="ipc" >
+	
+	<input type="hidden" name="url" 	id="url" 	value="192.168.1.231" />
+	<input type="hidden" name="port" 	id="port" 	value="5000"/>
+	<input type="hidden" name="uname" 	id="uname" 	value="admin"/>
+	<input type="hidden" name="passwd" 	id="passwd" value="admin"/>
+	<input type="hidden" name="log_videomask" 	id="log_videomask" value="1"/>
+	<input type="hidden" name="log_camera" 	id="log_camera" value="1"/>
+	
+	<input type="hidden" value="4" name="nlevel" 	id="nlevel" />
+	
+	<input type="hidden" value="80" 	id="devicetype" 	name="devicetype" />
+	<input type="hidden" value="1" name="nchannel" 	id="nchannel" />
+	<input type="hidden" value="1" name="nstorage" 		id="nstorage" />
+		
+	<input type="hidden" value="1920" 	id="mainwidth"  	name="mainwidth" >
+	<input type="hidden" value="1280" 	id="mainheight"  	name="mainheight" >
+	<input type="hidden" value="640"  	id="subwidth"  		name="subwidth" >
+	<input type="hidden" value="480" 	id="subheight"  	name="subheight" >
+	
+	<input type="hidden" value="64" 	id="vbri" 		name="vbri">
+	<input type="hidden" value="127" 	id="vhue" 		name="vhue">
+	<input type="hidden" value="78" 	id="vcon" 		name="vcon">
+	<input type="hidden" value="210" 	id="vsat" 		name="vsat">
+	
+	<input type="hidden" value="1" name="OutputCtrl1" id="OutputCtrl1">
+	<input type="hidden" value="0" name="OutputCtrl2" id="OutputCtrl2">
+	<input type="hidden" value="0" name="OutputCtrl3" id="OutputCtrl3">
+	<input type="hidden" value="0" name="OutputCtrl4" id="OutputCtrl4">
+	<input type="hidden" value="0" name="OutputCtrl5" id="OutputCtrl5">
+	<input type="hidden" value="0" name="OutputCtrl6" id="OutputCtrl6">
+	<input type="hidden" value="0" name="OutputCtrl7" id="OutputCtrl7">
+	<input type="hidden" value="0" name="OutputCtrl8" id="OutputCtrl8">
+	<input type="hidden" value="1" name="noutput" 	  id="noutput" />
+	
+	<input type="hidden" value="0" 	id="iswifi"  	name="iswifi" >
+	<input type="hidden" value="1" 	id="iswifialarm"  	name="iswifialarm" >
+	<input type="hidden" value="0" 	id="wifi"  		name="wifi" >
+	<input type="hidden" value="0" 	id="IsCDMA"  	name="IsCDMA" >
+	<input type="hidden" value="0" 	id="mobilecfg" 	name="mobilecfg" >
+	<input type="hidden" value="0" 	id="IsGPS"  	name="IsGPS" >
+	<input type="hidden" value="0" 	id="netsnmp"  	name="netsnmp" >
+	<input type="hidden" value="0" 	id="httpscfg"  	name="httpscfg" >
+	<input type="hidden" value="1" 	id="isnetpppoe"  	name="isnetpppoe" >
+	<input type="hidden" value="0" 	id="isPIR"  	name="isPIR" >
+	<input type="hidden" value="1" 	id="smartface"  	name="smartface" >
+	<input type="hidden" value="0" 	id="smartfacebw"  	name="smartfacebw" >
+	<input type="hidden" value="0" 	id="ulkplatform"  	name="ulkplatform" >
+	<input type="hidden" value="0" 	id="jxserver"  	name="jxserver" >
+	<input type="hidden" value="0" 	id="contrastRecord"  	name="contrastRecord" >
+	<input type="hidden" value="0" 	id="Attendance"  	name="Attendance" >
+	
+	<input type="hidden" value="0" 	id="zxlwcfg"  	name="zxlwcfg" >
+	<input type="hidden" value="0" 	id="hxhtcfg"  	name="hxhtcfg" >
+	<input type="hidden" value="0" 	id="xdtxcfg"  	name="xdtxcfg" >
+	<input type="hidden" value="0" 	id="accesscfg"  name="accesscfg" >
+	<input type="hidden" value="0" 	id="smcfg"  	name="smcfg" >
+	<input type="hidden" value="0" 	id="gb28181"  	name="gb28181" >
+	<input type="hidden" value="1" 	id="passwordinit"  	name="passwordinit" >
+	<input type="hidden" value="0" 	id="pageversion"  	name="pageversion" >
+	<input type="hidden" value="0" 	id="despageversion"  	name="despageversion" >
+	<input type="hidden" value="4"  id="ipversion"  name="ipversion"  />
+	<input type="hidden" value="1"  id="Smartba"  name="Smartba"  />
+	<input type="hidden" value="0"  id="xmservercfg"  name="xmservercfg"  />
+	<input type="hidden" value="0"  id="detect"  name="detect"  />
+
+    
+<input name="baLineorRegional" type="hidden" id="baLineorRegional" value="0" />	
+
+<input name="fanzhuan" type="hidden" id="fanzhuan" value="0" />	
+<input name="jingxiang" type="hidden" id="jingxiang" value="0" />	
+<input name="xuanzhuan" type="hidden" id="xuanzhuan" value="0" />	
+<input name="nEncWidth" type="hidden" id="nEncWidth" value="0" />	
+<input name="nEncHeight" type="hidden" id="nEncHeight" value="0" />	
+
+<input name="nX1_1" type="hidden" id="nX1_1" value="0" />
+<input name="nY1_1" type="hidden" id="nY1_1" value="0" />
+<input name="nX2_1" type="hidden" id="nX2_1" value="0" />
+<input name="nY2_1" type="hidden" id="nY2_1" value="0" />
+<input name="nX3_1" type="hidden" id="nX3_1" value="0" />
+<input name="nY3_1" type="hidden" id="nY3_1" value="0" />
+<input name="nX4_1" type="hidden" id="nX4_1" value="0" />
+<input name="nY4_1" type="hidden" id="nY4_1" value="0" />
+
+<input name="nX1_2" type="hidden" id="nX1_2" value="0" />
+<input name="nY1_2" type="hidden" id="nY1_2" value="0" />
+<input name="nX2_2" type="hidden" id="nX2_2" value="0" />
+<input name="nY2_2" type="hidden" id="nY2_2" value="0" />
+<input name="nX3_2" type="hidden" id="nX3_2" value="0" />
+<input name="nY3_2" type="hidden" id="nY3_2" value="0" />
+<input name="nX4_2" type="hidden" id="nX4_2" value="0" />
+<input name="nY4_2" type="hidden" id="nY4_2" value="0" />
+
+<input name="nX1_3" type="hidden" id="nX1_3" value="0" />
+<input name="nY1_3" type="hidden" id="nY1_3" value="0" />
+<input name="nX2_3" type="hidden" id="nX2_3" value="0" />
+<input name="nY2_3" type="hidden" id="nY2_3" value="0" />
+<input name="nX3_3" type="hidden" id="nX3_3" value="0" />
+<input name="nY3_3" type="hidden" id="nY3_3" value="0" />
+<input name="nX4_3" type="hidden" id="nX4_3" value="0" />
+<input name="nY4_3" type="hidden" id="nY4_3" value="0" />
+
+<input name="nX1_4" type="hidden" id="nX1_4" value="0" />
+<input name="nY1_4" type="hidden" id="nY1_4" value="0" />
+<input name="nX2_4" type="hidden" id="nX2_4" value="0" />
+<input name="nY2_4" type="hidden" id="nY2_4" value="0" />
+<input name="nX3_4" type="hidden" id="nX3_4" value="0" />
+<input name="nY3_4" type="hidden" id="nY3_4" value="0" />
+<input name="nX4_4" type="hidden" id="nX4_4" value="0" />
+<input name="nY4_4" type="hidden" id="nY4_4" value="0" />
+
+<input name="nlinedirection1" type="hidden" id="nlinedirection1" value="0" />
+<input name="nlinedirection2" type="hidden" id="nlinedirection2" value="0" />
+<input name="nlinedirection3" type="hidden" id="nlinedirection3" value="0" />
+<input name="nlinedirection4" type="hidden" id="nlinedirection4" value="0" />
+   
+    
+    
+</form>
+</div>
+<div class="ie6-out">
+  <div class="ie6-in">
+	<div class="min-width">
+	  <div id="main">
+		<div class="header" id="nav_head">
+		  <div id="logo"><a title=""><img  src="image/logo.jpg" /></a></div><div id="divType">200万高清COMS网络摄像机</div>
+		  <div  class="nav" id="nav">
+			<ul>
+			  <li class="mainpagelanguage">
+			  		<select name="languagechoose" class="select3" id="languagechoose" onChange="languagechange(this.value)" style="width:90px; min-width:80px;">
+						<option id="lanen" value="0">英文</option>
+						<option id="lanch" value="1">中文</option>
+					</select>  
+			  </li>
+			  <li id="b_a"> <a id="b_preview" class="nav_btn1" hidefocus="true" href="javascript:;">   预览   </a></li>
+			  <li id="b_ab"> <a id="b_playback" class="nav_btn" hidefocus="true" href="javascript:;">   录像回放   </a></li>
+			  <li id="b_b" style="display:none;"> <a id="b_ptzctrl" class="nav_btn" hidefocus="true" href="javascript:;"> PTZ </a></li>
+			  <li id="b_c"> <a id="b_config" class="nav_btn" hidefocus="true" href="javascript:;">   设置   </a></li>
+			  <li id="b_d"> <a id="b_alarm" class="nav_btn" hidefocus="true" href="javascript:;">   报警   </a>
+			  	<div class="alarmtip" id="d_alarmtip" style="display:none;"></div></li>
+			  <li id="b_e"> <a id="b_quit" class="nav_btn" hidefocus="true" href="javascript:;">   退出   </a></li>	
+			</ul>
+		  </div>
+		</div>
+		<!-----header end-------->
+		<!-----mb 预览 & PTZ-------->
+		<div id="mb" class="content">
+			<div class="preview_ct">
+				<div id="mb_btn_bar" class="videotop"></div>
+				<div id="videoH" class="videoCon">
+				  <div id="videoCon"  class="vedioNew">
+            <div id="video1" class="video1"><!---实时视频区域--->
+              <span id="span_video_mb">
+                <object name="WebCMS" ID="WebCMS" style="width:800px;background-color: red;height: 800px;" CLASSID="CLSID:8DA9A0A7-AC21-4EA9-BB7E-43AEF89688A6" codebase="/WebCMS.exe#Version=3,2,1,95"></object>
+              </span>
+            </div>
+            <!--此处开始是 图像调节 内容-->
+            <div id="image_adjust" class="preview_rt"></div>
+            <!--此处开始是聚焦缩放内容-->
+            <div id="focus_adjust" class="preview_rt clearfix"></div>
+            <!--到此处结束-->
+            <div id="ptz_control" class="preview_rt" style="display:none;"></div>
+				  </div><!--videoCon-->
+				</div>
+			</div><!---preview_ct--->
+		</div>
+		
+		<!-----mb0 设置-------->
+		<div id="mb0" class="content" style="display:none;">
+		  <div class="settingDiv" id="divSetting">
+		  	<div id="mb0_setting_bar" class="settingleft"></div>
+			<div id="mb0_setting" class="settingright">
+				<iframe id="set_fm" src="" width="100%" height="100%" frameborder="0" style="min-width:760px;min-height:510px;_height:510px;y-overflow:auto;x-overflow:hidden;"></iframe>
+			</div>
+		  </div>
+		</div>
+		
+		<!-----mb1 回放-------->
+		<div id="mb1" class="content" style="display:none;">
+			<div id="revideoH" class="videoCon">
+				<div id="review_ctrl">
+				</div>
+				<div id="review_video">
+					<div  class="rebar" id="div_replay_menus"></div>	
+					<div id="video2" class="video2">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-----mb1 end-------->
+				
+		<!-----mb2 报警-------->
+		<div id="mb2" class="content" style="display:none;">
+			<div id="alarmH" class="videoCon">
+				<div id="alarm_body" class="alarm_con"><iframe id="alarm_fm" src="" width="100%" height="100%" frameborder="0" style="min-width:760px;min-height:510px;_height:510px;y-overflow:auto;x-overflow:hidden;"></iframe></div>
+			</div>
+		</div>
+		
+		<div class="footer"></div>
+	  </div>
+	  <!----<div id="main"> --->
+	</div>
+  </div>
+</div>
+<div id="estopAll" style="display:none;" class="estopAll" ></div>
+<iframe name="btnHit" id="btnHit" src="" align="btnHit" frameborder="0" scrolling="no" style="background-color:#000000;" height="0" width="0"></iframe>
+<script>document.outcfg_frm.url.value='172.16.10.100';document.outcfg_frm.port.value='5000';document.outcfg_frm.uname.value='admin';document.outcfg_frm.passwd.value='admin';document.outcfg_frm.digest.value='0';document.outcfg_frm.devicetype.value='145';document.outcfg_frm.ipc.value='1';document.outcfg_frm.mainwidth.value='1920';document.outcfg_frm.mainheight.value='1080';document.outcfg_frm.subwidth.value='704';document.outcfg_frm.subheight.value='576';document.outcfg_frm.vbri.value='128';document.outcfg_frm.vhue.value='125';document.outcfg_frm.vcon.value='128';document.outcfg_frm.vsat.value='110';document.outcfg_frm.wifi.value='0';document.outcfg_frm.IsCDMA.value='0';document.outcfg_frm.iswifialarm.value='0';document.outcfg_frm.gb28181.value='1';document.outcfg_frm.vlanguage.value='1';document.outcfg_frm.smartface.value=1;document.outcfg_frm.nstorage.value='1';document.outcfg_frm.mobilecfg.value='1';$s('divType').innerHTML = ' ';document.outcfg_frm.isnetpppoe.value='1';document.outcfg_frm.isPIR.value='0';document.outcfg_frm.passwordinit.value='1';document.outcfg_frm.pageversion.value='1';document.outcfg_frm.despageversion.value='2';document.outcfg_frm.ipversion.value='4';document.outcfg_frm.smartfacebw.value='1';document.outcfg_frm.Smartba.value='0';document.outcfg_frm.Attendance.value='1';document.outcfg_frm.contrastRecord.value='1';document.outcfg_frm.jxserver.value='1';document.outcfg_frm.xmservercfg.value='1';</script>
+<script>
+function IsFoxFire()
+{
+
+	$("span_video_mb").innerHTML = "<embed type=\"application/x-vlc-plugin\" controls=\"pausebutton\" style=\"width:100%; height:100%;\" id=\"FoxFire_video_mb\" name=\"FoxFire_video_mb\" autoplay=\"yes\" loop=\"yes\" hidden=\"no\" target=\"rtsp://"+$("url").value+"/av0_0&user="+$("username").value+"&password="+$("password").value+"\" />";
+	
+	if(!$("FoxFire_video_mb").VersionInfo)  
+	{
+		var str ="您未安装VLC插件，请点击下载。";
+		if("en" == m_szLanguage)
+		{
+			str ="You VLC plug-in is not installed, please click Download.";
+		}
+		$("span_video_mb").innerHTML ="<a href=\"http://mirrors.ustc.edu.cn/videolan-ftp/vlc/2.1.3/win32/vlc-2.1.3-win32.exe\">"+str+"</a>";
+	}
+	$("mb_btn_bar").style.display="none";//隐藏主次码流抓拍等功能
+	$("b_ab").style.display="none";//隐藏回放功能
+	
+}
+	
+if("webkit"==getwebtype()||"hh"==getwebtype())
+{
+	IsFoxFire();    
+}
+$("languagechoose").options[parseInt($("vlanguage").value)].selected = true;	
+
+</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <!-- 需要用到Jquery吗？？？ -->
+</head>
+<style>
+#app .el-input{
+  width: 50%;
+}
+#app{
+  max-width: 1200px;
+  margin: 0 auto
+}
+</style>
+
+<body>
+  <div id="app">
+    <div class="enResult">
+      <el-table
+          :data="missionList"
+          height="400"
+          :header-row-style="{
+              'background-color': '#007AFF',
+              'color': 'white',
+              'font-size': '16px'
+          }"
+          :header-cell-style="{
+              'background-color': '#007AFF',
+              'color': 'white',
+              'font-size': '14px'
+          }">
+          <el-table-column type="expand">
+              <template slot-scope="props">
+                  <el-form inline class="demo-table-expand">
+                      <el-form-item label="任务编号：">
+                      <span>{{ props.row.taskID }}</span>
+                  </el-form-item>
+                  <el-form-item label="任务名称：">
+                      <span>{{ props.row.taskName }}</span>
+                  </el-form-item>
+                  <el-form-item label="基站ID：">
+                      <span>{{ props.row.bscID }}</span>
+                  </el-form-item>
+                  <el-form-item label="小区ID：">
+                      <span>{{ props.row.cellID }}</span>
+                  </el-form-item>
+              </template>
+          </el-table-column>
+          <el-table-column
+              prop="taskName"
+              label="任务名称"
+              header-align="center"
+              :filters="missionNameList"
+              :filter-method="filterHandler">
+          </el-table-column>
+          <el-table-column
+              prop="taskID"
+              label="任务编号"
+              header-align="center"
+              :filters="taskIDList"
+              :filter-method="filterHandler">
+          </el-table-column>
+          <el-table-column
+              prop="cellID"
+              label="小区ID"
+              header-align="center"
+              :filters="cellIDList"
+              :filter-method="filterHandler">
+          </el-table-column>
+          <el-table-column
+              header-align="center"
+              width="230"
+              label="操作">
+              <template slot-scope="scope">
+                  <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)" >编辑</el-button>
+              </template>
+          </el-table-column>
+      </el-table>
+      <el-dialog title="编辑任务" :visible.sync="dialogTableVisible">
+        <div class="contain">
+          <el-form :inline="true" ref="form1" :model="formInline" :rules="rules" class="demo-form-inline demo-ruleForm" size="mini" label-width="120px">
+            <el-form-item label="任务名称" prop="taskName1">
+                <el-input v-model="formInline.taskName"></el-input>
+            </el-form-item>
+            <el-form-item label="拍摄经度" prop="taskID1">
+                <el-input v-model="formInline.taskID"></el-input>
+            </el-form-item>
+          </el-form>
+          <el-form :inline="true" :rules="rules" :model="formInline" ref="form2" class="demo-form-inline demo-ruleForm" size="mini" label-width="120px">
+            <!-- double类型 -->
+            <el-form-item label="拍摄纬度" prop="cellID1">
+                <el-input v-model="formInline.cellID"></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="clear" size="small">清空</el-button>
+          </div>
+        </div>
+      </el-dialog>
+    </div>
+  </div>
+<script>
+var vm = new Vue({
+  el: '#app',
+  data () {
+    return {
+      missionList: [
+        {
+          taskID: '1',
+          taskName: '男',
+          cellID: '1'
+        },
+        {
+          taskID: '2',
+          taskName: '男',
+          cellID: '2'
+        },
+      ],
+      formInline: {
+        taskName: '',
+        cellID: '',
+        taskID: ''
+      },
+      dialogTableVisible: false
+    }
+  },
+  methods: {
+    clear () {
+      this.formInline.taskName = '',
+      this.formInline.cellID = '',
+      this.formInline.taskID = ''
+    },
+    handleEdit(index, row){
+      console.log(row)
+      this.dialogTableVisible = true
+      for(var i in this.formInline){
+        this.formInline[i] = row[i]
+      }
+
+    }
+  }
+});
+
+</script>
+</body>
+
+</html>

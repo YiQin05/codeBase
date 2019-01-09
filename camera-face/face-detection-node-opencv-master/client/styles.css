@@ -1,0 +1,20 @@
+.container {
+  padding-top: 50px;
+  background-color: gray
+}
+
+.center {
+  text-align: center;
+}
+
+#canvas-video {
+  width: 640px;
+  height: 480px;
+  border: 1px solid #ccc;
+}
+#humenFrame{
+  position: absolute;
+  margin-left: 50%;
+  left: -200px;
+  top: 140px;
+}

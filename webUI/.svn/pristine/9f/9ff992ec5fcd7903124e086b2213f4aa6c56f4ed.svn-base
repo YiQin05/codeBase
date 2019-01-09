@@ -1,0 +1,133 @@
+<template>
+  <div class="uploadContain">
+    <div class="select">
+      选择任务：
+      <el-select v-model="taskID" placeholder="请选择要上传图片的任务" size="small">
+        <el-option
+          v-for="item in taskList"
+          :key="item.bscID+ '/' + item.cellID"
+          :label="item.taskName"
+          :value="item.taskID">
+        </el-option>
+      </el-select>
+    </div>
+    <el-upload
+      ref="upload"
+      class="upload"
+      :action="endUrl"
+      multiple
+      :before-upload="checkNull"
+      :on-preview="handlePreview"
+      :on-remove="handleRemove"
+      :file-list="fileList"
+      :on-error ="errUpload"
+      :on-success ="successUpload"
+      :auto-upload="false"
+      list-type="picture">
+      <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+      <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+    </el-upload>
+  </div>
+</template>
+<style>
+</style>
+
+<script>
+export default {
+  data () {
+    return {
+      fileList: [],
+      endUrl: '',
+      taskID: '',
+      taskList: [],
+      selectedOptions: [],
+      user: ''
+    }
+  },
+  created () {
+    this.user = this.getCookie('userID')
+    this.getTask()
+  },
+  watch: {
+    taskID (newVal, oldVal) {
+      // this.endUrl = 'http://172.16.10.26:5000/uploadRawPic/' + newVal
+      this.endUrl = this.setAPIPath('uploadRawPic/' + newVal)
+      this.$refs.upload.clearFiles()
+    }
+  },
+  methods: {
+    errUpload (err, file, fileList) {
+      console.log('错误')
+      console.log(err)
+      // this.errorMsg(err.code, this)
+    },
+    successUpload (response, file, fileList) {
+      if (response.code !== 0) {
+        this.errorMsg(response.code, this)
+      }
+    },
+    getTask () {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('task/' + this.user)
+      this.$axios
+        .get(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            for (let i of response.data.data) {
+              this.taskList.push(i)
+            }
+          } else {
+            this.errorMsg(response.data.code, this)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    selectFile () {
+
+    },
+    submitUpload () {
+      this.$refs.upload.submit()
+    },
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
+      console.log(fileList)
+    },
+    handlePreview (file) {
+      console.log(file)
+    },
+    checkNull () {
+      if (!this.endUrl) {
+        this.openMsg('请先选择要上传图片的任务！', 'error', this)
+        return false
+      }
+    }
+  }
+}
+</script>
+<style>
+.el-upload-list{
+  position: absolute;
+  width:100%;
+  max-height:680px;
+  left: 0px;
+  overflow: scroll;
+}
+</style>
+
+<style scoped>
+.uploadContain{
+  position: relative;
+}
+.select {
+  width:320px;
+  float: left;
+}
+.upload {
+  float: left;
+}
+.clear{
+  clear: both;
+}
+</style>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+        <meta charset="utf-8" />
+        <title>人形框</title>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <!-- <script type="text/javascript" src="js/humenFrame.js"></script> -->
+    </head>
+    <body>
+        <header>
+            <h2>人形框</h2>
+        </header>
+        <div class="container">
+            <canvas id="humenFrame" width="500" height="500"></canvas>
+        </div>
+    </body>
+<script>
+//插入一张图
+var canvas5 = document.getElementById('humenFrame');//获取绘图区域
+var ctx5 = canvas5.getContext('2d');//让我们拿到一个CanvasRenderingContext2D对象
+    //创建image对象
+    var imgObj = new Image();
+    imgObj.src = "./images/humenFrame.png";
+    //待图片加载完后，将其显示在canvas上
+    imgObj.onload = function(){
+        ctx5.drawImage(this, 0, 0);//this即是imgObj,保持图片的原始大小：470*480
+        //ctx.drawImage(this, 0, 0,1024,768);//改变图片的大小到1024*768
+    }
+
+</script>
+<style>
+.container{
+  background-color: black
+}
+</style>
+</html>

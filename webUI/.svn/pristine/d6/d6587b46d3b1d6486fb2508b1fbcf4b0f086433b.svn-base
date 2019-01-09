@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>demo | vue-amap</title>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <div id="app">
+    <h1>高德地图</h1>
+      <!-- <el-amap vid="amap" class="map"></el-amap> -->
+      <div v-if="isOpenMap" style="border:solid lightblue 1px;height:568px;margin-top:-20px;">
+        <el-amap vid="amapCamera" :events="mapEvents" :center="center">
+            <el-amap-marker :position="position" ></el-amap-marker>
+        </el-amap>
+      </div>
+    </div>
+  </body>
+  <!-- 先引入 Vue -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- 引入组件库 -->
+  <script src="https://unpkg.com/vue-amap/dist/index.js"></script>
+  <script>
+    // 初始化高德地图的 key 和插件
+    window.VueAMap.initAMapApiLoader({
+      key: 'b780b44f8f55a82fede8eca6418afd15',
+      plugin: ['Autocomplete', 'PlaceSearch', 'Scale', 'OverView', 'ToolBar', 'MapType', 'PolyEditor', 'AMap.CircleEditor'],
+      // 默认高德 sdk 版本为 1.4.4
+      v: '1.4.4'
+    })
+    new Vue({
+      el: '#app',
+      data: function(){
+        return {
+            ruleForm:{
+                longitude: 0,
+                latitude: 0,
+            },
+            isOpenMap: true,
+            // position: [113.564221, 22.370364],
+            position: [100.564221, 22.370364],
+            center: [],
+            mapEvents: {
+                'click': (e) => {
+                    this.ruleForm.longitude = e.lnglat.lng
+                    this.ruleForm.latitude = e.lnglat.lat
+                    this.position = [e.lnglat.lng, e.lnglat.lat]
+                    console.log(this.ruleForm.longitude)
+                }
+            }
+        }
+      },
+      created(){
+          this.center = this.position
+      },
+      mounted () {
+          console.log(window.VueAMap)
+      },
+      methods:{
+          
+      }
+    });
+  </script>
+<style>
+    .map{
+        height: 600px;
+    }
+</style>
+</html>

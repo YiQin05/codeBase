@@ -1,0 +1,95 @@
+<template>
+    <div class="missionEnquiry">
+        <el-form ref="form" :model="sizeForm" label-width="85px" size="mini">
+            <div class="TopTitle">任务发布</div>
+            <div class="enquiry">查询条件</div>
+            <el-form-item label="任务名称">
+                <el-form :inline="true" class="demo-form-inline" size="mini">
+                    <el-form-item>
+                        <el-input v-model="sizeForm.announcer"></el-input>
+                    </el-form-item>
+                    <el-form-item label="发布人">
+                        <el-input v-model="sizeForm.recipient"></el-input>
+                    </el-form-item>
+                </el-form>
+            </el-form-item>
+            <el-form-item label="创建日期">
+                <el-form :inline="true" class="demo-form-inline" size="mini">
+                    <el-form-item>
+                        <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.build"></el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="完成日期">
+                        <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.finish"></el-date-picker>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="onSubmit">查询</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-form-item>
+            <div class="result">查询结果</div>
+            <enquierResult/>
+        </el-form>
+    </div>
+</template>
+<script>
+import enquierResult from './enquierResult.vue'
+export default {
+  data () {
+    return {
+      sizeForm: {
+        // 此处数据名称要改
+        name: '',
+        region1: '',
+        region2: '',
+        region3: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      }
+    }
+  },
+  methods: {
+    onSubmit () {
+      console.log('submit!')
+    }
+  },
+  mounted: () => {
+  },
+  components: {
+    enquierResult
+  }
+}
+</script>
+
+<style>
+.missionEnquiry{
+    border:1px solid #ebeef5;
+    margin-bottom: 10px;
+}
+.missionEnquiry .el-date-editor{
+    width: 200px;
+}
+.TopTitle{
+    border:1px solid #ebeef5;
+    border-left:20px solid rgb(255,204,0);
+    margin-left: -40px;
+    height: 50px;
+    line-height: 50px;
+    padding-left: 20px;
+    font-size: 18px;
+    font-weight: bolder;
+    background-color:rgb(242, 242, 242);
+}
+.enquiry,.result{
+    background: url('..\..\assets\enquiry.png') no-repeat;
+    height: 35px;
+    margin-bottom: 10px;
+    line-height: 35px;
+    padding-left: 10px;
+    color: white;
+    font-size: 20px;
+}
+</style>

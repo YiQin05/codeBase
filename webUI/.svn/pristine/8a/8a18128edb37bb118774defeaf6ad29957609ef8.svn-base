@@ -1,0 +1,108 @@
+<template>
+    <div class="contain">
+        <el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini" label-width="90px">
+            <el-form-item label="任务名称">
+                <el-input v-model="formInline.missionName"></el-input>
+            </el-form-item>
+            <el-form-item label="任务编号">
+                <el-input v-model="formInline.missionNum"></el-input>
+            </el-form-item>
+        </el-form>
+        <el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini" label-width="90px">
+            <el-form-item label="小区编号">
+                <el-input v-model="formInline.cellId"></el-input>
+            </el-form-item>
+            <el-form-item label="小区经度">
+                <el-input v-model="formInline.cellLongit"></el-input>
+            </el-form-item>
+        </el-form>
+        <el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini" label-width="90px">
+            <el-form-item label="拍摄下倾角">
+                <el-select v-model="formInline.downtilt" placeholder="请选择活动区域">
+                    <el-option label="下倾角一" value="downtilt1"></el-option>
+                    <el-option label="下倾角二" value="downtilt2"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="小区维度">
+                <el-input v-model="formInline.celldimen"></el-input>
+            </el-form-item>
+        </el-form>
+        <el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini" label-width="90px">
+            <el-form-item label="拍摄方向角">
+                <el-select v-model="formInline.angle" placeholder="请选择活动区域">
+                    <el-option label="方向角一" value="angle1"></el-option>
+                    <el-option label="方向角二" value="angle2"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="海拔高度">
+                <el-select v-model="formInline.height" placeholder="请选择活动区域">
+                    <el-option label="海拔高度一" value="height1"></el-option>
+                    <el-option label="海拔高度二" value="height2"></el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>
+        <el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini" label-width="90px">
+            <el-form-item label="拍摄偏移角">
+                <el-select v-model="formInline.devAngle" placeholder="请选择活动区域">
+                    <el-option label="偏移角一" value="devAngle1"></el-option>
+                    <el-option label="偏移角二" value="devAngle2"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="拍摄图片数">
+                <el-select v-model="formInline.number" placeholder="请选择活动区域">
+                    <el-option label="15张" value="number1"></el-option>
+                    <el-option label="30张" value="number2"></el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>
+        <el-form :inline="true" :model="formInline" class="demo-form-inline secondForm" size="mini" label-width="90px">
+            <el-form-item label="接收人">
+                <el-input v-model="formInline.reciver"></el-input>
+            </el-form-item>
+            <el-form-item label="完成日期">
+                <el-date-picker type="date" placeholder="选择日期" v-model="formInline.finish"></el-date-picker>
+            </el-form-item>
+        </el-form>
+    </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      formInline: {
+        missionName: '',
+        missionNum: '',
+        cellId: '',
+        cellLongit: '',
+        downtilt: '',
+        celldimen: '',
+        angle: '',
+        height: '',
+        devAngle: '',
+        number: '',
+        reciver: '',
+        finish: ''
+      }
+    }
+  },
+  methods: {
+    onSubmit () {
+      console.log('submit!')
+    }
+  }
+}
+</script>
+
+<style>
+.contain {
+  border: 1px solid #ebeef5;
+  margin-top: 20px;
+}
+.contain .el-date-editor {
+  width: 180px;
+}
+.contain .el-select .el-input{
+    width: 180px;
+}
+</style>

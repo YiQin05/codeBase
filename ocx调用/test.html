@@ -1,0 +1,22 @@
+<html>
+<head>
+<script type="text/JavaScript" language="javascript"> 
+ function show(string1)
+ {
+       alert('123');
+       var obj = document.getElementById("TestOcx");
+       alert(obj);
+       var ret = obj.StartApplication(string1);
+       alert(ret);
+ }
+</script>
+</head>
+<body >
+  <object name="WebCMS" ID="WebCMS" style="width:800px;background-color: red;height: 800px;" CLASSID="CLSID:8DA9A0A7-AC21-4EA9-BB7E-43AEF89688A6" codebase="/WebCMS.exe#Version=3,2,1,95"></object>
+<!-- <object id="TestOcx" width="" height="" classid="clsid:440BF279-30B8-41D2-AFE7-F19141110C96"> -->
+</object>
+</OBJECT> 
+<input type="button" id="btn1" name="btn1" value="调用ocx" title="调用ocx" 
+onclick="show('file:///D:/SE-1515/ECGWorkstation.exe.lnk')"></input>
+</body>
+</html>

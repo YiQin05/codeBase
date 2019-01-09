@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>支付信息</title>
+
+    <link rel="stylesheet" type="text/css" href="css/reset.min.css">
+    <link rel="stylesheet" type="text/css" href="css/union_tips.css">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/flexible.js"></script>
+    <!--<script src="../usr/js/utils.js"></script>-->
+    <script src="js/vue.js"></script>
+    <script src="js/vue-resource.min.js"></script>
+	<script src="js/app.js"></script>
+    <style>
+        @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+        /*底部按钮上移*/
+            .m_container{
+                padding-bottom: 0.4533rem !important;
+            }
+        }
+    </style>
+    <script>
+        "use strict";
+        jQuery(function($){
+
+        })
+    </script>
+</head>
+<body>
+    <div id="app">
+        <div class="m_container tips_center">
+            <div class="openbox">
+                    <div class="payright"></div>
+                    <p class='tip'>支付成功</p>
+                    <p class='paynum'>{{price}} 元</p>
+                    <p class='tipb'>共支付</p>
+            </div>
+            <div class="washcar">
+                <div class="wcl">
+                    <p>恭喜您获得 <span style='color:#BE0018;font-weight:bold;font-size:0.48rem'>1张洗车券</span></p>
+                    <p>奖励自动发放到巨会养车微信公众号中</p>
+                    <p>有限期：{{startDate}} 至 {{endDate}}</p>
+                </div>
+                <div class="wc" @click="goNetworklist">去使用</div>
+            </div>
+            <div class="ac_code ac_tips" v-if="isWx">
+                <img src="images/img_qrcode.png" alt="二维码"/>
+                <div><p>长按识别二维码，</p> 关注"车智汇"公众号进行使用</div>
+            </div>
+            <p class="ac_tips" v-else>请关注"车智汇"微信公众号， 或下载"车智汇"APP进行使用。</p>
+        </div>
+    </div>
+   <script src="js/fastclick.min.js"></script>
+   <script>
+           /*解决移动端点击300ms延迟*/
+           FastClick.attach(document.body);
+           
+           App.create({
+               data: {
+                   isWx: App.isWx(),
+                   price:Number((App.params("price") || 0)* 1.0 / 100).toFixed(2),
+                   validityTime:App.params("validityTime"),
+                   startDate:new Date().Format("yyyy-MM-dd"),
+                   endDate:new Date().format("yyyy-MM-dd")
+               },
+               mounted: function (vm) {
+            	   if (vm.validityTime) {
+            		   var endDate = new Date();
+            		   endDate.setTime(new Date().getTime()+(vm.validityTime*1000));
+            		   vm.endDate = endDate.format("yyyy-MM-dd");
+            	   }
+               },
+               methods: {
+               	goNetworklist: function () {
+               		 //window.location.href = "/czh/wash_car.html?suk="+App.params("suk");
+               		 window.location.href = "/czh/index.html?suk="+App.params("suk");
+               	}
+            	   
+               }
+         });
+   </script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                isWx:true
+            },
+            goNetworklist:function (event) {
+                alert('hah')
+                console.log(event);
+            }
+        })
+    </script>
+</body>
+</html>

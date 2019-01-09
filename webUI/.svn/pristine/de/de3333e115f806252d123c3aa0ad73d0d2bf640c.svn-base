@@ -1,0 +1,271 @@
+<template>
+    <div class="container">
+        <div class="TopTitle">系统管理</div>
+        <div class="system">
+          <el-tabs type="border-card" tab-position="left">
+            <el-tab-pane label="用户管理">
+              <div class="user">
+                <div class="userTitle">用户列表</div>
+                <el-button type="success" class="btn" size="small" @click="handleUser">增加用户</el-button>
+                <user/>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label="系统参数设置">
+              <div class="scene">
+                <div class="userTitle">场景识别参数</div>
+                <div class="sceneForm">
+                  <el-form ref="scenePara" size="mini" :model="sceneParameter" :rules="rules" class="demo-form-inline demo-ruleForm" label-width="120px">
+                    <el-form-item label="Top Number" prop="sceneTopNum">
+                        <el-select v-model.number="sceneParameter.sceneTopNum" placeholder="请选择活动区域">
+                          <el-option label="1" value=1></el-option>
+                          <el-option label="2" value=2></el-option>
+                          <el-option label="3" value=3></el-option>
+                          <el-option label="4" value=4></el-option>
+                          <el-option label="5" value=5></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="最小置信度" prop="confidence">
+                      <el-tooltip class="item" effect="light" content="默认0.05，建议值0.01-0.1之间，可设置0.0-1.0之间" placement="right-end">
+                        <el-input v-model="sceneParameter.confidence"></el-input>
+                      </el-tooltip>
+                    </el-form-item>
+                    <el-button size="mini" type="primary" class="bottomBtn" @click="sceneSubmit">提交</el-button>
+                  </el-form>
+                </div>
+              </div>
+              <hr/>
+              <div class="object">
+                <div class="userTitle">物体识别参数</div>
+                <div class="objectForm">
+                  <el-form ref="objectPara" size="mini" :model="objectParameter" :rules="rules" class="demo-form-inline demo-ruleForm" label-width="120px">
+                    <el-form-item label="Top Number" prop="objTopNum">
+                        <el-select v-model.number="objectParameter.objTopNum" placeholder="请选择活动区域">
+                          <el-option label="1" value=1></el-option>
+                          <el-option label="2" value=2></el-option>
+                          <el-option label="3" value=3></el-option>
+                          <el-option label="4" value=4></el-option>
+                          <el-option label="5" value=5></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="最小百分比" prop="rate">
+                      <el-tooltip class="item" effect="light" content="默认0.8%，建议值0.3%-2%之间，可设置0%-100%之间" placement="right-end">
+                        <el-input v-model="objectParameter.rate"><i slot="suffix" class="el-input__icon fa fa-percent" aria-hidden="true"></i></el-input>
+                      </el-tooltip>
+                    </el-form-item>
+                    <el-button size="mini" type="primary" class="bottomBtn" @click="objectSubmit">提交</el-button>
+                  </el-form>
+                </div>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label="小区管理">
+              <div class="userTitle">小区列表</div>
+                <el-button type="success" class="btn cellBtn" size="small" @click="handleCell">增加小区</el-button>
+                <cell/>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+        <el-dialog title="增加用户" :visible.sync="userVisible">
+          <add-user/>
+        </el-dialog>
+        <el-dialog title="增加小区" :visible.sync="cellVisible">
+          <add-cell/>
+        </el-dialog>
+    </div>
+</template>
+
+<script>
+import user from './user.vue'
+import cell from './cell.vue'
+import addUser from './addUser.vue'
+import addCell from './addCell.vue'
+export default {
+  data () {
+    var precent = (rule, value, callback) => {
+      if (rule.field === 'confidence') {
+        if (value === '') {
+          callback(new Error('不能为空！'))
+        } else if (isNaN(this.sceneParameter.confidence)) {
+          callback(new Error('只能填数字！'))
+        } else if (parseFloat(this.sceneParameter.confidence) < 0 || parseFloat(this.sceneParameter.confidence) > 1) {
+          callback(new Error('百分比只能在0-1之间'))
+        } else {
+          this.sceneParameter.confidence = parseFloat(this.sceneParameter.confidence)
+          callback()
+        }
+      } else if (rule.field === 'rate') {
+        if (value === '') {
+          callback(new Error('不能为空！'))
+        } else if (isNaN(this.objectParameter.rate)) {
+          callback(new Error('只能填数字！'))
+        } else if (parseFloat(this.sceneParameter.confidence) < 0 || parseFloat(this.sceneParameter.confidence) > 100) {
+          callback(new Error('百分比只能在0-100之间'))
+        } else {
+          this.objectParameter.rate = parseFloat(
+            this.objectParameter.rate
+          )
+          callback()
+        }
+      }
+    }
+    return {
+      userID: '',
+      userVisible: false,
+      cellVisible: false,
+      sceneParameter: {
+        sceneTopNum: 5,
+        confidence: 0.05
+      },
+      objectParameter: {
+        objTopNum: 5,
+        rate: 0.8
+      },
+      rules: {
+        confidence: [{ validator: precent, trigger: 'blur' }],
+        rate: [{ required: true, message: '不能为空！', trigger: 'blur' }]
+      }
+    }
+  },
+  components: {
+    user,
+    cell,
+    addUser,
+    addCell
+  },
+  created () {
+    this.userID = this.getCookie('userID')
+  },
+  methods: {
+    sceneSubmit () {
+      this.$refs.scenePara.validate(valid => {
+        if (valid) {
+          this.undateScene()
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    objectSubmit () {
+      this.$refs.objectPara.validate(valid => {
+        if (valid) {
+          this.undateObject()
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    undateScene () {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('updateConfig/sceneParameter')
+      params.append('topNum', parseInt(this.sceneParameter.sceneTopNum))
+      params.append('confidence', this.sceneParameter.confidence)
+      this.$axios
+        .put(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            this.openMsg('提交成功！', 'success', this)
+          } else {
+            this.openMsg('失败，错误码：' + response.data.code, 'error', this)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    undateObject () {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('updateConfig/objectParameter')
+      params.append('topNum', parseInt(this.objectParameter.objTopNum))
+      params.append('confidence', this.objectParameter.rate)
+      this.$axios
+        .put(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            this.openMsg('提交成功！', 'success', this)
+          } else {
+            this.openMsg('失败，错误码：' + response.data.code, 'error', this)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    handleUser () {
+      this.userVisible = true
+      // this.$router.push({
+      //   name: 'addUser',
+      //   params: {
+      //     userID: this.userID
+      //   }
+      // })
+    },
+    handleCell () {
+      this.cellVisible = true
+      // this.$router.push({
+      //   name: 'addCell',
+      //   params: {
+      //     userID: this.userID
+      //   }
+      // })
+    }
+  }
+}
+</script>
+
+<style scoped>
+.user,
+.cell {
+  border: 1px solid #ebeef5;
+  margin-bottom: 10px;
+  position: relative;
+}
+.userTitle {
+  background: url('..\..\assets\enquiry.png');
+  height: 35px;
+  line-height: 35px;
+  font-size: 20px;
+  color: white;
+  text-align: left;
+  /* display: flex;
+    justify-content: space-between; */
+  padding-left: 20px;
+  margin-bottom: 10px;
+  /* padding-right: 20px; */
+}
+.btn {
+  position: absolute;
+  z-index: 99;
+  right: 10px;
+  top: 40px;
+}
+.scene,.object {
+  margin-bottom: 10px;
+}
+.sceneForm,.objectForm {
+  max-width: 340px;
+  margin-left: 20%;
+}
+.object{
+  margin-top: 20px;
+}
+.bottomBtn {
+  margin-left: 260px;
+}
+.el-input.el-input--mini{
+  max-width: 195px;
+}
+</style>
+<style>
+.system .el-tabs__header.is-left {
+  margin-right: 0px;
+  width: 200px;
+}
+.system .el-tabs__nav.is-left .el-tabs__item{
+  text-align: center
+}
+.system .el-tabs--border-card > .el-tabs__content {
+  padding: 0px;
+}
+
+</style>

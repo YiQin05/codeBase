@@ -1,0 +1,24 @@
+<view class='pageContainer'>
+  <form bindsubmit="login" bindreset="formReset"  class='login'>
+    <view class='loginPanel'>
+      <view class='loginTitle'>登录</view>
+      <view class='iconInput margin'>
+        <view class='icon'>
+          <image src='../../resouce/images/login.png' mode='aspectFit'></image>
+        </view>
+        <input name="user" placeholder="用户名" />
+        <view class='clear'></view>
+      </view>
+      <view class='iconInput margin'>
+        <view class='icon'>
+          <image src='../../resouce/images/lock.png' mode='aspectFit'></image>
+        </view>
+        <input name="password" type='password' placeholder="密码" />
+        <view class='clear'></view>
+      </view>
+      <view class="btn-area">
+        <button form-type="submit" class='submit'>登录</button>
+      </view>
+    </view>
+  </form>
+</view>
