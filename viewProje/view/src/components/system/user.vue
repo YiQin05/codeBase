@@ -101,11 +101,11 @@ export default {
         userType: '',
         mobile: '',
         location: '',
-        email: '',
+        email: ''
       },
       rules: {
         userID: [{ required: true, message: '不能为空！', trigger: 'blur' }]
-      },
+      }
     }
   },
   mounted () {
@@ -139,14 +139,14 @@ export default {
           console.log('错误')
           break
       }
-      for(var i in this.currentList){
-        if(this.currentList[i] !== this.addUserList[i]){
+      for (var i in this.currentList) {
+        if (this.currentList[i] !== this.addUserList[i]) {
           flag = false
         }
       }
-      if(flag){
+      if (flag) {
         this.openMsg('请修改后再提交', 'error', this)
-      }else{
+      } else {
         let params = new URLSearchParams()
         let path = this.setAPIPath('user')
         params.append('userID', this.addUserList.userID)
@@ -169,18 +169,18 @@ export default {
           .catch(error => {
             console.log(error)
           })
-        }
+      }
     },
     handleEdit (index, row) {
       console.log(row)
-      for(var i in row){
+      for (var i in row) {
         this.addUserList[i] = row[i]
         this.currentList[i] = row[i]
       }
       this.visible = true
     },
     clear () {
-      for(var i in this.addUserList){
+      for (var i in this.addUserList) {
         this.addUserList[i] = ''
       }
     },
@@ -247,4 +247,3 @@ export default {
   text-align: right
 }
 </style>
-

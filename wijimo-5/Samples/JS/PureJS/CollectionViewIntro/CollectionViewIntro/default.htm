@@ -1,0 +1,1095 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CollectionView Introduction | Wijmo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <script src="scripts/vendor/wijmo.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.input.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.grid.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.nav.min.js" type="text/javascript"></script>
+
+    <!-- app -->
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/app.js"></script>
+
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" />
+            <h1>CollectionView 101</h1>
+            <p>
+                This page shows how to get started with Wijmo's CollectionView class.
+            </p>
+        </div>
+    </div>
+    <div class="container">
+
+        <!-- Introduction -->
+        <div>
+            <p>
+                Wijmo has a solid infrastructure based on a powerful and familiar data layer.
+                The main data binding interface is <b>ICollectionView</b>.
+                Wijmo includes several classes that implement <b>ICollectionView</b>.
+                The most important is <b>CollectionView</b>, which uses regular JavaScript 
+                arrays as data sources.
+            <p>
+                The <b>CollectionView</b> class implements the following interfaces:
+            </p>
+            <ul>
+                <li><b>ICollectionView</b>: provides current record management, custom sorting, filtering, and grouping.</li>
+                <li><b>IEditableCollectionView</b>: provides methods for editing, adding, and removing items.</li>
+                <li><b>IPagedCollectionView</b>: provides paging.</li>
+            </ul>
+            <p>
+                The <b>CollectionView</b> class can keep track of changes made to the data. This feature is 
+                useful in situations where you must submit changes to the server.
+            </p>
+        </div>
+
+        <!-- Getting Started -->
+        <div>
+            <h2>Getting Started</h2>
+            <p>
+                To use the <b>CollectionView</b> class, start by declaring it and passing
+                a regular array as a data source.
+                Then, access the view using the <b>items</b> property.</p>
+            <p>
+                In this example, we used a FlexGrid control to show the collection.
+            </p>
+            <p>
+                Steps for getting started with CollectionView class in applications:
+            </p>
+            <ol>
+                <li>Add references to Wijmo.</li>
+                <li>Add markup to serve as the FlexGrid's host.</li>
+                <li>Initialize the CollectionView instance and the FlexGrid instance(s) via Javascript.</li>
+                <li>(Optional) Add some CSS to customize the grid's appearance.</li>
+            </ol>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="gsGrid"&gt;&lt;/div>
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var cvGettingStarted = new wijmo.collections.CollectionView(getData(10));
+var gsGrid = new wijmo.grid.FlexGrid('#gsGrid', {
+    itemsSource: cvGettingStarted
+});
+
+// create some random data
+function getData(cnt) {
+    var data = [],
+        dt = new Date(),
+        countries = ['US', 'Germany', 'UK', 'Japan', 'Italy', 'Greece'],
+        products = ['Widget', 'Gadget', 'Doohickey'],
+        colors = ['Black', 'White', 'Red', 'Green', 'Blue'];
+    for (var i = 0; i &lt; cnt; i++) {
+        var date = new Date(dt.getFullYear(), i % 12, 25, i % 24, i % 60, i % 60),
+            countryId = Math.floor(Math.random() * countries.length),
+            productId = Math.floor(Math.random() * products.length),
+            colorId = Math.floor(Math.random() * colors.length);
+        data.push({
+            id: i,
+            start: date,
+            end: date,
+            country: countries[countryId],
+            product: products[productId],
+            color: colors[colorId],
+            amount: Math.random() * 10000 - 5000,
+            active: i % 4 === 0,
+        });
+    }
+    return data;
+}
+
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+/* set default grid style */
+.wj-flexgrid {
+  height: 300px;
+  background-color: white;
+  box-shadow: 4px 4px 10px 0px rgba(50, 50, 50, 0.75);
+  margin-bottom: 12px;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="gsGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Record Management -->
+        <div>
+            <h2>Current Record Management</h2>
+            <p>
+                You can use the CollectionView class to manage the current record.
+            </p>
+            <p>
+                This example shows how you can use the API provided in the CollectionView 
+                class to change the current record by clicking a row in the grid or by 
+                clicking buttons.
+            </p>
+            <p>
+                We use the currentPosition property to get the position of the current 
+                record in the collection, and use the following methods to change the 
+                current position:
+            </p>
+            <ul>
+                <li>moveCurrentTo(item)</li>
+                <li>moveCurrentToFirst()</li>
+                <li>moveCurrentToLast()</li>
+                <li>moveCurrentToNext()</li>
+                <li>moveCurrentToPosition(index)</li>
+                <li>moveCurrentToPrevious()</li>
+            </ul>
+            <p>
+                When the position changes, we use the currentChanging and currentChanged events 
+                to track it. We can cancel the change of position in the currentChanging event.
+            </p>
+            <p>
+                Click the Next button to set the next record as the current one.
+                Click the Previous button to set the previous record as the current one.
+                Click the Stop at 4th Row button to prevent the current record from being 
+                changed once it reaches the 4th row.
+                Click the Clear button to remove the stop and allow the current records 
+                to be changed freely.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="row-fluid well btn-group"&gt;
+    &lt;button class="btn btn-default" id="btnCRMMoveNext"&gt;Move To Next&lt;/button&gt;
+    &lt;button class="btn btn-default" id="btnCRMMovePrev"&gt;Move To Previous&lt;/button&gt;
+    &lt;button class="btn btn-default" id="btnCRMStop4"&gt;Stop at the 4th Row&lt;/button&gt;
+    &lt;button class="btn btn-default" id="btnCRMReset"&gt;Clear Stopping&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id="crmGrid"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var cvCRM = new wijmo.collections.CollectionView(getData(10));
+var crmGrid = new wijmo.grid.FlexGrid('#crmGrid', {
+    isReadOnly: true,
+    selectionMode: 'Row',
+    itemsSource: cvCRM
+});
+
+// handle prev/next buttons
+document.getElementById('btnCRMMoveNext').addEventListener('click', function () {
+    cvCRM.moveCurrentToNext();
+});
+document.getElementById('btnCRMMovePrev').addEventListener('click', function () {
+    cvCRM.moveCurrentToPrevious();
+});
+
+// handle the currentChanging event to restrict navigation
+document.getElementById('btnCRMStop4').addEventListener('click', function () {
+    cvCRM.currentChanging.addHandler(stopCurrentIn4th);
+});
+
+// remove navigation restriction
+document.getElementById('btnCRMReset').addEventListener('click', function () {
+    cvCRM.currentChanging.removeHandler(stopCurrentIn4th);
+});
+
+// restrict navigation at the fourth item
+function stopCurrentIn4th(sender, e) {
+    e.cancel = sender.currentPosition == 3;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="row-fluid well btn-group">
+                        <button class="btn btn-default" id="btnCRMMoveNext">Move To Next</button>
+                        <button class="btn btn-default" id="btnCRMMovePrev">Move To Previous</button>
+                        <button class="btn btn-default" id="btnCRMStop4">Stop at the 4th Row</button>
+                        <button class="btn btn-default" id="btnCRMReset">Clear Stopping</button>
+                    </div>
+                    <div id="crmGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sorting -->
+        <div>
+            <h2>
+                Sorting
+            </h2>
+            <p>
+                The <b>CollectionView</b> class supports sorting through the 
+                <b>ICollectionView</b> interface, which is identical to the
+                one in .NET. To enable sorting, add one or more <b>sortDescriptions</b> 
+                objects to the
+                <b>CollectionView.sortDescriptions</b> property. Then the sorted result
+                can be obtained from the <b>CollectionView.items</b> property.
+            </p>
+            <p>
+                <b>SortDescription</b> objects are flexible, allowing you to sort data 
+                based on value in ascending or descending order.
+                In the sample below, you can sort the collection based on the corresponding 
+                field value chosen in the first list. You can also specify the sorting order
+                in the second list.
+            </p>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="row-fluid well row"&gt;
+    &lt;div class="col-md-8"&gt;
+        &lt;div id="sortingFieldNameList"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="col-md-4"&gt;
+        &lt;div id="sortingOrderList"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="sortingGrid"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var cvSorting = new wijmo.collections.CollectionView(getData(10));
+var sortingGrid = new wijmo.grid.FlexGrid('#sortingGrid', {
+    isReadOnly: true,
+    allowSorting: false,
+    itemsSource: cvSorting
+});
+
+// select sort field and direction
+var sortingFieldNameList = new wijmo.input.ComboBox('#sortingFieldNameList', {
+    itemsSource: getNames(),
+    placeholder: 'Choose Field to Sort On',
+    isRequired: false,
+    selectedIndex: -1,
+    textChanged: applySort
+});
+var sortingOrderList = new wijmo.input.ComboBox('#sortingOrderList', {
+    itemsSource: ['Ascending', 'Descending'],
+    textChanged: applySort
+});
+
+// apply the sort
+function applySort() {
+    var sds = cvSorting.sortDescriptions,
+        fieldName = sortingFieldNameList.text,
+        ascending = sortingOrderList.text == 'Ascending';
+
+    // remove old sort
+    sds.splice(0, sds.length);
+
+    // add new sort
+    if (fieldName) {
+        sds.push(new wijmo.collections.SortDescription(fieldName, ascending));
+    }
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="row-fluid well row">
+                        <div class="col-md-8">
+                            <div id="sortingFieldNameList"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <div id="sortingOrderList"></div>
+                        </div>
+                    </div>
+                    <div id="sortingGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtering -->
+        <div>
+            <h2>Filtering</h2>
+            <p>
+                The <b>CollectionView</b> class supports filtering through the 
+                <b>ICollectionView</b> interface, which is identical to the
+                one in .NET.
+                To enable filtering, set the <b>CollectionView.filter</b> 
+                property to a function that determines which objects should 
+                be included in the view.
+            </p>
+            <p>
+                In this example, we create a filter for the country, and get the
+                filter value from the input control.
+                When you change the filter text, the grid is updated to show 
+                the filtered data.
+            </p>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="row-fluid well"&gt;
+    &lt;input 
+        id="filteringInput" 
+        class="form-control app-pad"
+        placeholder="Country Filter (case-insensitive)" /&gt;
+&lt;/div&gt;
+&lt;div id="filteringGrid"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var cvFiltering = new wijmo.collections.CollectionView(getData(20));
+var filteringGrid = new wijmo.grid.FlexGrid('#filteringGrid', {
+    isReadOnly: true,
+    itemsSource: cvFiltering
+});
+
+// apply filter when input changes
+var toFilter = null;
+document.getElementById('filteringInput').addEventListener('input', function () {
+    if (toFilter) {
+        clearTimeout(toFilter);
+    }
+    toFilter = setTimeout(function () {
+        toFilter = null;
+        if (cvFiltering.filter == filterFunction) {
+            cvFiltering.refresh();
+        } else {
+            cvFiltering.filter = filterFunction;
+        }
+    }, 500);
+});
+
+// filter function for the collection view.
+function filterFunction(item) {
+    var filter = filteringInput.value.toLowerCase();
+    return filter
+        ? item.country.toLowerCase().indexOf(filter) > -1
+        : true;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="row-fluid well">
+                        <input 
+                               id="filteringInput" 
+                               class="form-control app-pad"
+                               placeholder="Country Filter (case-insensitive)" />
+                    </div>
+                    <div id="filteringGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grouping -->
+        <div>
+            <h2>
+                Grouping
+            </h2>
+            <p>
+                The <b>CollectionView</b> class supports grouping through the 
+                <b>ICollectionView</b> interface, which is identical to the
+                one in .NET. To enable grouping, add one or more <b>GroupDescription</b> 
+                objects to the
+                <b>CollectionView.groupDescriptions</b> property, and ensure that the grid's
+                <b>showGroups</b> property
+                is set to true when creating the grid instance(the default value is false.).
+            </p>
+            <p>
+                <b>GroupDescription</b> objects are flexible, allowing you to group data 
+                based on value or on grouping
+                functions.
+            </p>
+            <p>
+                The example below groups the collection by the field which you select from
+                the list.
+                The grid shows not only the items content but also the group information: 
+                the group name and the average value of amount in the group.
+                You can find the rendering codes for these in the method initTBody.
+                The corresponding code snippet locates in line 116.
+            </p>
+            <p>
+                Notes: Selecting one item in the list will add a new instance of GroupDescription.
+                If the GroupDescription already exists, nothing happens.
+                In order to clear the group setting, select the first item in the list.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="row-fluid well"&gt;
+    &lt;label for="groupingFieldNameList"&gt;Add Group&lt;/label&gt;
+    &lt;div id="groupingFieldNameList"&gt;&lt;/div&gt;
+    &lt;button id="btnClearGroups" class="btn btn-default"&gt;Clear Groups&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id="groupingGrid"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var cvGrouping = new wijmo.collections.CollectionView(getData(20));
+var groupingGrid = new wijmo.grid.FlexGrid('#groupingGrid', {
+    isReadOnly: true,
+    itemsSource: cvGrouping
+});
+
+// initialize the field combo and listen to changes
+var groupingFieldNameList = new wijmo.input.ComboBox('#groupingFieldNameList', {
+    itemsSource: getNames(),
+    placeholder: 'Select field',
+    isRequired: false,
+    selectedIndex: -1,
+    textChanged: applyGrouping
+});
+
+// clear groups
+document.getElementById('btnClearGroups').addEventListener('click', function () {
+    groupingFieldNameList.text = '';
+});
+
+// apply the selected grouping
+function applyGrouping() {
+    var gd = cvGrouping.groupDescriptions,
+        fieldName = groupingFieldNameList.text;
+
+    // no field? clear grouping
+    if (!fieldName) {
+        gd.splice(0, gd.length);
+        return;
+    }
+
+    // add group description if not already defined
+    if (!groupDefined(fieldName)) {
+        if (fieldName === 'amount') {
+            // when grouping by amount, use ranges instead of specific values
+            gd.push(new wijmo.collections.PropertyGroupDescription(fieldName, function (item, propName) {
+                var value = item[propName]; // amount
+                if (value &gt; 1000) return 'Large Amounts';
+                if (value &gt; 100) return 'Medium Amounts';
+                if (value &gt; 0) return 'Small Amounts';
+                return 'Negative Amounts';
+            }));
+        } else {
+            // group by specific property values
+            gd.push(new wijmo.collections.PropertyGroupDescription(fieldName));
+        }
+    }
+}
+
+// check whether the group with the specified property name already exists.
+function groupDefined(propName) {
+    var gd = cvGrouping.groupDescriptions;
+    for (var i = 0; i &lt; gd.length; i++) {
+        if (gd[i].propertyName === propName) {
+            return true;
+        }
+    }
+    return false;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="row-fluid well">
+                        <label for="groupingFieldNameList">Add Group</label>
+                        <div id="groupingFieldNameList"></div>
+                        <button id="btnClearGroups" class="btn btn-default">Clear Groups</button>
+                    </div>
+                    <div id="groupingGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editing -->
+        <div>
+            <h2>Editing</h2>
+            <p>
+                As implementing the interface <b>IEditableCollectionView</b>, the <b>CollectionView</b> class supports editing.
+            </p>
+            <p>
+                This sample shows how you can update, add and remove the specified item in the collection.
+            </p>
+            <p>
+                In this sample, you can select the row in the grid and press the Edit Detail...
+                button to start editing. 
+                After finishing editing in the popup dialog, press the OK button to commit your
+                updating.
+                If you want to add a new record to the collection, press the Add... button and
+                customize the item content in the popup dialog. 
+                Then press the OK button to commit your adding.
+                If you don't want to update/add the record, just press the Cancel button in the
+                dialog.
+                Select the row and press the Delete button will let you remove the record from 
+                the collection.
+            </p>
+            <p>
+                After updating, adding and removing, the grid will be refreshed according 
+                to the tracked item array.
+            </p>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="editingGrid"&gt;&lt;/div&gt;
+&lt;div class="row-fluid well"&gt;
+    &lt;button class="btn btn-default" id="btnEdit"&gt;
+        Edit Detail...
+    &lt;/button&gt;
+    &lt;button class="btn btn-default" id="btnAdd"&gt;
+        Add...
+    &lt;/button&gt;
+    &lt;button class="btn btn-default" id="btnDelete"&gt;
+        Delete
+    &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- dialog for editing item details --&gt;
+&lt;div id="dlgDetail" class="modal-dialog"&gt;
+    &lt;div class="modal-content"&gt;
+        &lt;div class="modal-header"&gt;
+            &lt;button type="button" class="close wj-hide"&gt;
+                &times;
+            &lt;/button&gt;
+            &lt;h4 class="modal-title"&gt;Edit Item&lt;/h4&gt;
+        &lt;/div&gt;
+        &lt;div class="modal-body"&gt;
+            &lt;dl class="dl-horizontal"&gt;
+                &lt;dt&gt;ID&lt;/dt&gt;
+                &lt;dd&gt;
+                    &lt;input class="form-control" id="edtID" /&gt;
+                &lt;/dd&gt;
+                &lt;dt&gt;Start Date&lt;/dt&gt;
+                &lt;dd&gt;
+                    &lt;input class="form-control" id="edtStart" /&gt;
+                &lt;/dd&gt;
+                &lt;dt&gt;End Start&lt;/dt&gt;
+                &lt;dd&gt;
+                    &lt;input class="form-control" id="edtEnd" /&gt;
+                &lt;/dd&gt;
+                &lt;dt&gt;Country&lt;/dt&gt;
+                &lt;dd&gt;
+                    &lt;input class="form-control" id="edtCountry" /&gt;
+                &lt;/dd&gt;
+                &lt;dt&gt;Product&lt;/dt&gt;
+                &lt;dd&gt;
+                    &lt;input class="form-control" id="edtProduct" /&gt;
+                &lt;/dd&gt;
+                &lt;dt&gt;Color&lt;/dt&gt;
+                &lt;dd&gt;
+                    &lt;input class="form-control" id="edtColor" /&gt;
+                &lt;/dd&gt;
+                &lt;dt&gt;Amount&lt;/dt&gt;
+                &lt;dd&gt;
+                    &lt;input class="form-control" id="edtAmount" /&gt;
+                &lt;/dd&gt;
+                &lt;dt&gt;Active&lt;/dt&gt;
+                &lt;dd&gt;
+                    &lt;input id="edtActive" type="checkbox" /&gt;
+                &lt;/dd&gt;
+            &lt;/dl&gt;
+        &lt;/div&gt;
+        &lt;div class="modal-footer"&gt;
+            &lt;button type="button" class="btn btn-primary wj-hide-ok"&gt;
+                OK
+            &lt;/button&gt;
+            &lt;button type="button" class="btn btn-warning wj-hide-cancel"&gt;
+                Cancel
+            &lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var cvEditing = new wijmo.collections.CollectionView(getData(10), {
+
+    // define newItemCreator with proper unique id
+    newItemCreator: function () {
+        var item = getData(1)[0];
+        item.id = wijmo.getAggregate(wijmo.Aggregate.Max, cvEditing.sourceCollection, 'id') + 1;
+        return item;
+    }
+});
+var editingGrid = new wijmo.grid.FlexGrid('#editingGrid', {
+    selectionMode: wijmo.grid.SelectionMode.Row,
+    itemsSource: cvEditing
+});
+
+// create dialog used to edit items
+var dlgDetail = new wijmo.input.Popup('#dlgDetail', {
+    removeOnHide: false
+});
+
+// start editing item
+document.getElementById('btnEdit').addEventListener('click', function () {
+    var editItem = cvEditing.currentItem;
+    cvEditing.editItem(editItem);
+    showDialog(editItem, 'Edit Item');
+});
+
+// start adding item
+document.getElementById('btnAdd').addEventListener('click', function () {
+    var editedItem = cvEditing.addNew();
+    showDialog(editedItem, 'Add Item');
+});
+
+// delete current item
+document.getElementById('btnDelete').addEventListener('click', function () {
+    cvEditing.remove(cvEditing.currentItem);
+});
+
+// populate the dialog with the current item's values
+function showDialog(item, title) {
+
+    // update dialog inputs
+    setInputValue('edtID', item.id != null ? wijmo.Globalize.format(item.id) : '');
+    setInputValue('edtStart', item.start != null ? wijmo.Globalize.format(item.start) : '');
+    setInputValue('edtEnd', item.end != null ? wijmo.Globalize.format(item.end) : '');
+    setInputValue('edtCountry', item.country != null ? item.country : '');
+    setInputValue('edtProduct', item.product != null ? item.product : '');
+    setInputValue('edtColor', item.color != null ? item.color : '');
+    setInputValue('edtAmount', item.amount != null ? wijmo.Globalize.format(item.amount) : '');
+    setInputValue('edtActive', item.active);
+    title.innerHTML = title;
+
+    // show dialog
+    dlgDetail.show(true, function (s) {
+        if (s.dialogResult == 'wj-hide-ok') {
+
+            // commit changes
+            var item = cvEditing.currentEditItem || cvEditing.currentAddItem;
+            if (item) {
+                updateItem(item);
+            }
+            cvEditing.commitEdit();
+            cvEditing.commitNew();
+
+        } else {
+
+            // cancel changes
+            cvEditing.cancelEdit();
+            cvEditing.cancelNew();
+        }
+    });
+}
+
+// update item with values from the dialog
+function updateItem(item) {
+    setItemValue(item, 'id', 'edtID', wijmo.DataType.Number);
+    setItemValue(item, 'start', 'edtStart', wijmo.DataType.Date);
+    setItemValue(item, 'end', 'edtEnd', wijmo.DataType.Date);
+    setItemValue(item, 'country', 'edtCountry', wijmo.DataType.String);
+    setItemValue(item, 'product', 'edtProduct', wijmo.DataType.String);
+    setItemValue(item, 'color', 'edtColor', wijmo.DataType.String);
+    setItemValue(item, 'amount', 'edtAmount', wijmo.DataType.Number);
+    setItemValue(item, 'active', 'edtActive', wijmo.DataType.Boolean);
+}
+
+// set the value of an input element
+function setInputValue(id, value) {
+    var input = document.getElementById(id);
+    if (input.type == 'checkbox') {
+        input.checked = value;
+    } else {
+        input.value = value;
+    }
+}
+
+// set the value of an input element
+function setItemValue(item, prop, id, dataType) {
+    var input = document.getElementById(id);
+    item[prop] = input.type == 'checkbox'
+        ? input.checked
+        : wijmo.changeType(input.value, dataType)
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="editingGrid"></div>
+                    <div class="row-fluid well">
+                        <button class="btn btn-default" id="btnEdit">
+                            Edit Detail...
+                        </button>
+                        <button class="btn btn-default" id="btnAdd">
+                            Add...
+                        </button>
+                        <button class="btn btn-default" id="btnDelete">
+                            Delete
+                        </button>
+                    </div>
+
+                    <!-- dialog for editing item details -->
+                    <div id="dlgDetail" class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close wj-hide">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title">Edit Item</h4>
+                            </div>
+                            <div class="modal-body">
+                                <dl class="dl-horizontal">
+                                    <dt>ID</dt>
+                                    <dd>
+                                        <input class="form-control" id="edtID" />
+                                    </dd>
+                                    <dt>Start Date</dt>
+                                    <dd>
+                                        <input class="form-control" id="edtStart" />
+                                    </dd>
+                                    <dt>End Start</dt>
+                                    <dd>
+                                        <input class="form-control" id="edtEnd" />
+                                    </dd>
+                                    <dt>Country</dt>
+                                    <dd>
+                                        <input class="form-control" id="edtCountry" />
+                                    </dd>
+                                    <dt>Product</dt>
+                                    <dd>
+                                        <input class="form-control" id="edtProduct" />
+                                    </dd>
+                                    <dt>Color</dt>
+                                    <dd>
+                                        <input class="form-control" id="edtColor" />
+                                    </dd>
+                                    <dt>Amount</dt>
+                                    <dd>
+                                        <input class="form-control" id="edtAmount" />
+                                    </dd>
+                                    <dt>Active</dt>
+                                    <dd>
+                                        <input id="edtActive" type="checkbox" />
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary wj-hide-ok">
+                                    OK
+                                </button>
+                                <button type="button" class="btn btn-warning wj-hide-cancel">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paging -->
+        <div>
+            <h2>Paging</h2>
+            <p>
+                The <b>CollectionView</b> class supports paging through the
+                <b>IPagedCollectionView</b> interface, which is nearly identical
+                to the one in .NET. 
+                To enable paging, set the <b>IPagedCollectionView.pageSize</b> property 
+                to the number of items you want on each page, and provide a UI for 
+                navigating the pages.
+            </p>
+            <p>
+                In this example, we use JavaScript to show 10 items per page.
+                You can customize it in the text box. We add navigation buttons, and call
+                IPagedCollectionView methods in the button click.
+                Note that we use the <strong>pageIndex</strong> and <strong>pageCount</strong> 
+                properties to show the current page and total number of pages.
+            </p>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="row-fluid well">
+    &lt;label for="pagingInput">
+        Page Size
+    &lt;/label>
+    &lt;input id="pagingInput">
+    &lt;br/>
+    &lt;div id="currentPagePanel">
+        &lt;label for="navigationPage">
+            Current Page
+        &lt;/label>
+        &lt;div id="navigationPage" class="btn-group">
+            &lt;button type="button" class="btn btn-default" id="btnFirstPage">
+                &lt;span class="glyphicon glyphicon-fast-backward">&lt;/span>
+            &lt;/button>
+            &lt;button type="button" class="btn btn-default" id="btnPreviousPage">
+                &lt;span class="glyphicon glyphicon-step-backward">&lt;/span>
+            &lt;/button>
+            &lt;button type="button" class="btn btn-default" disabled style="width:100px" id="btnCurrentPage">
+            &lt;/button>
+            &lt;button type="button" class="btn btn-default" id="btnNextPage">
+                &lt;span class="glyphicon glyphicon-step-forward">&lt;/span>
+            &lt;/button>
+            &lt;button type="button" class="btn btn-default" id="btnLastPage">
+                &lt;span class="glyphicon glyphicon-fast-forward">&lt;/span>
+            &lt;/button>
+        &lt;/div>
+    &lt;/div>
+&lt;/div>
+&lt;div id="pagingGrid">&lt;/div>
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var cvPaging = new wijmo.collections.CollectionView(getData(55), {
+    pageSize: 10,
+    pageChanged: function () {
+        updatePagingButtons();
+    }
+});
+var pagingGrid = new wijmo.grid.FlexGrid('#pagingGrid', {
+    isReadOnly: true,
+    itemsSource: cvPaging
+});
+
+// edit page size
+var pagingInput = new wijmo.input.InputNumber('#pagingInput', {
+    min: 0,
+    max: 20,
+    step: 5,
+    valueChanged: function (s, e) {
+        cvPaging.pageSize = s.value;
+        updatePagingButtons();
+    },
+    value: cvPaging.pageSize
+});
+
+// page navigation
+document.getElementById('btnFirstPage').addEventListener('click', function () {
+    cvPaging.moveToFirstPage();
+});;
+document.getElementById('btnPreviousPage').addEventListener('click', function () {
+    cvPaging.moveToPreviousPage();
+});
+document.getElementById('btnNextPage').addEventListener('click', function () {
+    cvPaging.moveToNextPage();
+});;
+document.getElementById('btnLastPage').addEventListener('click', function () {
+    cvPaging.moveToLastPage();
+});;
+
+// update the navigation buttons
+function updatePagingButtons() {
+
+    // show/hide navigation bar
+    var nav = document.getElementById('currentPagePanel');
+    if (cvPaging.pageSize &lt;= 0) {
+        nav.style.display = 'none';
+        return;
+    }
+    nav.style.display = '';
+
+    // show current page
+    document.getElementById('btnCurrentPage').textContent =
+        (cvPaging.pageIndex + 1) + ' / ' + cvPaging.pageCount;
+
+    // first/prev
+    var disabled = cvPaging.pageIndex == 0 ? 'disabled' : null;
+    wijmo.setAttribute(document.getElementById('btnFirstPage'), 'disabled', disabled);
+    wijmo.setAttribute(document.getElementById('btnPreviousPage'), 'disabled', disabled);
+
+    // next/last
+    disabled = cvPaging.pageIndex &gt;= cvPaging.pageCount - 1 ? 'disabled' : null;
+    wijmo.setAttribute(document.getElementById('btnNextPage'), 'disabled', disabled);
+    wijmo.setAttribute(document.getElementById('btnLastPage'), 'disabled', disabled);
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live)</h4>
+                    <div class="row-fluid well">
+                        <label for="pagingInput">
+                            Page Size
+                        </label>
+                        <input id="pagingInput">
+                        <br/>
+                        <div id="currentPagePanel">
+                            <label for="navigationPage">
+                                Current Page
+                            </label>
+                            <div id="navigationPage" class="btn-group">
+                                <button type="button" class="btn btn-default" id="btnFirstPage">
+                                    <span class="glyphicon glyphicon-fast-backward"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" id="btnPreviousPage">
+                                    <span class="glyphicon glyphicon-step-backward"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" disabled style="width:100px" id="btnCurrentPage">
+                                </button>
+                                <button type="button" class="btn btn-default" id="btnNextPage">
+                                    <span class="glyphicon glyphicon-step-forward"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" id="btnLastPage">
+                                    <span class="glyphicon glyphicon-fast-forward"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="pagingGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Change Tracking -->
+        <div>
+            <h2>
+                Change Tracking
+            </h2>
+            <p>
+                The <b>CollectionView</b> class can keep track of changes made to the 
+                data. It is useful in situations where you must submit changes
+                to the server. To turn on change tracking, set the <b>trackChanges</b>
+                property to true. Once you do that, the <b>CollectionView</b> keeps 
+                track of any changes made to the data and exposes them in three
+                arrays:
+            </p>
+            <ul>
+                <li><b>itemsEdited</b>: This list contains items that are edited using 
+                    the <b>editItem</b> and <b>commitEdit</b> methods.</li>
+                <li><b>itemsAdded</b>: This list contains items that are added using the 
+                    <b>addNew</b> and <b>commitNew</b> methods.</li>
+                <li><b>itemsRemoved</b>: This list contains items that are removed using 
+                    the <b>remove</b> method.</li>
+            </ul>
+            <p>
+                This feature is demonstrated below using a <b>FlexGrid</b>. The grid is bound
+                to a <b>CollectionView</b> with <b>trackChanges</b> set to true.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;h5&gt;Change the data here&lt;/h5&gt;
+&lt;div id="tcMainGrid"&gt;&lt;/div&gt;
+&lt;h5&gt;See the changes here&lt;/h5&gt;
+&lt;h6&gt;Items edited:&lt;/h6&gt;
+&lt;div id="tcEditedGrid" class="tcGrid" style="height:100px"&gt;&lt;/div&gt;
+&lt;h6&gt;Items added:&lt;/h6&gt;
+&lt;div id="tcAddedGrid" class="tcGrid" style="height:100px"&gt;&lt;/div&gt;
+&lt;h6&gt;Items removed:&lt;/h6&gt;
+&lt;div id="tcRemovedGrid" class="tcGrid" style="height:100px"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+// create CollectionView with change tracking enabled
+var cvTrackingChanges = new wijmo.collections.CollectionView(getData(6), {
+    trackChanges: true
+});
+
+// create a grid to show and edit the data
+var tcMainGrid = new wijmo.grid.FlexGrid('#tcMainGrid', {
+    allowAddNew: true,
+    allowDelete: true,
+    itemsSource: cvTrackingChanges
+});
+
+// create gridS to show the changes (edits, additions, removals)
+var colDefs = [
+    { header: 'id', binding: 'id' },
+    { header: 'start', binding: 'start' },
+    { header: 'end', binding: 'end' },
+    { header: 'country', binding: 'country' },
+    { header: 'product', binding: 'product' },
+    { header: 'color', binding: 'color' },
+    { header: 'amount', binding: 'amount' },
+    { header: 'active', binding: 'active' }
+];
+var tcEditedGrid = new wijmo.grid.FlexGrid('#tcEditedGrid', {
+    isReadOnly: true,
+    autoGenerateColumns: false,
+    columns: colDefs,
+    itemsSource: cvTrackingChanges.itemsEdited
+});
+var tcAddedGrid = new wijmo.grid.FlexGrid('#tcAddedGrid', {
+    isReadOnly: true,
+    autoGenerateColumns: false,
+    columns: colDefs,
+    itemsSource: cvTrackingChanges.itemsAdded
+});
+var tcRemovedGrid = new wijmo.grid.FlexGrid('#tcRemovedGrid', {
+    isReadOnly: true,
+    autoGenerateColumns: false,
+    columns: colDefs,
+    itemsSource: cvTrackingChanges.itemsRemoved
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <h5>Change the data here</h5>
+                    <div id="tcMainGrid"></div>
+                    <h5>See the changes here</h5>
+                    <h6>Items edited:</h6>
+                    <div id="tcEditedGrid" class="tcGrid" style="height:100px"></div>
+                    <h6>Items added:</h6>
+                    <div id="tcAddedGrid" class="tcGrid" style="height:100px"></div>
+                    <h6>Items removed:</h6>
+                    <div id="tcRemovedGrid" class="tcGrid" style="height:100px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,435 @@
+﻿/*
+ *
+ * Wijmo Library 5.20181.436
+ * http://wijmo.com/
+ *
+ * Copyright(c) GrapeCity, Inc.  All rights reserved.
+ *
+ * Licensed under the GrapeCity Commercial License.
+ * sales@wijmo.com
+ * wijmo.com/products/wijmo-5/license/
+ *
+ */
+.wj-glyph, .wj-glyph-down, .wj-glyph-down-left, .wj-glyph-down-right, .wj-glyph-left, .wj-glyph-right, .wj-glyph-up, .wj-glyph-up-left, .wj-glyph-up-right {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  text-align: center;
+  opacity: .75;
+  cursor: pointer; }
+
+.wj-glyph-down {
+  top: -1px;
+  border-top: .5em solid;
+  border-right: .4em solid transparent;
+  border-left: .4em solid transparent; }
+
+.wj-glyph-down-left {
+  border-top: .65em solid transparent;
+  border-left: .65em solid; }
+
+.wj-glyph-down-right {
+  top: -2px;
+  border-bottom: .65em solid;
+  border-left: .65em solid transparent; }
+
+.wj-glyph-left {
+  border-top: .4em solid transparent;
+  border-right: .5em solid;
+  border-bottom: .4em solid transparent; }
+
+.wj-glyph-right {
+  border-top: .4em solid transparent;
+  border-bottom: .4em solid transparent;
+  border-left: .5em solid; }
+
+.wj-glyph-up {
+  border-right: .4em solid transparent;
+  border-bottom: .5em solid;
+  border-left: .4em solid transparent; }
+
+.wj-glyph-up-left {
+  border-bottom: .65em solid transparent;
+  border-left: .65em solid; }
+
+.wj-glyph-up-right {
+  border-top: .65em solid;
+  border-left: .65em solid transparent; }
+
+.wj-control {
+  display: block;
+  box-sizing: border-box;
+  color: black;
+  background: white;
+  user-select: none; }
+  .wj-control * {
+    box-sizing: inherit; }
+  .wj-control[disabled] {
+    opacity: .75;
+    pointer-events: none; }
+  .wj-control [contenteditable] {
+    user-select: text;}
+  .wj-control:focus, .wj-control *:focus, .wj-control a:focus {
+    outline: none; }
+  .wj-control input::-ms-clear {
+    display: none; }
+  .wj-control .wj-btn, .wj-viewer .wj-control .wj-applybutton {
+    background: #eee;
+    display: inline-block;
+    border-style: none;
+    padding: 0 10px;
+    text-align: center;
+    min-width: 30px;
+    white-space: nowrap; }
+    .wj-control .wj-btn:focus, .wj-viewer .wj-control .wj-applybutton:focus, .wj-control .wj-btn:hover, .wj-viewer .wj-control .wj-applybutton:hover {
+      background: #e1e1e1;
+      transition-duration: 0.4s; }
+    .wj-control .wj-btn[disabled], .wj-viewer .wj-control [disabled].wj-applybutton, .wj-control .wj-btn.wj-state-disabled, .wj-viewer .wj-control .wj-state-disabled.wj-applybutton {
+      opacity: .5;
+      cursor: default;
+      pointer-events: none; }
+  .wj-control a.wj-btn, .wj-viewer .wj-control a.wj-applybutton,
+  .wj-control button.wj-btn:not(.wj-btn-default), .wj-viewer .wj-control button.wj-applybutton:not(.wj-btn-default) {
+    border-radius: 0;
+    padding: 6px 15px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12px; }
+
+.wj-header {
+  background: #eee;
+  color: #000;
+  font-weight: bold; }
+
+.wj-state-selected {
+  background: #3f51b5;
+  color: white; }
+
+.wj-state-multi-selected {
+  background: #7280ce;
+  color: white; }
+
+.wj-state-disabled, .wj-state-disabled {
+  opacity: .75;
+  cursor: default;
+  pointer-events: none; }
+
+.wj-content {
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  overflow: hidden; }
+
+.wj-tooltip {
+  box-sizing: border-box;
+  position: absolute;
+  pointer-events: none;
+  max-width: 400px;
+  padding: 6px 10px;
+  background: white;
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
+
+.wj-dropdown-panel {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
+
+.wj-content.wj-dropdown {
+  vertical-align: middle;
+  display: inline-table;
+  border-collapse: separate; }
+
+.wj-control .wj-template {
+  position: relative;
+  display: table-cell; }
+
+.wj-control .wj-template, .wj-control .wj-input {
+  height: 100%; }
+
+.wj-control .wj-input-group {
+  display: table;
+  border-collapse: separate;
+  width: 100%;
+  height: 100%; }
+  .wj-control .wj-input-group .wj-input-group-btn {
+    display: table-cell;
+    width: 1%;
+    height: 100%;
+    min-width: 26px;
+    white-space: nowrap;
+    vertical-align: top; }
+    .wj-control .wj-input-group .wj-input-group-btn:last-child:not(:first-child) > .wj-btn, .wj-viewer .wj-control .wj-input-group .wj-input-group-btn:last-child:not(:first-child) > .wj-applybutton {
+      border-left: none; }
+    .wj-control .wj-input-group .wj-input-group-btn:first-child:not(:last-child) > .wj-btn, .wj-viewer .wj-control .wj-input-group .wj-input-group-btn:first-child:not(:last-child) > .wj-applybutton {
+      border-right: none; }
+  .wj-control .wj-input-group .wj-form-control {
+    display: table-cell;
+    padding: 4px 8px;
+    background: transparent;
+    border: none;
+    width: 100%;
+    height: 100%;
+    min-height: 2em; }
+
+.wj-control .wj-btn-group {
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  overflow: hidden; }
+  .wj-control .wj-btn-group > *:not(:first-child) {
+    border-left: none; }
+  .wj-control .wj-btn-group > .wj-form-control {
+    padding: 6px 10px;
+    background: transparent;
+    border: none; }
+    .wj-control .wj-btn-group > .wj-form-control:not(:first-child) {
+      border-left: none; }
+
+.wj-control .wj-btn-group > .wj-btn,
+.wj-control .wj-input-group-btn > .wj-btn {
+  height: 100%;
+  min-height: 2em;
+  background: #eee; }
+  .wj-control .wj-btn-group > .wj-btn:focus, .wj-control .wj-btn-group > .wj-btn:hover, 
+  .wj-control .wj-input-group-btn > .wj-btn:focus, 
+  .wj-control .wj-input-group-btn > .wj-btn:hover {
+    background: #e1e1e1;
+    transition-duration: 0.4s; }
+  .wj-control .wj-btn-group > .wj-btn.wj-btn-default, 
+  .wj-control .wj-input-group-btn > .wj-btn.wj-btn-default {
+    background: transparent; }
+    .wj-control .wj-btn-group > .wj-btn.wj-btn-default:focus, .wj-control .wj-btn-group > .wj-btn.wj-btn-default:hover, 
+    .wj-control .wj-input-group-btn > .wj-btn.wj-btn-default:focus, 
+    .wj-control .wj-input-group-btn > .wj-btn.wj-btn-default:hover {
+      background: #e1e1e1;
+      transition-duration: 0.4s; }
+
+.wj-control.wj-rtl .wj-input-group-btn:last-child:not(:first-child) > .wj-btn {
+  border-right: none;
+  border-left: none; }
+
+.wj-control.wj-rtl .wj-input-group-btn:first-child:not(:last-child) > .wj-btn {
+  border-left: none;
+  border-right: none; }
+
+.wj-control.wj-rtl .wj-btn-group > *:not(:first-child) {
+  border-right: none;
+  border-left: none; }
+
+.wj-control.wj-rtl .wj-btn-group > .wj-form-control:not(:first-child) {
+  border-right: none;
+  border-left: none; }
+
+.wj-listbox {
+  overflow: auto;
+  cursor: default; }
+  .wj-listbox .wj-listbox-item {
+    padding: 6px 10px; }
+    .wj-listbox .wj-listbox-item:not(.wj-state-selected):not(.wj-state-disabled):hover {
+      background: rgba(0, 0, 0, 0.05);
+      transition-duration: 0.4s; }
+    .wj-listbox .wj-listbox-item label {
+      font-weight: normal;
+      margin: 0; }
+
+.wj-flexgrid {
+  width: 100%;
+  cursor: default;
+  overflow: hidden; }
+  .wj-flexgrid .wj-row {
+    position: absolute;
+    top: 0; }
+  .wj-flexgrid .wj-colheaders .wj-header.wj-state-multi-selected {
+    border-bottom: 2px solid #3f51b5; }
+  .wj-flexgrid .wj-rowheaders .wj-header.wj-state-multi-selected {
+    border-right: 2px solid #3f51b5; }
+  .wj-flexgrid .wj-frozen-clone .wj-cell button, .wj-flexgrid .wj-frozen-clone .wj-cell a, .wj-flexgrid .wj-frozen-clone .wj-cell input, .wj-flexgrid .wj-frozen-clone .wj-cell textarea {
+    pointer-events: auto; }
+  .wj-flexgrid .wj-marquee {
+    position: absolute;
+    border: 2px solid #3f51b5; }
+  .wj-flexgrid .wj-marker {
+    position: absolute;
+    background: #e91e63;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1000; }
+  .wj-flexgrid .wj-state-sticky .wj-header {
+    opacity: 0.75; }
+  .wj-flexgrid .wj-group:not(.wj-state-selected):not(.wj-state-multi-selected) {
+    background: #e1e1e1;
+    color: #000; }
+  .wj-flexgrid .wj-grid-editor {
+    width: 100%;
+    height: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: inherit;
+    color: inherit;
+    overflow: hidden;
+    resize: none; }
+  .wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph, .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-applybutton, .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-applybutton {
+    padding: 0 4px;
+    height: auto;
+    min-width: 1.5em;
+    color: inherit;
+    background: transparent;
+    opacity: .6; }
+    .wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph:hover, .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-applybutton:hover, .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-applybutton:hover, .wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph:focus, .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-applybutton:focus, .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-applybutton:focus {
+      opacity: 1;
+      transition-duration: 0.4s; }
+    .wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph.wj-right, .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-right.wj-applybutton, .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-right.wj-applybutton {
+      position: absolute;
+      top: 0;
+      right: 2px;
+      height: 100%; }
+    .wj-flexgrid .wj-cell .wj-btn.wj-btn-glyph > span, .wj-flexgrid .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-applybutton > span, .wj-viewer .wj-control .wj-flexgrid .wj-cell .wj-btn-glyph.wj-applybutton > span {
+      opacity: 1; }
+  .wj-flexgrid.wj-rtl .wj-cell {
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    border-right: none; }
+    .wj-flexgrid.wj-rtl .wj-cell .wj-btn.wj-btn-glyph.wj-right, .wj-flexgrid.wj-rtl .wj-cell .wj-viewer .wj-control .wj-btn-glyph.wj-right.wj-applybutton, .wj-viewer .wj-control .wj-flexgrid.wj-rtl .wj-cell .wj-btn-glyph.wj-right.wj-applybutton {
+      left: 2px;
+      right: auto; }
+  .wj-flexgrid.wj-rtl .wj-frozen-col {
+    border-left: 1px solid #a2a2a2;
+    border-right: none; }
+
+.wj-cell {
+  position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 6px 10px;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  outline: none; }
+  .wj-cell.wj-wrap {
+    white-space: normal;
+    text-overflow: clip; }
+  .wj-cell.wj-multiline {
+    white-space: pre;
+    text-overflow: clip; }
+  .wj-cell.wj-wrap.wj-multiline {
+    white-space: pre-wrap;
+    text-overflow: clip; }
+  .wj-cell:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+    background: white; }
+    .wj-cell:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected).wj-frozen {
+      color: black; }
+  .wj-cell.wj-header.wj-state-multi-selected {
+    background: #e1e1e1;
+    color: #000;
+    font-weight: bold; }
+  .wj-cell.wj-frozen-row {
+    border-bottom: 1px solid #a2a2a2; }
+  .wj-cell.wj-frozen-col {
+    border-right: 1px solid #a2a2a2; }
+
+.wj-alt:not(.wj-header):not(.wj-group):not(.wj-state-selected):not(.wj-state-multi-selected) {
+  background: #f7f7f7; }
+
+.wj-flexchart {
+  height: 400px;
+  padding: 15px 10px;
+  margin-bottom: 12px;
+  background: white;
+  border: 1px solid #e4e4e4;
+  display: block;
+  background: transparent; }
+  .wj-flexchart .wj-header .wj-title {
+    font-size: 16pt;
+    fill: #666;
+    font-weight: normal; }
+  .wj-flexchart .wj-footer .wj-title {
+    fill: #666;
+    font-weight: normal; }
+  .wj-flexchart .wj-label, .wj-flexchart .wj-data-label {
+    fill: #666; }
+  .wj-flexchart .wj-data-label-border {
+    stroke: rgba(128, 128, 128, 0.5); }
+  .wj-flexchart .wj-data-label-line {
+    stroke: gray; }
+  .wj-flexchart .wj-axis-x .wj-title,
+  .wj-flexchart .wj-axis-y .wj-title,
+  .wj-flexchart .wj-legend .wj-title {
+    font-style: italic; }
+  .wj-flexchart .wj-axis-x .wj-line {
+    stroke: #aaa;
+    stroke-width: 1px; }
+  .wj-flexchart .wj-gridline, .wj-flexchart .wj-gridline-minor {
+    stroke: #666;
+    stroke-width: 1px;
+    opacity: .75; }
+  .wj-flexchart .wj-gridline-minor {
+    opacity: .25; }
+  .wj-flexchart .wj-tick, .wj-flexchart .wj-tick-minor {
+    stroke: #aaa;
+    stroke-width: 1px; }
+  .wj-flexchart .wj-state-selected {
+    stroke-width: 3px;
+    stroke-dasharray: 6;
+    stroke-linecap: square; }
+  .wj-flexchart.wj-flexchart-touch-disabled {
+    touch-action: none;
+    -ms-touch-action: none; }
+
+@media (max-width: 1025px) {
+  .wj-flexchart .wj-state-selected {
+    stroke-width: 2px;
+    stroke-dasharray: 4; } }
+
+@media (max-width: 767px) {
+  wj-flexchart .wj-state-selected {
+    stroke-width: 1px;
+    stroke-dasharray: 3; } }
+
+.wj-gauge {
+  background: transparent; }
+  .wj-gauge:not(.wj-state-readonly) {
+    touch-action: none; }
+  .wj-gauge .wj-face path {
+    fill: #f5f5f5;
+    stroke: #cbcbcb;
+    stroke-width: 1px;
+    stroke-linejoin: round; }
+  .wj-gauge .wj-pointer {
+    fill: #3f51b5; }
+  .wj-gauge .wj-ticks {
+    stroke-width: 2px;
+    stroke: white; }
+  .wj-gauge .wj-min,
+  .wj-gauge .wj-max {
+    font-size: 60%;
+    opacity: .5; }
+  .wj-gauge text {
+    fill: currentColor; }
+
+.wj-radialgauge .wj-value {
+  font-size: 150%; }
+
+.wj-control * {
+  font-size: 16px; }
+
+.wj-control.wj-content.wj-dropdown, .wj-control.wj-content.wj-inputnumber, .wj-control.wj-content.wj-inputmask {
+  border-top: none;
+  border-left: none;
+  border-right: none; }
+
+.wj-control.wj-gauge.wj-state-focused circle.wj-pointer {
+  fill: #e91e63;
+  transition: fill .2s;
+  /* delay used in MDL */ }
+
+.wj-control a {
+  font-size: 13px; }
+
+.wj-control a.wj-btn,
+.wj-control button.wj-btn:not(.wj-btn-default) {
+  font-weight: 500;
+  font-size: 13px;
+  text-transform: uppercase; }
+
+

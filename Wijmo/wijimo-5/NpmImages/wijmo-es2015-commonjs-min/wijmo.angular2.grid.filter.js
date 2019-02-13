@@ -1,0 +1,13 @@
+﻿/*
+    *
+    * Wijmo Library 5.20183.550
+    * http://wijmo.com/
+    *
+    * Copyright(c) GrapeCity, Inc.  All rights reserved.
+    *
+    * Licensed under the GrapeCity Commercial License.
+    * sales@wijmo.com
+    * wijmo.com/products/wijmo-5/license/
+    *
+    */
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const wjcGridFilter=require("wijmo/wijmo.grid.filter");var __glob="undefined"!=typeof window?window:self;const core_1=require("@angular/core"),core_2=require("@angular/core"),core_3=require("@angular/core"),common_1=require("@angular/common"),wijmo_angular2_directiveBase_1=require("wijmo/wijmo.angular2.directiveBase");exports.wjFlexGridFilterMeta={selector:"wj-flex-grid-filter",template:``,inputs:["wjProperty","showFilterIcons","showSortButtons","defaultFilterType","filterColumns"],outputs:["initialized","filterChangingNg: filterChanging","filterChangedNg: filterChanged","filterAppliedNg: filterApplied"],providers:[]};class WjFlexGridFilter extends wjcGridFilter.FlexGridFilter{constructor(e,r,t){super(t),this.isInitialized=!1;this._wjBehaviour=wijmo_angular2_directiveBase_1.WjDirectiveBehavior.attach(this,e,r,t);this.created()}created(){}ngOnInit(){this._wjBehaviour.ngOnInit()}ngAfterViewInit(){this._wjBehaviour.ngAfterViewInit()}ngOnDestroy(){this._wjBehaviour.ngOnDestroy()}}WjFlexGridFilter.meta={outputs:exports.wjFlexGridFilterMeta.outputs},WjFlexGridFilter.decorators=[{type:core_1.Component,args:[{selector:exports.wjFlexGridFilterMeta.selector,template:exports.wjFlexGridFilterMeta.template,inputs:exports.wjFlexGridFilterMeta.inputs,outputs:exports.wjFlexGridFilterMeta.outputs,providers:[{provide:"WjComponent",useExisting:core_2.forwardRef(()=>WjFlexGridFilter)},...exports.wjFlexGridFilterMeta.providers]}]}],WjFlexGridFilter.ctorParameters=(()=>[{type:core_2.ElementRef,decorators:[{type:core_3.Inject,args:[core_2.ElementRef]}]},{type:core_2.Injector,decorators:[{type:core_3.Inject,args:[core_2.Injector]}]},{type:void 0,decorators:[{type:core_3.Inject,args:["WjComponent"]},{type:core_3.SkipSelf},{type:core_2.Optional}]}]),exports.WjFlexGridFilter=WjFlexGridFilter;let moduleExports=[WjFlexGridFilter];class WjGridFilterModule{}WjGridFilterModule.decorators=[{type:core_1.NgModule,args:[{imports:[wijmo_angular2_directiveBase_1.WjDirectiveBaseModule,common_1.CommonModule],declarations:[...moduleExports],exports:[...moduleExports]}]}],WjGridFilterModule.ctorParameters=(()=>[]),exports.WjGridFilterModule=WjGridFilterModule;

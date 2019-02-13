@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AccessibilityExtender</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <script src="scripts/vendor/wijmo.min.js"></script>
+    <script src="scripts/vendor/wijmo.input.min.js"></script>
+    <script src="scripts/vendor/wijmo.grid.min.js"></script>
+
+    <!-- app -->
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/AccessibilityExtender.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <a href="http://wijmo.com/"><img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" alt="Wijmo" /></a>
+            <h1>AccessibilityExtender</h1>
+            <p>
+                The AccessibilityExtender class adds extra accessibility features 
+                to the FlexGrid control.
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <p>
+            The FlexGrid has extensive built-in accessibility support.
+            But there are situations where you may want to extend that
+            and provide additional support that is specific to your 
+            application or user base.</p>
+        <p>
+            The AccessibilityExtender shows how you can easily extend 
+            accessibility support in two ways:</p>
+        <ol>
+            <li>
+                By allowing users to resize columns using the keyboard 
+                (alt+left/right keys).
+                This is done by handling the keydown event and changing 
+                the width property on selected columns.</li>
+            <li>
+                By providing an "alert" method that changes the content 
+                of an invisible element with role "alert". In this sample,
+                the alert method is used to announce grid actions such as
+                sorting and filtering
+                (to actually hear the announcements, you must enable an 
+                assistive tool such as Chrome Vox, Narrator, or JAWS).</li>
+        </ol>
+        <div class="input-group">
+            <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+            <input type="text" class="form-control" id="filter" placeholder="filter">
+        </div>
+        <div id="theGrid"></div>
+    </div>
+</body>
+</html>

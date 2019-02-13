@@ -1,0 +1,135 @@
+<!-- Wijmo styles and core (required) -->
+<!-- <link href="https://cdn.grapecity.com/wijmo/5.20183.568/styles/wijmo.min.css" rel="stylesheet"/> -->
+<!-- 
+    optionally use a custom theme instead of wijmo.min.css
+    <link href="https://cdn.grapecity.com/wijmo/5.20183.568/styles/themes/wijmo.theme.modern.min.css" rel="stylesheet"/>
+-->
+<!-- <script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/wijmo.min.js"></script> -->
+<script src="https://cdn.grapecity.com/wijmo/5.latest/controls/wijmo.min.js"></script>
+<script src="./wijimo-5/NpmImages/wijmo-commonjs-min/wijmo.nav.js"></script>
+<link href="https://cdn.grapecity.com/wijmo/5.latest/styles/wijmo.min.css" rel="stylesheet"/>
+
+<!-- Wijmo controls (optional, include the controls you need) -->
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/wijmo.grid.min.js"></script>
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/wijmo.chart.min.js"></script>
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/wijmo.input.min.js"></script>
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/wijmo.gauge.min.js"></script>
+<!-- <script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/wijmo.nav.js"></script> -->
+
+<!-- Wijmo custom culture (optional, include the culture you want) -->
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/cultures/wijmo.culture.ja.min.js"></script>
+
+<!-- AngularJS and Wijmo framework interop (optional, could be Angular/React/Vue/etc) -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/interop/angular/wijmo.angular.min.js"></script>
+
+<!-- apply your Wijmo licenseKey  (optional) -->
+<div class="container">
+    
+    <h1>
+      Wijmo TreeView</h1>
+    <p>
+      The <b>TreeView</b> control shows hierarchical data. It enables
+      users to collapse or expand nodes, select items, load, search,
+      and edit data, and to use drag and drop gestures to re-organize 
+      the items if needed.</p>
+    <p>    
+      To use the <b>TreeView</b> control, you will normally use the
+      following three properties:</p>
+    <ol> 
+      <li>
+        <b>itemsSource</b> defines the array that contains the hierarchical data.
+        Each item in the array contains information about a node and (optionally)
+        an array of child nodes.</li>
+      <li>
+        <b>displayMemberPath</b> defines the name of the property in the items
+        that contains the text to be displayed in the tree nodes. By default, 
+        this property is set to the string 'header'.</li>
+      <li>
+        <b>childItemsPath</b> defines the name of the property in the items that
+        contains the array of child nodes. By default, this property is set to the
+        string 'items'.</li>
+    </ol>
+    <p>
+      Once the tree is set up, use the <b>itemClicked</b> or
+      <b>selectedItemChanged</b> events to track user actions and handle them
+      with the <b>selectedItem</b> property.</p>
+    <p>
+      For example, the <b>TreeView</b> below shows a hierarchical list of 
+      products. Users may expand nodes by clicking the collapsed icons,
+      or by pressing the right-arrow key when a node is selected.</p>
+  
+    <div id="theTree"></div>
+    
+    <div id="selection"></div>
+    <div id="click"></div>
+  </div>
+
+
+<script id="scriptInit">
+  onload = function() {
+
+// create the tree
+var tree = new wijmo.nav.TreeView('#theTree', {
+  itemsSource: getData(),
+  displayMemberPath: 'header',
+  childItemsPath: 'items',
+  selectedItemChanged: function(s, e) {
+    var msg = wijmo.format('You selected item <b>{header}</b>.', s.selectedItem);
+    document.getElementById('selection').innerHTML = msg;
+  },
+  itemClicked: function(s, e) {
+    var msg = wijmo.format('You clicked item <b>{header}</b>.', s.selectedItem);
+    document.getElementById('click').innerHTML = msg;
+  }
+});
+
+// get the tree data
+function getData() {
+  return [
+    { header: 'Electronics', img: 'resources/electronics.png', items: [
+      { header: 'Trimmers/Shavers' },
+      { header: 'Tablets' },
+      { header: 'Phones', img: 'resources/phones.png', items: [
+        { header: 'Apple' },
+        { header: 'Motorola', newItem: true },
+        { header: 'Nokia' },
+        { header: 'Samsung' }]
+      },
+      { header: 'Speakers', newItem: true },
+      { header: 'Monitors' }]
+    },
+    { header: 'Toys', img: 'resources/toys.png', items: [
+      { header: 'Shopkins' },
+      { header: 'Train Sets' },
+      { header: 'Science Kit', newItem: true },
+      { header: 'Play-Doh' },
+      { header: 'Crayola' } ]
+    },
+    { header: 'Home', img: 'resources/home.png', items: [
+      { header: 'Coffee Maker' },
+      { header: 'Breadmaker', newItem: true },
+      { header: 'Solar Panel', newItem: true },
+      { header: 'Work Table' },
+      { header: 'Propane Grill' }]
+    }
+  ];
+}
+}
+</script>
+
+
+<style>
+  .wj-treeview {
+    display:block;
+    /* //height: 350px; */
+    font-size: 120%;
+    margin-bottom: 8px;
+    padding: 6px;
+    background: #f0f0f0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+body {
+  margin-bottom: 24pt;
+}
+</style>

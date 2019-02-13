@@ -28,7 +28,7 @@
       <div class="historyTitle">搜索历史</div>
       <div class="whiteBgColor">
         <ul>
-          <li v-for="item in historyList" :key="item.geohash" @click="selectAddress(item)">
+          <li v-for="item in historyList" :key="item.geohash" @click="selectAddress(item, item.geohash)">
             <h5>{{ item.name }}</h5>
             <p>{{ item.address }}</p>
           </li>
@@ -38,7 +38,7 @@
     </div>
     <div class="searchResult whiteBgColor" v-show="!show">
       <ul v-show="searchList">
-        <li v-for="item in searchList" :key="item.geohash" @click="selectAddress(item)">
+        <li v-for="item in searchList" :key="item.geohash" @click="selectAddress(item, item.geohash)">
           <h5>{{ item.name }}</h5>
           <p>{{ item.address }}</p>
         </li>
@@ -50,6 +50,7 @@
 <script>
 import { selectedCity, searchCity } from '../../config/getData.js'
 import { setStore, getStore } from '../../config/storage.js'
+import { mapMutations } from 'vuex'
 // import store from '../../store/store.js'
 export default {
   name: 'city',
@@ -64,6 +65,8 @@ export default {
     }
   },
   mounted () {
+    console.log(53254)
+    console.log(this.$route)
     this.cityid = this.$route.params.cityid
     selectedCity(this.cityid).then(data => {
       this.selectedCity = data
@@ -78,6 +81,9 @@ export default {
   watch: {
   },
   methods: {
+    ...mapMutations([
+      'SAVE_GEOHASH'
+    ]),
     submitSearch () {
       searchCity(this.cityid, this.searchInput).then(data => {
         this.searchList.length = 0
@@ -96,9 +102,11 @@ export default {
         }
       })
     },
-    selectAddress (locate) {
+    selectAddress (locate, geohash) {
       let flag = false
       setStore('selectedCity', locate)
+      this.SAVE_GEOHASH(geohash)
+      // this.$store.commit('SAVE_GEOHASH', geohash)
       if (locate.name !== '无数据！') {
         if (this.historyList.length > 0) {
           for (let i of this.historyList) {
@@ -116,8 +124,8 @@ export default {
         }
       }
       this.$router.push({
-        name: 'mysite'
-        // params: { geohash: locate.geohash }
+        name: 'mysite',
+        query: { geohash }
       })
     },
     clearAll () {

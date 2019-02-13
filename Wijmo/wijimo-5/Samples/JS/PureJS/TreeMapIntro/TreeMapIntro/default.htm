@@ -1,0 +1,350 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TreeMap Introduction | Wijmo</title>
+
+    <!-- Bootstrap -->
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <script src="scripts/vendor/wijmo.min.js"></script>
+    <script src="scripts/vendor/wijmo.input.min.js"></script>
+    <script src="scripts/vendor/wijmo.chart.min.js"></script>
+    <script src="scripts/vendor/wijmo.chart.hierarchical.min.js"></script>
+    <script src="scripts/vendor/wijmo.nav.min.js"></script>
+
+    <!-- app -->
+    <link href="styles/app.css" rel="stylesheet" />
+    <script src="scripts/app.js"></script>
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <div class="header">
+        <div class="container">
+            <img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" alt="Wijmo" />
+            <h1>
+                TreeMap 101
+            </h1>
+            <p>
+                This page shows how to get started with Wijmo's TreeMap control.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Getting Started -->
+        <div>
+            <h2>
+                Getting Started
+            </h2>
+            <p>
+                Here are the steps for getting started with the TreeMap control 
+                in JavaScript applications:
+            </p>
+            <ol>
+                <li>Add references to Wijmo.</li>
+                <li>Add markup to serve as the Wijmo control's host.</li>
+                <li>Initialize the Wijmo control(s) via JavaScript.</li>
+                <li>(Optional) Add some CSS to customize the control's appearance.</li>
+            </ol>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="introChart"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var introChart = new wijmo.chart.hierarchical.TreeMap('#introChart', {
+    binding: 'sales',
+    bindingName: ['category', 'subCategory'],
+    itemsSource: getData(),
+    dataLabel: {
+        position: 'Center',
+        content: '{name}'
+    }
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="introChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grouped CollectionView -->
+        <div>
+            <h2>
+                Grouped CollectionView
+            </h2>
+            <p>
+                The sample shows how to use the TreeMap chart with grouped CollectionView
+                data sources.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="groupCVChart"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var groupCVChart = new wijmo.chart.hierarchical.TreeMap('#groupCVChart', {
+    binding: 'sales',
+    bindingName: ['category', 'subCategory'],
+    itemsSource: getGroupCVData(),
+    dataLabel: {
+        position: 'Center',
+        content: '{name}'
+    }
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="groupCVChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Type -->
+        <div>
+            <h2>Type</h2>
+            <p>
+                The TreeMap chart control allows you to customize its layout and 
+                appearance by using the <b>type</b> property.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="typeChart"&gt;&lt;/div&gt;
+&lt;div class="form-horizontal"&gt;
+    &lt;div class="form-group"&gt;
+        &lt;div class="col-md-12"&gt;
+            &lt;select id="typeMenu"&gt;
+                &lt;option value="0" selected="selected"&gt;Squarified&lt;/option&gt;
+                &lt;option value="1"&gt;Horizontal&lt;/option&gt;
+                &lt;option value="2"&gt;Vertical&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var typeChart = new wijmo.chart.hierarchical.TreeMap('#typeChart', {
+    binding: 'sales',
+    bindingName: ['category', 'subCategory'],
+    itemsSource: getData(),
+    dataLabel: {
+        position: 'Center',
+        content: '{name}'
+    }
+});
+
+// change chart type
+var typeMenu = new wijmo.input.Menu('#typeMenu', {
+    itemClicked: function (s, e) {
+        typeChart.type = parseInt(s.selectedValue);
+        updateMenuHeader(s, 'Type');
+    }
+});
+updateMenuHeader(typeMenu, 'Type');
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="typeChart"></div>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <select id="typeMenu">
+                                    <option value="0" selected="selected">Squarified</option>
+                                    <option value="1">Horizontal</option>
+                                    <option value="2">Vertical</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Max Depth -->
+        <div>
+            <h2>
+                Max Depth
+            </h2>
+            <p>
+                The TreeMap chart control allows you to set the maximum number of 
+                node levels to show in the current view by using the <b>maxDepth</b>
+                property.
+                Levels are flattened into the current plane.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="maxDepthChart"&gt;&lt;/div&gt;
+&lt;div class="form-horizontal"&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label class="col-md-3 control-label"&gt;Max Depth&lt;/label&gt;
+        &lt;div class="col-md-9"&gt;
+            &lt;input id="maxDepth" type="text" /&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var maxDepthChart = new wijmo.chart.hierarchical.TreeMap('#maxDepthChart', {
+    maxDepth: 2,
+    binding: 'sales',
+    bindingName: 'type',
+    childItemsPath: 'items',
+    itemsSource: getMaxDepthData(),
+    dataLabel: {
+        position: 'Center',
+        content: '{name}'
+    }
+});
+
+// change chart's maxDepth property
+var maxDepth = new wijmo.input.InputNumber('#maxDepth', {
+    min: 0,
+    max: 4,
+    step: 1,
+    format: 'n0',
+    valueChanged: function (s, e) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            maxDepthChart.maxDepth = s.value;
+        }
+    },
+    value: maxDepthChart.maxDepth
+});
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+.custom-treemap .wj-data-label {
+    fill: white;
+    font-weight: bold;
+    font-style: italic;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="maxDepthChart"></div>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Max Depth</label>
+                            <div class="col-md-9">
+                                <input id="maxDepth" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theming -->
+        <div>
+            <h2>
+                Theming
+            </h2>
+            <p>
+                Use the <b>palette</b> property to customize the appearance 
+                of the TreeMap chart control.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="themeChart1" class="custom-treemap"&gt;&lt;/div&gt;
+&lt;div id="themeChart2" class="custom-treemap"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var themeChart1 = new wijmo.chart.hierarchical.TreeMap('#themeChart1', {
+    binding: 'sales',
+    bindingName: ['category', 'subCategory'],
+    itemsSource: getData(),
+    dataLabel: {
+        position: 'Center',
+        content: '{name}'
+    },
+    palette: [
+        { titleColor: '#00277d', maxColor: 'rgba(0,39,125,0.7)', minColor: 'rgba(168,187,230,0.7)' },
+        { titleColor: '#7d1f00', maxColor: 'rgba(125,21,0,0.7)', minColor: 'rgba(230,183,168,0.7)' },
+        { titleColor: '#007d27', maxColor: 'rgba(0,125,39,0.7)', minColor: 'rgba(168,230,188,0.7)' },
+        { titleColor: '#7d003c', maxColor: 'rgba(125,0,60,0.7)', minColor: 'rgba(230,168,198,0.7)' },
+        { titleColor: '#7d4300', maxColor: 'rgba(125,67,0,0.7)', minColor: 'rgba(230,201,168,0.7)' },
+        { titleColor: '#51007d', maxColor: 'rgba(81,0,125,0.7)', minColor: 'rgba(209,170,230,0.7)' },
+        { titleColor: '#7d7400', maxColor: 'rgba(125,116,0,0.7)', minColor: 'rgba(230,226,168,0.7)' },
+        { titleColor: '#970000', maxColor: 'rgba(151,0,0,0.7)', minColor: 'rgba(230,169,169,0.7)' }
+    ]
+});
+var themeChart2 = new wijmo.chart.hierarchical.TreeMap('#themeChart2', {
+    binding: 'sales',
+    bindingName: ['category', 'subCategory'],
+    itemsSource: getData(),
+    dataLabel: {
+        position: 'Center',
+        content: '{name}'
+    },
+    palette: [
+        '#88bde6', '#fbb258', '#90cd97', '#f6aac9', '#bfa554', '#bc99c7', '#eddd46', '#f07e6e', '#8c8c8c'
+    ]
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="themeChart1" class="custom-treemap"></div>
+                    <div id="themeChart2" class="custom-treemap"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

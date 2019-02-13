@@ -1,0 +1,272 @@
+
+<link href="./wijimo-5/Dist/styles/wijmo.min.css" rel="stylesheet"/>
+
+<script src="./wijimo-5/Dist/controls/wijmo.min.js" ></script>
+
+<script src="./wijimo-5/Dist/controls/wijmo.grid.min.js" ></script>
+<script src="./wijimo-5/Dist/controls/wijmo.chart.min.js" ></script>
+<script src="./wijimo-5/Dist/controls/wijmo.input.min.js" ></script>
+<script src="./wijimo-5/Dist/controls/wijmo.gauge.min.js" ></script>
+<script src="./wijimo-5/Dist/controls/wijmo.nav.min.js" ></script>
+
+
+<script src="./wijimo-5/Dist/controls/cultures/wijmo.culture.ja.min.js" ></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/interop/angular/wijmo.angular.min.js"></script>
+
+<!-- apply your Wijmo licenseKey  (optional) -->
+<div class="container">
+
+  <h1>
+    Printer
+  </h1>
+  <p>
+    The printer can also be seen as an export option, especially
+    since most modern browsers allow users to redirect the output
+    to PDF files, cloud storage, etc.</p>
+  <p>
+    The <b>PrintDocument</b> class makes it easy to create 
+    documents for printing. This sample shows how you can 
+    convert a FlexGrid into a <b>table</b> element suitable
+    for printing with the <b>PrintDocument</b> class.</p>
+  <button class="btn btn-default" id="btnPrintDoc">
+    Print with PrintDocument
+  </button>
+  <div>
+      <label>
+        Use Custom CSS
+        <input id="customCSS" type="checkbox" checked="true">
+      </label>
+    </div>
+  <div id="theGrid" class="custom-tree"></div>
+  <button id="btnFreezeRows" class="btn btn-default">
+    Toggle Frozen Rows
+  </button>
+  <button id="btnFreezeCols" class="btn btn-default">
+    Toggle Frozen Columns
+  </button>
+  <!-- <div id="workersGrid"></div> -->
+  
+</div>
+<script id="scriptInit">
+onload = function() {
+
+  // render using wijmo.PrintDocument class
+  document.getElementById('btnPrintDoc').addEventListener('click', function(e) {
+    // create PrintDocument
+    var doc = new wijmo.PrintDocument({
+        title: 'PrintDocument Test',
+        copyCss: false // prevent cross-origin issues in jsfiddle 
+    });
+
+    // add CSS explicitly (since we can't use copyCss in jsfiddle)
+    doc.append('<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">');
+    doc.append('<link href="https://cdn.wijmo.com/5.latest/styles/wijmo.min.css" rel="stylesheet">');
+
+    // add some simple text
+    doc.append('<h1>Printing Example</h1>');
+    doc.append('<p>This document was created using the <b>PrintDocument</b> class.</p>');
+
+    // add a printer-friendly version of a FlexGrid to the document
+    // var flex = wijmo.Control.getControl('#workersGrid');
+    var flex = wijmo.Control.getControl('#theGrid');
+    doc.append('<p>Here\'s a FlexGrid rendered as a table:</p>');
+    var tbl = renderTable(flex);
+    doc.append(tbl);
+
+    // print the document
+    doc.print();
+  });
+  function renderTable(flex) {
+    // start table
+    var tbl = '<table>';
+    // headers
+    if (flex.headersVisibility & wijmo.grid.HeadersVisibility.Column) {
+      tbl += '<thead>';
+      for (var r = 0; r < flex.columnHeaders.rows.length; r++) {
+        tbl += renderRow(flex.columnHeaders, r);
+      }
+      tbl += '</thead>';
+    }
+
+    // body
+    tbl += '<tbody>';
+    for (var r = 0; r < flex.rows.length; r++) {
+      tbl += renderRow(flex.cells, r);
+    }
+    tbl += '</tbody>';
+
+    // done
+    tbl += '</table>';
+    return tbl;
+  }
+  function renderRow(panel, r) {
+    var tr = '',
+    row = panel.rows[r];
+    if (row.renderSize > 0) {
+      tr += '<tr>';
+      for (var c = 0; c < panel.columns.length; c++) {
+        var col = panel.columns[c];
+        if (col.renderSize > 0) {
+          // get cell style, content  
+          var style = 'width:' + col.renderSize + 'px;' +
+            'text-align:' + col.getAlignment() + ';' +
+            'padding-right: 6px';
+          var content = panel.getCellData(r, c, true);
+          if (!row.isContentHtml && !col.isContentHtml) {
+              content = wijmo.escapeHtml(content);
+          }
+
+          // add cell to row
+          if (panel.cellType == wijmo.grid.CellType.ColumnHeader) {
+              tr += '<th style="' + style + '">' + content + '</th>';
+          } else {
+
+              // show boolean values as checkboxes
+              var raw = panel.getCellData(r, c, false);
+              if (raw === true) {
+                  content = '&#9745;';
+              } else if (raw === false) {
+                  content = '&#9744;';
+              }
+
+              tr += '<td style="' + style + '">' + content + '</td>';
+          }
+        }
+      }
+      tr += '</tr>';
+    }
+    return tr;
+  }
+  var theGrid = new wijmo.grid.FlexGrid('#theGrid', {
+    childItemsPath: 'cities',
+    headersVisibility: 'Column',
+    showAlternatingRows: false,
+    frozenRows: 1,
+    frozenColumns: 1,
+    itemsSource: getData(),
+  });
+  document.getElementById('btnFreezeRows').addEventListener('click', function() {
+    theGrid.frozenRows = theGrid.frozenRows > 0 ? 0 : 1;
+  });
+  document.getElementById('btnFreezeCols').addEventListener('click', function() {
+    theGrid.frozenColumns = theGrid.frozenColumns > 0 ? 0 : 1;
+  });
+  function getData() {
+    return [
+      { 列名1: '行1', 列名2: '10000', 列名3: 0.58, 列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58,cities: [
+      ]
+      }, 
+      { 列名1: '行2', 列名2: '30000', 列名3: 0.59, 列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58, cities: [
+        { 列名1: '行2.1', 列名2: '30000', 列名3: 0.6,列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58}]
+      },
+      { 列名1: '行3', 列名2: '110000',列名3: 0.59, 列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58, cities: [
+          { 列名1: '行3.1', 列名2: '50000', 列名3: 0.6,列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58},
+          { 列名1: '行3.2', 列名2: '360000', 列名3: 0.6,列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58}
+        ]
+      },
+      { 列名1: '行4', 列名2: '770000', 列名3: 0.59, 列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58, cities: [
+          { 列名1: '行4.1', 列名2: '80000', 列名3: 0.65,列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58},
+          { 列名1: '行4.2', 列名2: '960000', 列名3: 0.66,列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58},
+          { 列名1: '行4.3', 列名2: '100000', 列名3: 0.67,列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58},
+          { 列名1: '行4.4', 列名2: '110000', 列名3: 0.68,列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58},
+          { 列名1: '行4.5', 列名2: '120000', 列名3: 0.69,列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58},
+          { 列名1: '行4.6', 列名2: '130000', 列名3: 0.7,列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58},
+          { 列名1: '行4.7', 列名2: '140000', 列名3: 0.71,列名4: 0.58,列名5: 0.58,列名6: 0.58,列名7: 0.58,列名8: 0.58, 列名9: 0.58,列名10: 0.58,列名11: 0.58,列名12: 0.58,列名13: 0.58, 列名14: 0.58,列名15: 0.58,列名16: 0.58,列名17: 0.58}
+        ]
+      },
+    ];
+  }
+}
+</script>
+<style>
+.wj-flexgrid {
+  max-height: 250px; 
+  margin: 10px 0;
+}
+body {
+  margin-bottom: 20px;
+}
+
+
+/* start tree */
+/* .custom-tree.wj-treeview {
+    color: #80044d;
+}
+
+    .custom-tree.wj-treeview .wj-node {
+    }
+
+    .custom-tree.wj-treeview .wj-nodelist > .wj-node {
+        font-size: 120%;
+        font-weight: bold;
+    }
+
+    .custom-tree.wj-treeview .wj-nodelist > .wj-nodelist > .wj-node,
+    .custom-tree.wj-treeview .wj-nodelist > .wj-nodelist > .wj-nodelist {
+        font-size: 110%;
+        font-weight: normal;
+        border-left: 4px solid rgba(128, 4, 77, 0.3);
+    }
+
+    .custom-tree.wj-treeview .wj-nodelist > .wj-nodelist  > .wj-nodelist > .wj-node,
+    .custom-tree.wj-treeview .wj-nodelist > .wj-nodelist  > .wj-nodelist > .wj-nodelist {
+        font-size: 100%;
+        font-style: italic;
+        opacity: 0.8;
+        border-left: 2px solid rgba(128, 4, 77, 0.3);
+    }
+
+    .custom-tree.wj-treeview .wj-nodelist .wj-node:before { 
+        content: "\e114";
+        font-family: 'Glyphicons Halflings';
+        top: 4px;
+        border: none;
+        opacity: .3;
+        transition: all .3s cubic-bezier(.4,0,.2,1);
+    }
+
+    .custom-tree.wj-treeview .wj-nodelist .wj-node.wj-state-collapsed:before,
+    .custom-tree.wj-treeview .wj-nodelist .wj-node.wj-state-collapsing:before {
+        transform: rotate(-180deg);
+        transition: all .3s cubic-bezier(.4,0,.2,1);
+    }
+
+    .custom-tree.wj-treeview .wj-node.wj-state-selected {
+        color: white;
+        background: rgba(128, 4, 77, 0.70);
+    }
+
+.wj-treeview {
+    display:block;
+    height: 350px;
+    font-size: 120%;
+    margin-bottom: 8px;
+    padding: 6px;
+    background: #f0f0f0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+} */
+/* end tree */
+
+
+
+
+/* style frozen cells */
+.wj-flexgrid .wj-frozen:not(.wj-header):not(.wj-state-selected):not(.wj-state-multi-selected),
+.wj-flexgrid .wj-frozen.wj-alt:not(.wj-header):not(.wj-state-selected):not(.wj-state-multi-selected) {
+  background: rgb(255,255,125);
+}
+
+/* de-emphasize selected cells when the grid doesn't contain the focus */
+.wj-flexgrid:not(.wj-state-focused) .wj-state-selected,
+.wj-flexgrid:not(.wj-state-focused) .wj-state-multi-selected {
+  background: #ddd;
+	color: black;
+}
+
+.wj-flexgrid.wj-state-focused .wj-cell.wj-state-selected {
+	border: 2px solid orange;
+  transition: all 100ms;
+}
+</style>

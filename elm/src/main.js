@@ -7,7 +7,9 @@ import Mint from 'mint-ui'
 import Vuex from 'vuex'
 import 'mint-ui/lib/style.css'
 import './config/rem.js'
+import store from './store/store.js'
 // import './config/generator.js'
+// import 'swiper/dist/js/swiper.min.js'
 
 Vue.config.productionTip = false
 Vue.use(Mint)
@@ -16,6 +18,7 @@ Vue.use(Vuex)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

@@ -1,0 +1,856 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Input Introduction | Wijmo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />-->
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <script src="scripts/vendor/wijmo.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.input.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.nav.min.js" type="text/javascript"></script>
+
+    <!-- app -->
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/app.js" type="text/javascript"></script>
+
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" alt="Wijmo" />
+            <h1>Input 101</h1>
+            <p>
+                This page shows how to get started with Wijmo's Input controls.
+            </p>
+        </div>
+    </div>
+    <div class="container">
+
+        <!-- Getting Started -->
+        <div>
+            <h2>Getting Started</h2>
+            <p>
+                Steps for getting started with Input controls in JavaScript applications:
+            </p>
+            <ol>
+                <li>Add references to Wijmo.</li>
+                <li>Add markup to serve as the Wijmo control's host.</li>
+                <li>Initialize the Wijmo control(s) via JavaScript.</li>
+                <li>(Optional) Add some CSS to customize the input control's appearance.</li>
+            </ol>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;input id="gsInputNumber"&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var inputNumber = new wijmo.input.InputNumber('#gsInputNumber', {
+    value: 3.5,
+    step: 0.5,
+    format: 'n2'
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <input id="gsInputNumber">
+                </div>
+            </div>
+        </div>
+
+        <!-- AutoComplete -->
+        <div>
+            <h2>AutoComplete</h2>
+            <p>
+                The AutoComplete control is an auto-complete control that allows you to filter its
+                item list as you type, as well as select a value directly from its drop-down list.
+            </p>
+            <p>
+                To use the AutoComplete control, you must minimally set the <b>itemsSource</b>
+                property to an array of data in order to populate its item list. The AutoComplete
+                control also offers several other properties to alter its behavior, such as the
+                <b>cssMatch</b> property. The <b>cssMatch</b> property allows you to specify the CSS
+                class that is used to highlight parts of the content that match your search terms.
+            </p>
+            <p>
+                The example below uses an array of strings to populate the AutoComplete control's
+                item list using the <b>itemsSource</b> property. To see a list of suggestions, type
+                <b>"ab"</b> or <b>"za"</b> in the AutoComplete controls below.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="app-input-group"&gt;
+    &lt;label for="acAutoComplete1"&gt;itemsSource Only&lt;/label&gt;
+    &lt;div id="acAutoComplete1"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label for="acAutoComplete2"&gt;itemsSource &amp; cssMatch&lt;/label&gt;
+    &lt;div id="acAutoComplete2"&gt;&lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var autoComplete1 = new wijmo.input.AutoComplete('#acAutoComplete1', {
+    itemsSource: data.countries
+});
+var autoComplete2 = new wijmo.input.AutoComplete('#acAutoComplete2', {
+    itemsSource: data.countries,
+    cssMatch: 'highlight' // CSS class for custom highlighting
+});
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+.highlight { /* custom AutoComplete highlight */
+    background-color: #ff0;
+    color: #000;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="app-input-group">
+                        <label for="acAutoComplete1">itemsSource Only</label>
+                        <div id="acAutoComplete1"></div>
+                    </div>
+                    <div class="app-input-group">
+                        <label for="acAutoComplete2">itemsSource &amp; cssMatch</label>
+                        <div id="acAutoComplete2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ComboBox -->
+        <div>
+            <h2>ComboBox</h2>
+            <p>
+                The ComboBox control is very similar to the AutoComplete control, but rather than
+                providing a list of suggestions as you type, the ComboBox will automatically complete
+                and select the entry as you type.
+            </p>
+            <p>
+                Like the AutoComplete control, you must minimally set the ComboBox's <b>itemsSource</b>
+                property to an array of data in order to populate its item list. You may also want to
+                specify whether the ComboBox is editable via the <b>isEditable</b> property. The
+                <b>isEditable</b> property determines whether or not a user can enter values that do
+                not appear in the ComboBox's item list.
+            </p>
+            <p>
+                The example below uses two ComboBoxes bound to the same data source as the AutoComplete
+                control above. The first ComboBox's <b>isEditable</b> property is set to false, while the
+                second ComboBox's <b>isEditable</b> property is set to true.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Non-Editable&lt;/label&gt;
+    &lt;div id="cbComboBox1"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Editable&lt;/label&gt;
+    &lt;div id="cbComboBox2"&gt;&lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var comboBox1 = new wijmo.input.ComboBox('#cbComboBox1', {
+    isEditable: false,
+    itemsSource: data.countries
+});
+var comboBox2 = new wijmo.input.ComboBox('#cbComboBox2', {
+    isEditable: true,
+    itemsSource: data.countries
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="app-input-group">
+                        <label>Non-Editable</label>
+                        <div id="cbComboBox1"></div>
+                    </div>
+                    <div class="app-input-group">
+                        <label>Editable</label>
+                        <div id="cbComboBox2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- InputDate and Calendar -->
+        <div>
+            <h2>InputDate &amp; Calendar</h2>
+            <p>
+                The InputDate control allows you to edit and select dates via a drop-down calendar,
+                preventing you from entering an incorrect value. The InputDate's drop-down calendar
+                was developed as a separate control and can be used be used independently
+                from the InputDate control.
+            </p>
+            <p>
+                Both InputDate and Calendar, specify several properties to alter the controls' behavior.
+                The most commonly used properties include:
+            </p>
+            <ul>
+                <li>
+                    <b>value</b>: Specifies the date value for the control.
+                </li>
+                <li>
+                    <b>min</b>: Specifies the minimum date value that can be entered in the control.
+                </li>
+                <li>
+                    <b>max</b>: Specifies the maximum date value that can be entered in the control.
+                </li>
+            </ul>
+            <p>
+                The example below demonstrates how to use each of these properties.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Bound InputDate with min &amp; max&lt;/label&gt;
+    &lt;input id="idcInputDate" type="text" /&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Bound Calendar with min &amp; max&lt;/label&gt;
+    &lt;input id="idcCalendar" type="text" style="width:300px;" /&gt;
+&lt;/div&gt;
+&lt;p&gt;
+    &lt;b&gt;
+        Valid Range: &lt;span id="idcMinDate"&gt;&lt;/span&gt; to &lt;span id="idcMaxDate"&gt;&lt;/span&gt;
+    &lt;/b&gt;
+&lt;/p&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var today = new Date(),
+    minDate = new Date(today.getFullYear(), 0, 1),
+    maxDate = new Date(today.getFullYear(), 11, 31);
+var inputDate = new wijmo.input.InputDate('#idcInputDate', {
+    value: today,
+    min: minDate,
+    max: maxDate
+});
+var calendar = new wijmo.input.Calendar('#idcCalendar', {
+    value: today,
+    min: minDate,
+    max: maxDate
+});
+
+// show date range values below the example
+var format = 'MMM d, yyyy';
+document.getElementById('idcMinDate').textContent = wijmo.Globalize.format(minDate, format);
+document.getElementById('idcMaxDate').textContent = wijmo.Globalize.format(maxDate, format);
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="app-input-group">
+                        <label>Bound InputDate with min &amp; max</label>
+                        <input id="idcInputDate" type="text" />
+                    </div>
+                    <div class="app-input-group">
+                        <label>Bound Calendar with min &amp; max</label>
+                        <input id="idcCalendar" type="text" style="width:300px;" />
+                    </div>
+                    <p>
+                        <b>
+                            Valid Range: <span id="idcMinDate"></span> to <span id="idcMaxDate"></span>
+                        </b>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- InputDate and InputTime -->
+        <div>
+            <h2>InputDate &amp; InputTime</h2>
+            <p>
+                Similar to the InputDate control, the InputTime control allows you to modify the time portion of
+                a JavaScript date. The InputTime control shares many of the same properties as the InputDate control,
+                including <b>format</b>, <b>min</b>, <b>max</b>, and <b>value</b>. The InputTime control also offers a
+                <b>step</b> property that allows you to specify the number of minutes between entries in its drop-down
+                list.
+            </p>
+            <p>
+                The example below illustrates how to use the InputTime control in conjunction with the InputDate
+                control. Notice that these controls work together to edit the same DateTime JavaScript Object
+                and only update the part of the DateTime that they are responsible for.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Bound InputDate with min, max, &amp; format&lt;/label&gt;
+    &lt;input id="iditInputDate" type="text" /&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Bound InputTime with min, max, &amp; step&lt;/label&gt;
+    &lt;input id="iditInputTime" type="text" /&gt;
+&lt;/div&gt;
+&lt;p&gt;
+    &lt;b&gt;Selected Date &amp; Time: &lt;span id="iditSelectedValue"&gt;&lt;/span&gt;&lt;/b&gt;
+&lt;/p&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var inputDate = new wijmo.input.InputDate('#iditInputDate', {
+    valueChanged: valueChanged,
+    min: new Date(today.getFullYear(), 0, 1),
+    max: new Date(today.getFullYear(), 11, 31),
+    format: 'MMM dd, yyyy'
+});
+var inputTime = new wijmo.input.InputTime('#iditInputTime', {
+    valueChanged: valueChanged,
+    min: new Date(0, 0, 0, 7, 0, 0, 0),
+    max: new Date(0, 0, 0, 19, 0, 0, 0),
+    step: 15
+});
+valueChanged();
+
+// valueChanged event handler
+function valueChanged() {
+    if (inputDate && inputTime) {
+
+        // merge date and time values
+        var val = wijmo.DateTime.fromDateTime(inputDate.value, inputTime.value);
+
+        // format and display the new date
+        var dateTime = wijmo.Globalize.format(val, 'MMM dd, yyyy h:mm:ss tt');
+        document.getElementById('iditSelectedValue').textContent = dateTime;
+    }
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="app-input-group">
+                        <label>Bound InputDate with min, max, &amp; format</label>
+                        <input id="iditInputDate" type="text" />
+                    </div>
+                    <div class="app-input-group">
+                        <label>Bound InputTime with min, max, &amp; step</label>
+                        <input id="iditInputTime" type="text" />
+                    </div>
+                    <p>
+                        <b>Selected Date &amp; Time: <span id="iditSelectedValue"></span></b>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ListBox -->
+        <div>
+            <h2>ListBox</h2>
+            <p>
+                The ListBox control displays a list of items and allows you to select items using your
+                mouse and keyboard. Like the AutoComplete and ComboBox controls, you must specify the
+                ListBox's <b>itemsSource</b> property in order to use the control.
+            </p>
+            <p>
+                The example below allows you to select an item within the ListBox control, and also displays
+                the control's <b>selectedIndex</b> and <b>selectedValue</b> properties.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="app-input-group"&gt;
+    &lt;div id="lbListBox" style="height:150px;width:250px;"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+    &lt;b&gt;selectedIndex: &lt;span id="lbSelIdx"&gt;&lt;/span&gt;&lt;/b&gt;
+&lt;/p&gt;
+&lt;p&gt;
+    &lt;b&gt;selectedValue: &lt;span id="lbSelVal"&gt;&lt;/span&gt;&lt;/b&gt;
+&lt;/p&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var listBox = new wijmo.input.ListBox('#lbListBox', {
+    selectedIndexChanged: function (s, e) {
+        document.getElementById('lbSelIdx').textContent = s.selectedIndex;
+        document.getElementById('lbSelVal').textContent = s.selectedValue;
+    },
+    itemsSource: data.cities
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="app-input-group">
+                        <div id="lbListBox" style="height:150px;width:250px;"></div>
+                    </div>
+                    <p>
+                        <b>selectedIndex: <span id="lbSelIdx"></span></b>
+                    </p>
+                    <p>
+                        <b>selectedValue: <span id="lbSelVal"></span></b>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- InputNumber -->
+        <div>
+            <h2>InputNumber</h2>
+            <p>
+                The InputNumber control allows you to edit numbers, preventing you from entering invalid
+                data and optionally formatting the numeric value as it is edited. The InputNumber can be
+                used without specifying any of its properties; however, you'll typically want to bind it
+                to some data using the <b>value</b> property.
+            </p>
+            <p>
+                In addition to the <b>value</b> property, the InputNumber control offers several other
+                properties that can be used to alter its behavior, such as:
+            </p>
+            <ul>
+                <li>
+                    <b>min</b>: Specifies the minimum numeric value that can be entered.
+                </li>
+                <li>
+                    <b>max</b>: Specifies the maximum numeric value that can be entered.
+                </li>
+                <li>
+                    <b>step</b>: Specifies the amount to add or subtract from the current
+                    value when the spinner buttons are clicked.
+                </li>
+                <li>
+                    <b>format</b>: Specifies the numeric format used to display the number being
+                    edited. The format property uses a .NET-style
+                    <a href="http://msdn.microsoft.com/en-us/library/dwhawy9k(v=vs.110).aspx" target="_blank">numeric format string</a>.
+                </li>
+            </ul>
+            <p>
+                The example below demonstrates how to use all of these properties.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Unbound with "n0" format&lt;/label&gt;
+    &lt;input id="inInputNumber1" type="text" /&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Bound with "n" format&lt;/label&gt;
+    &lt;input id="inInputNumber2" type="text" /&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Bound with min (0), max (10), step, and "c2" format&lt;/label&gt;
+    &lt;input id="inInputNumber3" type="text" /&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Unbound with placeholder and isRequired="false"&lt;/label&gt;
+    &lt;input id="inInputNumber4" type="text" /&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var inputNumber1 = new wijmo.input.InputNumber('#inInputNumber1', {
+    value: 0,
+    format: 'n0'
+});
+var inputNumber2 = new wijmo.input.InputNumber('#inInputNumber2', {
+    value: Math.PI,
+    format: 'n'
+});
+var inputNumber3 = new wijmo.input.InputNumber('#inInputNumber3', {
+    value: 3.5,
+    format: 'c2',
+    step: 0.5,
+    min: 0,
+    max: 10
+});
+var inputNumber4 = new wijmo.input.InputNumber('#inInputNumber4', {
+    placeholder: 'Enter a number...',
+    isRequired: false,
+    value: null
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="app-input-group">
+                        <label>Unbound with "n0" format</label>
+                        <input id="inInputNumber1" type="text" />
+                    </div>
+                    <div class="app-input-group">
+                        <label>Bound with "n" format</label>
+                        <input id="inInputNumber2" type="text" />
+                    </div>
+                    <div class="app-input-group">
+                        <label>Bound with min (0), max (10), step, and "c2" format</label>
+                        <input id="inInputNumber3" type="text" />
+                    </div>
+                    <div class="app-input-group">
+                        <label>Unbound with placeholder and isRequired="false"</label>
+                        <input id="inInputNumber4" type="text" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- InputMask -->
+        <div>
+            <h2>InputMask</h2>
+            <p>
+                The InputMask control allows you to validate and format user input as it is entered, preventing
+                invalid data.  The InputMask control can be used without specifying any of its properties; however,
+                you will typically set its <b>value</b> and <b>mask</b> properties.  Like the other Wijmo input
+                controls, the <b>value</b> property specifies the value for the InputMask control.  The <b>mask</b> property
+                specifies the control's mask and supports a combination of the following characters:
+            </p>
+            <dl class="dl-horizontal">
+                <dt>0</dt>
+                <dd>Digit.</dd>
+                <dt>9</dt>
+                <dd>Digit or space.</dd>
+                <dt>#</dt>
+                <dd>Digit, sign, or space.</dd>
+                <dt>L</dt>
+                <dd>Letter.</dd>
+                <dt>l</dt>
+                <dd>Letter or space.</dd>
+                <dt>A</dt>
+                <dd>Alphanumeric.</dd>
+                <dt>a</dt>
+                <dd>Alphanumeric or space.</dd>
+                <dt>.</dt>
+                <dd>Localized decimal point.</dd>
+                <dt>,</dt>
+                <dd>Localized thousand separator.</dd>
+                <dt>:</dt>
+                <dd>Localized time separator.</dd>
+                <dt>/</dt>
+                <dd>Localized date separator.</dd>
+                <dt>$</dt>
+                <dd>Localized currency symbol.</dd>
+                <dt>&lt;</dt>
+                <dd>Converts characters that follow to lowercase.</dd>
+                <dt>&gt;</dt>
+                <dd>Converts characters that follow to uppercase.</dd>
+                <dt>|</dt>
+                <dd>Disables case conversion.</dd>
+                <dt>\</dt>
+                <dd>Escapes any character, turning it into a literal.</dd>
+                <dt>All others</dt>
+                <dd>Literals.</dd>
+            </dl>
+            <p>
+                The examples below demonstrates how to use the <b>value</b> and <b>mask</b> properties with the
+                InputMask, InputDate, and InputTime controls.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Social Security Number&lt;/label&gt;
+    &lt;input id="imSocial" title="Mask: 000-00-0000" /&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Phone Number&lt;/label&gt;
+    &lt;input id="imPhone" title="Mask: (999) 000-0000" /&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Try your own&lt;/label&gt;
+    &lt;input id="imCustomInput" /&gt;
+    &lt;input id="imCustomTrial" /&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;InputDate with Mask&lt;/label&gt;
+    &lt;input id="imInputDate" title="Mask: 99/99/9999" /&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;InputTime with Mask&lt;/label&gt;
+    &lt;input id="imInputTime" title="Mask: 00:00 &gt;LL" /&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+// simple masks
+var socialSecurity = new wijmo.input.InputMask('#imSocial', {
+    mask: '000-00-0000'
+});
+var phoneNumber = new wijmo.input.InputMask('#imPhone', {
+    mask: '(999) 000-0000'
+});
+
+// try custom masks
+var customMaskTrial = new wijmo.input.InputMask('#imCustomTrial', {
+    isRequired: false,
+    placeholder: 'Try your input mask...'
+});
+var customMaskInput = new wijmo.input.InputMask('#imCustomInput', {
+    valueChanged: function (s, e) {
+        customMaskTrial.mask = s.value;
+        customMaskTrial.hostElement.title = 'Mask: ' + (s.value || 'N/A');
+    },
+    isRequired: false,
+    placeholder: 'Enter an input mask...',
+    value = null
+});
+
+// use masks with input date and time controls
+var inputDate = new wijmo.input.InputDate('#imInputDate', {
+    format: 'MM/dd/yyyy',
+    mask: '99/99/9999'
+});
+var inputTime = new wijmo.input.InputTime('#imInputTime', {
+    format: 'hh:mm tt',
+    step: 15,
+    isEditable: true,
+    mask: '00:00 >LL'
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="app-input-group">
+                        <label>Social Security Number</label>
+                        <input id="imSocial" title="Mask: 000-00-0000" />
+                    </div>
+                    <div class="app-input-group">
+                        <label>Phone Number</label>
+                        <input id="imPhone" title="Mask: (999) 000-0000" />
+                    </div>
+                    <div class="app-input-group">
+                        <label>Try your own</label>
+                        <input id="imCustomInput" />
+                        <input id="imCustomTrial" />
+                    </div>
+                    <div class="app-input-group">
+                        <label>InputDate with Mask</label>
+                        <input id="imInputDate" title="Mask: 99/99/9999" />
+                    </div>
+                    <div class="app-input-group">
+                        <label>InputTime with Mask</label>
+                        <input id="imInputTime" title="Mask: 00:00 >LL" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu -->
+        <div>
+            <h2>Menu</h2>
+            <p>
+                The Menu control allows you to create a simple drop-down list with clickable items. The Menu's
+                items can be defined directly or by using the <b>itemsSource</b> property similar to the ComboBox.
+                To specify the text displayed on the Menu, you can set the <b>header</b> property.
+            </p>
+            <p>
+                The Menu control offers two ways to handle user selections, specifying a command on each menu item
+                and the <b>itemClicked</b> event. Unlike the <b>itemClicked</b> event, commands are objects that
+                implement two methods:
+            </p>
+            <ul>
+                <li>
+                    <b>executeCommand(param)</b>: A method that executes the command.
+                </li>
+                <li>
+                    <b>canExecuteCommand(param)</b>: A method that returns a Boolean value specifying whether or
+                    not the command can be executed. If the return value is false, the menu item is disabled automatically.
+                </li>
+            </ul>
+            <p>
+                The example below demonstrates how to use both approaches.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;itemClicked Event&lt;/label&gt;
+    &lt;select id="mFileMenu"&gt;
+        &lt;option&gt;New: create a new document&lt;/option&gt;
+        &lt;option&gt;Open: load an existing document from a file&lt;/option&gt;
+        &lt;option&gt;Save: save the current document to a file&lt;/option&gt;
+        &lt;option&gt;&lt;/option&gt;
+        &lt;option&gt;Exit: save changes and exit the application&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;select id="mEditMenu"&gt;
+        &lt;option&gt;Cut: move the current selection to the clipboard&lt;/option&gt;
+        &lt;option&gt;Copy: copy the current selection to the clipboard&lt;/option&gt;
+        &lt;option&gt;Paste: insert the clipboard content at the cursor position&lt;/option&gt;
+        &lt;option&gt;&lt;/option&gt;
+        &lt;option&gt;Find: search the current document for some text&lt;/option&gt;
+        &lt;option&gt;Replace: replace occurrences of a string in the current document&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Commands&lt;/label&gt;
+    &lt;select id="mCmdMenu"&gt;
+        &lt;option cmd-param=".25"&gt;+ 25%&lt;/option&gt;
+        &lt;option cmd-param=".10"&gt;+ 10%&lt;/option&gt;
+        &lt;option cmd-param=".05"&gt;+ 5%&lt;/option&gt;
+        &lt;option cmd-param=".01"&gt;+ 1%&lt;/option&gt;
+        &lt;option&gt;&lt;/option&gt;
+        &lt;option cmd-param="-.01"&gt;- 1%&lt;/option&gt;
+        &lt;option cmd-param="-.05"&gt;- 5%&lt;/option&gt;
+        &lt;option cmd-param="-.10"&gt;- 10%&lt;/option&gt;
+        &lt;option cmd-param="-.25"&gt;- 25%&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;input id="mInputNumber" type="text" /&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+// simple menus with a common itemClicked handler
+var fileMenu = new wijmo.input.Menu('#mFileMenu', {
+    header: 'File',
+    itemClicked: itemClicked
+});
+var editMenu = new wijmo.input.Menu('#mEditMenu', {
+    header: 'Edit',
+    itemClicked: itemClicked
+});
+function itemClicked(s, e) {
+    alert(wijmo.format('You selected option {selectedIndex} from the {header} menu!', s));
+}
+
+// start with a 7% tax value
+var inputNumber = new wijmo.input.InputNumber('#mInputNumber', {
+    value: 0.07,
+    step: 0.05,
+    format: 'p0',
+    min: 0,
+    max: 1
+});
+
+// use a command-based menu to update the tax
+var cmdMenu = new wijmo.input.Menu('#mCmdMenu', {
+    header: 'Chance Tax',
+    command: {
+        executeCommand: function (arg) {
+            arg = wijmo.changeType(arg, wijmo.DataType.Number);
+            if (wijmo.isNumber(arg)) {
+                inputNumber.value += arg;
+            }
+        },
+        canExecuteCommand: function (arg) {
+            arg = wijmo.changeType(arg, wijmo.DataType.Number);
+            if (wijmo.isNumber(arg)) {
+                var val = inputNumber.value + arg;
+                return val &gt;= 0 && val &lt;= 1;
+            }
+            return false;
+        }
+    }
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="app-input-group">
+                        <label>itemClicked Event</label>
+                        <select id="mFileMenu">
+                            <option>New: create a new document</option>
+                            <option>Open: load an existing document from a file</option>
+                            <option>Save: save the current document to a file</option>
+                            <option></option>
+                            <option>Exit: save changes and exit the application</option>
+                        </select>
+                        <select id="mEditMenu">
+                            <option>Cut: move the current selection to the clipboard</option>
+                            <option>Copy: copy the current selection to the clipboard</option>
+                            <option>Paste: insert the clipboard content at the cursor position</option>
+                            <option></option>
+                            <option>Find: search the current document for some text</option>
+                            <option>Replace: replace occurrences of a string in the current document</option>
+                        </select>
+                    </div>
+                    <div class="app-input-group">
+                        <label>Commands</label>
+                        <select id="mCmdMenu">
+                            <option cmd-param=".25">+ 25%</option>
+                            <option cmd-param=".10">+ 10%</option>
+                            <option cmd-param=".05">+ 5%</option>
+                            <option cmd-param=".01">+ 1%</option>
+                            <option></option>
+                            <option cmd-param="-.01">- 1%</option>
+                            <option cmd-param="-.05">- 5%</option>
+                            <option cmd-param="-.10">- 10%</option>
+                            <option cmd-param="-.25">- 25%</option>
+                        </select>
+                        <input id="mInputNumber" type="text" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

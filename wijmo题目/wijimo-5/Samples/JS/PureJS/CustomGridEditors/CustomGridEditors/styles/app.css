@@ -1,0 +1,6 @@
+.wj-flexgrid {
+    max-height: 400px;
+}
+    .wj-flexgrid .wj-cell { /* extra padding to accommodate custom editors */
+        padding: 6px 3px;
+    }

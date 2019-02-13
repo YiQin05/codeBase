@@ -95,7 +95,7 @@ export default {
     },
     logOut () {
       let params = new URLSearchParams()
-      let path = this.setAPIPath('logout')
+      let path = this.setAPIPath('/logout')
       params.append('userID', this.userID)
       this.$axios
         .post(path, params)

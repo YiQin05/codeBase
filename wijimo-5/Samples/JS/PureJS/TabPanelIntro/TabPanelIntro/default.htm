@@ -1,0 +1,1318 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TabPanel Introduction | Wijmo</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <script src="scripts/vendor/wijmo.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.nav.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.input.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.grid.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.odata.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.chart.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.gauge.min.js" type="text/javascript"></script>
+
+    <!-- app -->
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/app.js" ></script>
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" alt="Wijmo" />
+            <h1>TabPanel 101</h1>
+            <p>
+                This page shows how to get started with Wijmo's TabPanel control.
+            </p>
+        </div>
+    </div>
+    <div class="container">
+
+        <!-- Getting Started -->
+        <div>
+            <h2>Getting Started</h2>
+            <p>
+                Using the TabPanel control is like using any Wijmo control:
+            </p>
+            <ol>
+                <li>
+                    Include the required scripts, either from local copies of from our CDN.
+                    For details, please see
+                    <a href="http://wijmo.com/5/docs/static/references.html" target="_blank">Referencing Wijmo in Your Applications</a>.
+                </li>
+                <li>
+                    Create elements on the page that will host the controls.
+                </li>
+                <li>
+                    Initialize the controls passing the id of the host element as a 
+                    parameter, followed by an optional initialization object.
+                </li>
+            </ol>
+            <p>
+                The markup used to initialize TabPanel controls consists of one element
+                per tab. Each child element contains two children: the tab header and 
+                the tab content.</p>
+            <p>
+                We suggest you use anchor elements (tag <b>a</b>) for the tab headers
+                because they are semantically more meaningful than plain <b>div</b>
+                elements.</p>
+            <p>
+                In this example, we added a "wj-state-active" class to the "America" 
+                pane markup. That defines the tab that is initially selected. 
+                Alternatively, we could have initialized the TabPanel's 
+                <b>selectedIndex</b> property in JavaScript.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="tabGettingStarted"&gt;
+    &lt;div&gt;
+        &lt;a&gt;Africa&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Algeria&lt;/li&gt;
+                &lt;li&gt;Angola&lt;/li&gt;
+                &lt;li&gt;Benin&lt;/li&gt;
+                &lt;li&gt;Botswana&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a class="wj-state-active"&gt;
+            America
+        &lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Canada&lt;/li&gt;
+                &lt;li&gt;Chile&lt;/li&gt;
+                &lt;li&gt;Mexico&lt;/li&gt;
+                &lt;li&gt;United States&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Asia&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;China&lt;/li&gt;
+                &lt;li&gt;Korea&lt;/li&gt;
+                &lt;li&gt;India&lt;/li&gt;
+                &lt;li&gt;Japan&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Europe&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Austria&lt;/li&gt;
+                &lt;li&gt;England&lt;/li&gt;
+                &lt;li&gt;France&lt;/li&gt;
+                &lt;li&gt;Germany&lt;/li&gt;
+                &lt;li&gt;Netherlands&lt;/li&gt;
+                &lt;li&gt;Switzerland&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Oceania&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Australia&lt;/li&gt;
+                &lt;li&gt;Fiji&lt;/li&gt;
+                &lt;li&gt;New Zealand&lt;/li&gt;
+                &lt;li&gt;Samoa&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var tabGettingStarted = new wijmo.nav.TabPanel('#tabGettingStarted');
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="tabGettingStarted">
+                        <div>
+                            <a>Africa</a>
+                            <div>
+                                <ul>
+                                    <li>Algeria</li>
+                                    <li>Angola</li>
+                                    <li>Benin</li>
+                                    <li>Botswana</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a class="wj-state-active">
+                                America
+                            </a>
+                            <div>
+                                <ul>
+                                    <li>Canada</li>
+                                    <li>Chile</li>
+                                    <li>Mexico</li>
+                                    <li>United States</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>Asia</a>
+                            <div>
+                                <ul>
+                                    <li>China</li>
+                                    <li>Korea</li>
+                                    <li>India</li>
+                                    <li>Japan</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>Europe</a>
+                            <div>
+                                <ul>
+                                    <li>Austria</li>
+                                    <li>England</li>
+                                    <li>France</li>
+                                    <li>Germany</li>
+                                    <li>Netherlands</li>
+                                    <li>Switzerland</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>Oceania</a>
+                            <div>
+                                <ul>
+                                    <li>Australia</li>
+                                    <li>Fiji</li>
+                                    <li>New Zealand</li>
+                                    <li>Samoa</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hosting Wijmo Controls -->
+        <div>
+            <h2>Hosting Wijmo Controls</h2>
+            <p>
+                One of the main benefits of the TabPanel control is that it automatically
+                updates any Wijmo controls it contains when a new tab is selected.
+            </p>
+            <p>
+                When using other tab controls, you must add code to refresh any Wijmo
+                controls contained in the tabs.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="tabWijmoControls"&gt;
+    &lt;div&gt;
+        &lt;a&gt;FlexGrid&lt;/a&gt;
+        &lt;div&gt;
+            &lt;div id="theGrid"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;FlexChart&lt;/a&gt;
+        &lt;div&gt;
+            &lt;div id="theChart"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Gauges&lt;/a&gt;
+        &lt;div  style="overflow:hidden"&gt;
+            &lt;div id="theRadialGauge"&gt;&lt;/div&gt;
+            &lt;div id="theLinearGauge"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var tabWijmoControls = new wijmo.nav.TabPanel('#tabWijmoControls');
+var theGrid = new wijmo.grid.FlexGrid('#theGrid', {
+    itemsSource: getData()
+});
+var theChart = new wijmo.chart.FlexChart('#theChart', {
+    itemsSource: getData(),
+    bindingX: 'country',
+    series: [
+        { binding: 'sales', name: 'Sales' },
+        { binding: 'expenses', name: 'Expenses' },
+        { binding: 'downloads', name: 'Downloads' }
+    ]
+});
+var theRadialGauge = new wijmo.gauge.RadialGauge('#theRadialGauge', {
+    min: 0,
+    max: 100,
+    value: 75,
+    isReadOnly: false
+});
+var theLinearGauge = new wijmo.gauge.LinearGauge('#theLinearGauge', {
+    min: 0,
+    max: 100,
+    value: 75,
+    isReadOnly: false
+});
+function getData() {
+    var countries = 'US,Germany,UK,Japan,Italy,Greece'.split(','),
+        data = [];
+    for (var i = 0; i &lt; countries.length; i++) {
+        data.push({
+            country: countries[i],
+            sales: Math.random() * 10000,
+            expenses: Math.random() * 5000,
+            downloads: Math.round(Math.random() * 20000),
+        });
+    }
+    return data;
+}
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+.wj-tabpanel .wj-flexgrid,
+.wj-tabpanel .wj-flexchart,
+.wj-tabpanel .wj-radialgauge {
+    height: 200px;
+    border: none;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="tabWijmoControls">
+                        <div>
+                            <a>FlexGrid</a>
+                            <div>
+                                <div id="theGrid"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <a>FlexChart</a>
+                            <div>
+                                <div id="theChart"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <a>Gauges</a>
+                            <div style="overflow:hidden">
+                                <div id="theRadialGauge"></div>
+                                <div id="theLinearGauge"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Creating TabPanels Programmatically -->
+        <div>
+            <h2>Creating TabPanels Programmatically</h2>
+            <p>
+                In some cases, you may want to add tabs to a TabPanel control
+                programmatically rather than using HTML markup.</p>
+            <p>
+                You can do this using the <b>tabs</b> property, which provides
+                access to the collection of tabs in the TabPanel.</p>
+            <p>
+                In this example, we add several Tab objects to the <b>tabs</b>
+                collection. Each Tab object is defined by a header and a pane
+                elements.</p>
+            <p>
+                You can also use the <b>tabs</b> property to remove, modify, or
+                reorder the tabs within the TabPanel.
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="tabInCode"&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var tabInCode = new wijmo.nav.TabPanel('#tabInCode'),
+    url = 'http://services.odata.org/Northwind/Northwind.svc/',
+    headers = 'Employees,Categories,Products,Customers'.split(',');
+tabInCode.tabs.deferUpdate(function () { // update only when done
+    headers.forEach(function (header) {
+
+        // create the tab header element
+        var elHeader = document.createElement('a');
+        elHeader.textContent = header;
+
+        // create the tab pane element
+        var elPane = document.createElement('div'),
+            elGrid = document.createElement('div'),
+            grid = new wijmo.grid.FlexGrid(elGrid, {
+                isReadOnly: true,
+                itemsSource: new wijmo.odata.ODataCollectionView(url, header)
+            });
+        elPane.appendChild(elGrid);
+
+        // add the new Tab to the TabPanel
+        tabInCode.tabs.push(new wijmo.nav.Tab(elHeader, elPane));
+    });
+});
+</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="tabInCode">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Styling and CSS -->
+        <div>
+            <h2>Styling and CSS</h2>
+            <p>
+                You can customize the appearance of the TabPanel using CSS.
+            </p>
+            <p>
+                The TabPanel control has a simple layout, which makes it easy
+                to style using CSS. For example, tabs appear above the content
+                by default, but you can use CSS to change their position and
+                show the below or vertically stacked, to the left or to the right
+                of the content.</p>
+            <p>
+                This example changes the appearance of the Tabs and lets you
+                select the tab alignment and whether or not to use animation
+                when switching tabs.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="tabCss" class="custom-tab"&gt;
+    &lt;div&gt;
+        &lt;a&gt;Africa&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Algeria&lt;/li&gt;
+                &lt;li&gt;Angola&lt;/li&gt;
+                &lt;li&gt;Benin&lt;/li&gt;
+                &lt;li&gt;Botswana&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;America&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Canada&lt;/li&gt;
+                &lt;li&gt;Chile&lt;/li&gt;
+                &lt;li&gt;Mexico&lt;/li&gt;
+                &lt;li&gt;United States&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Asia&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;China&lt;/li&gt;
+                &lt;li&gt;Korea&lt;/li&gt;
+                &lt;li&gt;India&lt;/li&gt;
+                &lt;li&gt;Japan&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Europe&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Austria&lt;/li&gt;
+                &lt;li&gt;England&lt;/li&gt;
+                &lt;li&gt;France&lt;/li&gt;
+                &lt;li&gt;Germany&lt;/li&gt;
+                &lt;li&gt;Netherlands&lt;/li&gt;
+                &lt;li&gt;Switzerland&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Oceania&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Australia&lt;/li&gt;
+                &lt;li&gt;Fiji&lt;/li&gt;
+                &lt;li&gt;New Zealand&lt;/li&gt;
+                &lt;li&gt;Samoa&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;label for="tabAlign"&gt;
+        Tab Alignment
+    &lt;/label&gt;
+    &lt;div id="tabAlign"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;label for="isAnimated"&gt;
+        isAnimated
+    &lt;/label&gt;
+    &lt;input id="isAnimated" type="checkbox" checked="checked"&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;label for="customHeaders"&gt;
+        Custom Headers
+    &lt;/label&gt;
+    &lt;input id="customHeaders" type="checkbox"&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;label for="tabsOnLeft"&gt;
+        Tabs on the Left
+    &lt;/label&gt;
+    &lt;input id="tabsOnLeft" type="checkbox"&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var tabCss = new wijmo.nav.TabPanel('#tabCss');
+
+// toggle custom classes
+document.getElementById('tabsOnLeft').addEventListener('click', function (e) {
+    wijmo.toggleClass(tabCss.hostElement, 'tabs-on-left', e.target.checked);
+});
+document.getElementById('customHeaders').addEventListener('click', function (e) {
+    wijmo.toggleClass(tabCss.hostElement, 'custom-headers', e.target.checked);
+});
+
+// change tab alignment
+var tabAlign = new wijmo.input.ComboBox('#tabAlign', {
+    itemsSource: 'Left,Center,Right'.split(','),
+    selectedIndexChanged: function (s, e) {
+        tabCss.hostElement.querySelector('.wj-tabheaders').style.textAlign = s.text;
+    }
+});
+
+// toggle animation
+document.getElementById('isAnimated').addEventListener('click', function (e) {
+    tabCss.isAnimated = e.target.checked;
+});
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+/* custom-headers */
+.wj-tabpanel.custom-headers .wj-tabpanes {
+    border-top: none;
+}
+.wj-tabpanel.custom-headers .wj-tabheaders {
+    background: black;
+    color: white;
+}
+    .wj-tabpanel.custom-headers .wj-tabheaders .wj-tabheader.wj-state-active {
+        background: white;
+        color: black;
+    }
+    .wj-tabpanel.custom-headers .wj-tabheaders .wj-tabheader:not(.wj-state-active) {
+        font-weight: normal;
+    }
+    .wj-tabpanel.custom-headers .wj-tabheaders .wj-tabheader.wj-state-active:after { /* hide underline */
+        display: none;
+    }
+
+/* tabs on the left*/
+.wj-tabpanel.tabs-on-left > div{
+    display: flex;
+    align-items: center;
+}
+.wj-tabpanel.tabs-on-left .wj-tabheaders {
+    display: flex;
+    flex-direction: column;
+    min-width: 8em;
+    border-right: 1px solid #ddd;
+}
+.wj-tabpanel.tabs-on-left .wj-tabpanes {
+    display: flex;
+    flex-grow: 1;
+    border-top: none;
+    overflow-x: hidden;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="tabCss" class="custom-tab">
+                        <div>
+                            <a>Africa</a>
+                            <div>
+                                <ul>
+                                    <li>Algeria</li>
+                                    <li>Angola</li>
+                                    <li>Benin</li>
+                                    <li>Botswana</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>America</a>
+                            <div>
+                                <ul>
+                                    <li>Canada</li>
+                                    <li>Chile</li>
+                                    <li>Mexico</li>
+                                    <li>United States</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>Asia</a>
+                            <div>
+                                <ul>
+                                    <li>China</li>
+                                    <li>Korea</li>
+                                    <li>India</li>
+                                    <li>Japan</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>Europe</a>
+                            <div>
+                                <ul>
+                                    <li>Austria</li>
+                                    <li>England</li>
+                                    <li>France</li>
+                                    <li>Germany</li>
+                                    <li>Netherlands</li>
+                                    <li>Switzerland</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>Oceania</a>
+                            <div>
+                                <ul>
+                                    <li>Australia</li>
+                                    <li>Fiji</li>
+                                    <li>New Zealand</li>
+                                    <li>Samoa</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="tabAlign">
+                            Tab Alignment
+                        </label>
+                        <div id="tabAlign"></div>
+                    </div>
+                    <div>
+                        <label for="isAnimated">
+                            isAnimated
+                        </label>
+                        <input id="isAnimated" type="checkbox" checked="checked">
+                    </div>
+                    <div>
+                        <label for="customHeaders">
+                            Custom Headers
+                        </label>
+                        <input id="customHeaders" type="checkbox">
+                    </div>
+                    <div>
+                        <label for="tabsOnLeft">
+                            Tabs on the Left
+                        </label>
+                        <input id="tabsOnLeft" type="checkbox">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disabled and Invisible Tabs -->
+        <div>
+            <h2>Disabled and Invisible Tabs</h2>
+            <p>
+                You can disable or hide individual tabs using the
+                Tab's <b>isDisabled</b> and <b>isVisible</b> properties.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="tabDisableHide"&gt;
+    &lt;div&gt;
+        &lt;a&gt;Africa&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Algeria&lt;/li&gt;
+                &lt;li&gt;Angola&lt;/li&gt;
+                &lt;li&gt;Benin&lt;/li&gt;
+                &lt;li&gt;Botswana&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;America&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Canada&lt;/li&gt;
+                &lt;li&gt;Chile&lt;/li&gt;
+                &lt;li&gt;Mexico&lt;/li&gt;
+                &lt;li&gt;United States&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Asia&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;China&lt;/li&gt;
+                &lt;li&gt;Korea&lt;/li&gt;
+                &lt;li&gt;India&lt;/li&gt;
+                &lt;li&gt;Japan&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a id="tab-europe" class="wj-state-disabled"&gt;Europe&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Austria&lt;/li&gt;
+                &lt;li&gt;England&lt;/li&gt;
+                &lt;li&gt;France&lt;/li&gt;
+                &lt;li&gt;Germany&lt;/li&gt;
+                &lt;li&gt;Netherlands&lt;/li&gt;
+                &lt;li&gt;Switzerland&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a id="tab-oceania"&gt;Oceania&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Australia&lt;/li&gt;
+                &lt;li&gt;Fiji&lt;/li&gt;
+                &lt;li&gt;New Zealand&lt;/li&gt;
+                &lt;li&gt;Samoa&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;label for="disableEurope"&gt;
+        Disable Europe
+    &lt;/label&gt;
+    &lt;input id="disableEurope" type="checkbox" checked&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;label for="showOceania"&gt;
+        Show Oceania
+    &lt;/label&gt;
+    &lt;input id="showOceania" type="checkbox" checked&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var tabDisableHide = new wijmo.nav.TabPanel('#tabDisableHide');
+
+// toggle Europe's disabled state
+document.getElementById('disableEurope').addEventListener('click', function (e) {
+    tabDisableHide.getTab('tab-europe').isDisabled = e.target.checked;
+});
+
+// toggle Oceania's visibility
+document.getElementById('showOceania').addEventListener('click', function (e) {
+    tabDisableHide.getTab('tab-oceania').isVisible = e.target.checked;
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="tabDisableHide">
+                        <div>
+                            <a>Africa</a>
+                            <div>
+                                <ul>
+                                    <li>Algeria</li>
+                                    <li>Angola</li>
+                                    <li>Benin</li>
+                                    <li>Botswana</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>America</a>
+                            <div>
+                                <ul>
+                                    <li>Canada</li>
+                                    <li>Chile</li>
+                                    <li>Mexico</li>
+                                    <li>United States</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>Asia</a>
+                            <div>
+                                <ul>
+                                    <li>China</li>
+                                    <li>Korea</li>
+                                    <li>India</li>
+                                    <li>Japan</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a id="tab-europe" class="wj-state-disabled">Europe</a>
+                            <div>
+                                <ul>
+                                    <li>Austria</li>
+                                    <li>England</li>
+                                    <li>France</li>
+                                    <li>Germany</li>
+                                    <li>Netherlands</li>
+                                    <li>Switzerland</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a id="tab-oceania">Oceania</a>
+                            <div>
+                                <ul>
+                                    <li>Australia</li>
+                                    <li>Fiji</li>
+                                    <li>New Zealand</li>
+                                    <li>Samoa</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="disableEurope">
+                            Disable Europe
+                        </label>
+                        <input id="disableEurope" type="checkbox" checked>
+                    </div>
+                    <div>
+                        <label for="showOceania">
+                            Show Oceania
+                        </label>
+                        <input id="showOceania" type="checkbox" checked>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detached Panels -->
+        <div>
+            <h2>Detached Panels</h2>
+            <p>
+                The TabPanel has a built-in panel that shows the content of the 
+                selected tab. In some cases, you may want to display the content
+                in a different element. To do that, simply hide the built-in
+                content element and use the <b>selectedIndexChanged</b>
+                event to update the content.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="tabDetached"&gt;
+    &lt;!-- tab without any content --&gt;
+    &lt;div&gt;
+        &lt;a&gt;Africa&lt;/a&gt;
+        &lt;div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;America&lt;/a&gt;
+        &lt;div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Asia&lt;/a&gt;
+        &lt;div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Europe&lt;/a&gt;
+        &lt;div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Oceania&lt;/a&gt;
+        &lt;div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;div class="panel panel-success"&gt;
+    &lt;!-- separate div to show the content --&gt;
+    &lt;div class="panel-heading"&gt;
+        &lt;h3 id="detachedContent" class="panel-title"&gt;&lt;/h3&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var tabDetached = new wijmo.nav.TabPanel('#tabDetached', {
+
+    // show the content for the selected tab in a separate div
+    selectedIndexChanged: function (s, e) {
+        var div = document.getElementById('detachedContent');
+        div.innerHTML = 'Content for tab &lt;b&gt;' + 
+                            s.selectedTab.header.textContent + 
+                        '&lt;/b&gt;...';
+    }
+});
+
+// hide the built-in content area
+tabDetached.hostElement.querySelector('.wj-tabpanes').style.display = 'none';
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="tabDetached">
+                        <!-- tab without any content -->
+                        <div>
+                            <a>Africa</a>
+                            <div></div>
+                        </div>
+                        <div>
+                            <a>America</a>
+                            <div></div>
+                        </div>
+                        <div>
+                            <a>Asia</a>
+                            <div></div>
+                        </div>
+                        <div>
+                            <a>Europe</a>
+                            <div></div>
+                        </div>
+                        <div>
+                            <a>Oceania</a>
+                            <div></div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="panel panel-success">
+                        <!-- separate div to show the content -->
+                        <div class="panel-heading">
+                            <h3 id="detachedContent" class="panel-title"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accessibility -->
+        <div>
+            <h2>Accessibility</h2>
+            <p>
+                The TabPanel implements WAI-ARIA accessibility guidelines.
+                All tab elements have the proper role attributes as well as all applicable
+                ARIA attributes.</p>
+            <p>
+                The example below assigns unique IDs to the tab headers and panes,
+                which the TabPanel automatically uses to generate "aria-controls" and
+                "aria-labelledby" attributes.</p>
+            <p>
+                The example also adds a "wj-state-active" class to the "America" 
+                pane in markup to define the tab that is initially selected. 
+                Without that, the first tab would have been selected by default.</p>
+            <p>
+                Finally, the example shows the effect of the <b>autoSwitch</b> property,
+                which affects how the control handles the tab and cursor keys.
+                For a detailed discussion of this topic, please see the
+                <a href="https://www.w3.org/TR/wai-aria-practices/#kbd_selection_follows_focus" target="_blank">W3C ARIA practices</a>
+                and
+                <a href="http://simplyaccessible.com/article/danger-aria-tabs/" target="_blank">SimplyAccessible</a> article.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="tabAccessibility"&gt;
+    &lt;div&gt;
+        &lt;a id="hdr-africa"&gt;
+            Africa
+        &lt;/a&gt;
+        &lt;div id="pane-africa"&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Algeria&lt;/li&gt;
+                &lt;li&gt;Angola&lt;/li&gt;
+                &lt;li&gt;Benin&lt;/li&gt;
+                &lt;li&gt;Botswana&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a id="hdr-america" class="wj-state-active"&gt;
+            America
+        &lt;/a&gt;
+        &lt;div id="pane-america"&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Canada&lt;/li&gt;
+                &lt;li&gt;Chile&lt;/li&gt;
+                &lt;li&gt;Mexico&lt;/li&gt;
+                &lt;li&gt;United States&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a id="hdr-asia"&gt;
+            Asia
+        &lt;/a&gt;
+        &lt;div id="pane-asia"&gt;
+            &lt;ul&gt;
+                &lt;li&gt;China&lt;/li&gt;
+                &lt;li&gt;Korea&lt;/li&gt;
+                &lt;li&gt;India&lt;/li&gt;
+                &lt;li&gt;Japan&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a id="hdr-europe"&gt;
+            Europe
+        &lt;/a&gt;
+        &lt;div id="pane-europe"&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Austria&lt;/li&gt;
+                &lt;li&gt;England&lt;/li&gt;
+                &lt;li&gt;France&lt;/li&gt;
+                &lt;li&gt;Germany&lt;/li&gt;
+                &lt;li&gt;Netherlands&lt;/li&gt;
+                &lt;li&gt;Switzerland&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a id="hdr-oceania"&gt;
+            Oceania
+        &lt;/a&gt;
+        &lt;div id="pane-oceania"&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Australia&lt;/li&gt;
+                &lt;li&gt;Fiji&lt;/li&gt;
+                &lt;li&gt;New Zealand&lt;/li&gt;
+                &lt;li&gt;Samoa&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;label for="autoSwitch"&gt;
+        autoSwitch
+    &lt;/label&gt;
+    &lt;input id="autoSwitch" type="checkbox" checked="checked"&gt;
+&lt;/div&gt;
+
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var tabAccessibility = new wijmo.nav.TabPanel('#tabAccessible');
+
+// toggle autoSwitch property
+document.getElementById('autoSwitch').addEventListener('click', function (e) {
+    tabAccessibility.autoSwitch = e.target.checked;
+})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="tabAccessibility">
+                        <div>
+                            <a id="hdr-africa">
+                                Africa
+                            </a>
+                            <div id="pane-africa">
+                                <ul>
+                                    <li>Algeria</li>
+                                    <li>Angola</li>
+                                    <li>Benin</li>
+                                    <li>Botswana</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a id="hdr-america" class="wj-state-active">
+                                America
+                            </a>
+                            <div id="pane-america">
+                                <ul>
+                                    <li>Canada</li>
+                                    <li>Chile</li>
+                                    <li>Mexico</li>
+                                    <li>United States</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a id="hdr-asia">
+                                Asia
+                            </a>
+                            <div id="pane-asia">
+                                <ul>
+                                    <li>China</li>
+                                    <li>Korea</li>
+                                    <li>India</li>
+                                    <li>Japan</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a id="hdr-europe">
+                                Europe
+                            </a>
+                            <div id="pane-europe">
+                                <ul>
+                                    <li>Austria</li>
+                                    <li>England</li>
+                                    <li>France</li>
+                                    <li>Germany</li>
+                                    <li>Netherlands</li>
+                                    <li>Switzerland</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a id="hdr-oceania">
+                                Oceania
+                            </a>
+                            <div id="pane-oceania">
+                                <ul>
+                                    <li>Australia</li>
+                                    <li>Fiji</li>
+                                    <li>New Zealand</li>
+                                    <li>Samoa</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="autoSwitch">
+                            autoSwitch
+                        </label>
+                        <input id="autoSwitch" type="checkbox" checked="checked">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RTL -->
+        <div>
+            <h2>Right to Left (RTL)</h2>
+            <p>
+                Some languages render content from the right to the left of the page 
+                (Arabic and Hebrew are typical examples) . HTML accommodates this with
+                the 'dir' attribute. Setting 'dir' to 'rtl' on any element causes the 
+                element's content to flow from right to left.</p>
+            <p>
+                The TabPanel supports this automatically. If the element hosting the 
+                control has the 'dir' attribute set to 'rtl', the panel will render 
+                with tabs aligned from right to left. You don't have to set any 
+                properties on the control.</p>
+            <p>
+                Note that the 'dir' attribute value is inherited, so if you set it on 
+                the body tag for example, the entire page will be rendered from right 
+                to left, including the TabPanel.</p>
+            <p>
+                Note also that CSS has a 'direction' attribute that performs the same 
+                function as the 'dir' element attribute. The 'dir' attribute is 
+                generally considered more appropriate for several reasons, including 
+                the fact that it can be used in CSS rules.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="tabRtl" dir="rtl"&gt;
+    &lt;div&gt;
+        &lt;a&gt;Africa&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Algeria&lt;/li&gt;
+                &lt;li&gt;Angola&lt;/li&gt;
+                &lt;li&gt;Benin&lt;/li&gt;
+                &lt;li&gt;Botswana&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;America&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Canada&lt;/li&gt;
+                &lt;li&gt;Chile&lt;/li&gt;
+                &lt;li&gt;Mexico&lt;/li&gt;
+                &lt;li&gt;United States&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Asia&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;China&lt;/li&gt;
+                &lt;li&gt;Korea&lt;/li&gt;
+                &lt;li&gt;India&lt;/li&gt;
+                &lt;li&gt;Japan&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Europe&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Austria&lt;/li&gt;
+                &lt;li&gt;England&lt;/li&gt;
+                &lt;li&gt;France&lt;/li&gt;
+                &lt;li&gt;Germany&lt;/li&gt;
+                &lt;li&gt;Netherlands&lt;/li&gt;
+                &lt;li&gt;Switzerland&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;Oceania&lt;/a&gt;
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Australia&lt;/li&gt;
+                &lt;li&gt;Fiji&lt;/li&gt;
+                &lt;li&gt;New Zealand&lt;/li&gt;
+                &lt;li&gt;Samoa&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var tabRtl = new wijmo.nav.TabPanel('#tabRtl');
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="tabRtl" dir="rtl">
+                        <div>
+                            <a>Africa</a>
+                            <div>
+                                <ul>
+                                    <li>Algeria</li>
+                                    <li>Angola</li>
+                                    <li>Benin</li>
+                                    <li>Botswana</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>America</a>
+                            <div>
+                                <ul>
+                                    <li>Canada</li>
+                                    <li>Chile</li>
+                                    <li>Mexico</li>
+                                    <li>United States</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>Asia</a>
+                            <div>
+                                <ul>
+                                    <li>China</li>
+                                    <li>Korea</li>
+                                    <li>India</li>
+                                    <li>Japan</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>Europe</a>
+                            <div>
+                                <ul>
+                                    <li>Austria</li>
+                                    <li>England</li>
+                                    <li>France</li>
+                                    <li>Germany</li>
+                                    <li>Netherlands</li>
+                                    <li>Switzerland</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <a>Oceania</a>
+                            <div>
+                                <ul>
+                                    <li>Australia</li>
+                                    <li>Fiji</li>
+                                    <li>New Zealand</li>
+                                    <li>Samoa</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+﻿/* source tab-panes */
+.wj-tabpanel.tab-source .wj-tabpanes {
+    border: 1px solid #ddd;
+    background-color: #fdfdfd;
+    font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;
+    font-size: 13px;
+    max-height: 300px;
+    padding: 0 8px;
+    white-space: pre;
+}
+
+body {
+    background-color: #f8f8f8;
+    font-family: -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
+    padding: 0 0 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #026974;
+    font-family: -apple-system-font, 'Segoe UI Light', 'Segoe UI', 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+h2 {
+    margin-top: 24px;
+    margin-left: -12px;
+}
+
+.header {
+    color: #dcf3f6;
+    background-color: #00C1D5;
+    margin-bottom: 14px;
+    padding: 12px 0;
+}
+
+    .header h1 {
+        color: #fff;
+        font-size: 40px;
+        line-height: 1;
+        margin-top: 0;
+    }
+
+    .header img {
+        float: left;
+        margin: 0 10px 5px 0;
+    }
+
+.app-input-group {
+    margin: 5px 0 10px;
+}
+
+    .app-input-group > label {
+        display: block;
+    }
+
+.highlight { /* custom AutoComplete highlight */
+    background-color: #ff0;
+    color: #000;
+}

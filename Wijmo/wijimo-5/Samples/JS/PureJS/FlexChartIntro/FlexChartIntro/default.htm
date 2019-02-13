@@ -1,0 +1,1601 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>FlexChart Introduction | Wijmo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+    <!-- Wijmo -->
+    <link rel="stylesheet" type="text/css" href="styles/vendor/wijmo.min.css" />
+    <script src="scripts/vendor/wijmo.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.input.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.chart.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.nav.min.js" type="text/javascript"></script>
+
+    <!-- app -->
+    <link href="styles/app.css" rel="stylesheet" type="text/css" />
+    <script src="scripts/app.js" type="text/javascript"></script>
+
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" />
+            <h1>FlexChart 101</h1>
+            <p>
+                This page shows how to get started with Wijmo's FlexChart control.
+            </p>
+        </div>
+    </div>
+    <div class="container">
+
+        <!-- Getting Started -->
+        <div>
+            <h2>
+                Getting Started</h2>
+            <p>
+                Steps for getting started with the FlexChart in JavaScript applications:</p>
+            <ol>
+                <li>Add references to Wijmo.</li>
+                <li>Add markup to serve as the FlexChart's host.</li>
+                <li>Initialize the FlexChart via JavaScript and its <b>itemSource property</b>.</li>
+                <li>Create one or more data series, and add each to the FlexChart's series collection.</li>
+                <li>(Optional) Add some CSS to customize the chart's appearance.</li>
+            </ol>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="gettingStartedChart"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var gsChart = new wijmo.chart.FlexChart('#gettingStartedChart', {
+    itemsSource: appData,
+    bindingX: 'country',
+    series: [
+        { name: 'Sales', binding: 'sales' },
+        { name: 'Expenses', binding: 'expenses' },
+        { name: 'Downloads', binding: 'downloads' }
+    ]
+});
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+/* set default chart style */
+.wj-flexchart {
+    height: 400px;
+    background-color: white;
+    box-shadow: 4px 4px 10px 0px rgba(50, 50, 50, 0.75);
+    padding: 8px;
+    margin-bottom: 12px;
+    display:block;
+}
+    .wj-flexchart .wj-title {
+        font-weight: bold;
+    }
+    .wj-flexchart .wj-header .wj-title {
+        font-size: 18pt;
+        fill: #80044d;
+    }
+    .wj-flexchart .wj-footer .wj-title {
+        fill: #80044d;
+    }
+    .wj-flexchart .wj-axis-x .wj-title,
+    .wj-flexchart .wj-axis-y .wj-title {
+        font-style: italic;
+    }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="gettingStartedChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Types -->
+        <div>
+            <h2>
+                Chart Types
+            </h2>
+            <p>
+                The FlexChart control has three properties that allow you to customize 
+                the chart type:</p>
+            <ol>
+                <li>
+                    <b>chartType</b>: Selects the default chart type to be used for all
+                    the series. Individual series may override this setting.
+                </li>
+                <li>
+                    <b>stacking</b>: Determines whether series are plotted independently, 
+                    stacked, or stacked so their sum is 100%.
+                </li>
+                <li>
+                    <b>rotated</b>: Flips the X and Y axes so X becomes vertical and Y horizontal.
+                </li>
+            </ol>
+            <p>
+                The example below allows you to see what happens when you change 
+                these properties:</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="chartTypes"&gt;&lt;/div&gt;
+&lt;select id="typeMenu"&gt;
+    &lt;option value="0" selected="selected"&gt;Column&lt;/option&gt;
+    &lt;option value="1"&gt;Bar&lt;/option&gt;
+    &lt;option value="2"&gt;Scatter&lt;/option&gt;
+    &lt;option value="3"&gt;Line&lt;/option&gt;
+    &lt;option value="4"&gt;LineSymbols&lt;/option&gt;
+    &lt;option value="5"&gt;Area&lt;/option&gt;
+    &lt;option value="9"&gt;Spline&lt;/option&gt;
+    &lt;option value="10"&gt;SplineSymbols&lt;/option&gt;
+    &lt;option value="11"&gt;SplineArea&lt;/option&gt;
+&lt;/select&gt;
+&lt;select id="stackingMenu"&gt;
+    &lt;option value="0" selected="selected"&gt;None&lt;/option&gt;
+    &lt;option value="1"&gt;Stacked&lt;/option&gt;
+    &lt;option value="2"&gt;Stacked 100%&lt;/option&gt;
+&lt;/select&gt;
+&lt;select id="rotatedMenu"&gt;
+    &lt;option value="false" selected="selected"&gt;False&lt;/option&gt;
+    &lt;option value="true"&gt;True&lt;/option&gt;
+&lt;/select&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var ctChart = new wijmo.chart.FlexChart('#chartTypes', {
+    itemsSource: appData,
+    bindingX: 'country',
+    series: [
+        { name: 'Sales', binding: 'sales' },
+        { name: 'Expenses', binding: 'expenses' },
+        { name: 'Downloads', binding: 'downloads' }
+    ]
+});
+var typeMenu = new wijmo.input.Menu('#typeMenu', {
+    itemClicked: function (s, e) {
+        ctChart.chartType = parseInt(s.selectedValue);
+        updateMenuHeader(s, 'Chart Type');
+    }
+});
+updateMenuHeader(typeMenu, 'Chart Type');
+var stackingMenu = new wijmo.input.Menu('#stackingMenu', {
+    itemClicked: function (s, e) {
+        ctChart.stacking = parseInt(s.selectedValue);
+        updateMenuHeader(s, 'Stacking');
+    }
+});
+updateMenuHeader(stackingMenu, 'Stacking');
+var rotatedMenu = new wijmo.input.Menu('#rotatedMenu', {
+    itemClicked: function (s, e) {
+        ctChart.rotated = s.selectedValue == 'true';
+        updateMenuHeader(s, 'Rotated');
+    }
+});
+updateMenuHeader(rotatedMenu, 'Rotated');
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="chartTypes"></div>
+                    <select id="typeMenu">
+                        <option value="0" selected="selected">Column</option>
+                        <option value="1">Bar</option>
+                        <option value="2">Scatter</option>
+                        <option value="3">Line</option>
+                        <option value="4">LineSymbols</option>
+                        <option value="5">Area</option>
+                        <option value="9">Spline</option>
+                        <option value="10">SplineSymbols</option>
+                        <option value="11">SplineArea</option>
+                    </select>
+                    <select id="stackingMenu">
+                        <option value="0" selected="selected">None</option>
+                        <option value="1">Stacked</option>
+                        <option value="2">Stacked 100%</option>
+                    </select>
+                    <select id="rotatedMenu">
+                        <option value="false" selected="selected">False</option>
+                        <option value="true">True</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Range Bar/Column -->
+        <div>
+            <h2>
+                Range Bar/Column
+            </h2>
+            <p>
+                By default, Bar and Column charts show values extending from
+                zero to a given value. Range Bar and Column charts use two
+                bindings so you can specify where each bar or column starts
+                and ends.</p>
+            <p>
+                The example below shows how to create range bar/column charts:</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="rangebarChart"&gt;&lt;/div&gt;
+&lt;select id="rangebarTypeMenu"&gt;
+    &lt;option value="0" selected="selected"&gt;Column&lt;/option&gt;
+    &lt;option value="1"&gt;Bar&lt;/option&gt;
+&lt;/select&gt;
+&lt;select id="rangebarDataTypeMenu"&gt;
+    &lt;option value="num1,num2" selected="selected"&gt;Number&lt;/option&gt;
+    &lt;option value="date1,date2"&gt;Date&lt;/option&gt;
+&lt;/select&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var rngChart = new wijmo.chart.FlexChart('#rangebarChart', {
+    itemsSource: rangeData,
+    bindingX: 'country',
+    series: [{ binding: 'num1,num2' }],
+    tooltip: {
+        content: function (ht) {
+            var str = ht.x + ': <br/>';
+            var dataTypes = rangebarDataTypeMenu.selectedValue.split(',');
+            var min = Math.min(ht.item[dataTypes[0]], ht.item[dataTypes[1]]);
+            var max = Math.max(ht.item[dataTypes[0]], ht.item[dataTypes[1]]);
+            if (wijmo.isDate(ht.item[dataTypes[0]])) {
+                str += (new Date(min)).toLocaleDateString() + ' - ' + (new Date(max)).toLocaleDateString();
+            } else {
+                str += Math.round(min) + ' - ' + Math.round(max);
+            }
+            return str;
+        }
+    }
+});
+var rangebarTypeMenu = new wijmo.input.Menu('#rangebarTypeMenu', {
+    itemClicked: function (s, e) {
+        rngChart.chartType = parseInt(s.selectedValue);
+        updateMenuHeader(s, 'Chart Type');
+    }
+});
+updateMenuHeader(rangebarTypeMenu, 'Chart Type');
+var rangebarDataTypeMenu = new wijmo.input.Menu('#rangebarDataTypeMenu', {
+    itemClicked: function (s, e) {
+        rngChart.series[0].binding = s.selectedValue;
+        updateMenuHeader(s, 'Data Type');
+    }
+});
+updateMenuHeader(rangebarDataTypeMenu, 'Data Type');
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="rangebarChart"></div>
+                    <select id="rangebarTypeMenu">
+                        <option value="0" selected="selected">Column</option>
+                        <option value="1">Bar</option>
+                    </select>
+                    <select id="rangebarDataTypeMenu">
+                        <option value="num1,num2" selected="selected">Number</option>
+                        <option value="date1,date2">Date</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Funnel Charts -->
+        <div>
+            <h2>
+                Funnel Charts
+            </h2>
+            <p>
+                Funnel charts are often used to represent stages in a sales process and 
+                show the amount of potential revenue for each stage. They can also be 
+                useful in identifying potential problem areas in an organization's sales 
+                processes.</p>
+            <p>
+                The example below shows how to create and customize a Funnel Chart:
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="funnelChart"&gt;&lt;/div&gt;
+&lt;dl class="dl-horizontal"&gt;
+    &lt;dt&gt;Neck Width&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;div id="funnelNeckWidth"&gt;&lt;/div&gt;
+    &lt;/dd&gt;
+&lt;/dl&gt;
+&lt;dl class="dl-horizontal"&gt;
+    &lt;dt&gt;Neck Height&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;div id="funnelNeckHeight"&gt;&lt;/div&gt;
+    &lt;/dd&gt;
+&lt;/dl&gt;
+&lt;dl class="dl-horizontal"&gt;
+    &lt;dt&gt;&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;select id="funnelType"&gt;
+            &lt;option value="default" selected="selected"&gt;Default&lt;/option&gt;
+            &lt;option value="rectangle"&gt;Rectangle&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/dd&gt;
+&lt;/dl&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var fnlChart = new wijmo.chart.FlexChart('#funnelChart', {
+    itemsSource: funnelData,
+    chartType: wijmo.chart.ChartType.Funnel,
+    bindingX: 'country',
+    series: [
+        { name: 'Sales', binding: 'sales' }
+    ],
+    dataLabel: { content: '{y}' },
+    options: {
+        funnel: {
+            neckWidth: 0.2,
+            neckHeight: 0.2,
+            type: 'default'
+        }
+    }
+});
+var neckWidth = new wijmo.input.InputNumber('#funnelNeckWidth', {
+    min: 0,
+    max: 1,
+    step: .1,
+    valueChanged: function (s, e) {
+        if (s.value >= s.min && s.value <= s.max) {
+            fnlChart.options.funnel.neckWidth = s.value;
+            fnlChart.refresh(true);
+        }
+    },
+    value: 0.2
+});
+var neckHeight = new wijmo.input.InputNumber('#funnelNeckHeight', {
+    min: 0,
+    max: 1,
+    step: .1,
+    valueChanged: function (s, e) {
+        if (s.value >= s.min && s.value <= s.max) {
+            fnlChart.options.funnel.neckHeight = s.value;
+            fnlChart.refresh(true);
+        }
+    },
+    value: 0.2
+});
+var funnelType = new wijmo.input.Menu('#funnelType', {
+    itemClicked: function (s, e) {
+        fnlChart.options.funnel.type = s.selectedValue;
+        fnlChart.refresh(true);
+        updateMenuHeader(s, 'Funnel Type');
+    }
+});
+updateMenuHeader(funnelType, 'Funnel Type');
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="funnelChart"></div>
+                    <dl class="dl-horizontal">
+                        <dt>Neck Width</dt>
+                        <dd>
+                            <div id="funnelNeckWidth"></div>
+                        </dd>
+                    </dl>
+                    <dl class="dl-horizontal">
+                        <dt>Neck Height</dt>
+                        <dd>
+                            <div id="funnelNeckHeight"></div>
+                        </dd>
+                    </dl>
+                    <dl class="dl-horizontal">
+                        <dt></dt>
+                        <dd>
+                            <select id="funnelType">
+                                <option value="default" selected="selected">Default</option>
+                                <option value="rectangle">Rectangle</option>
+                            </select>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mixed Chart Types -->
+        <div>
+            <h2>
+                Mixed Chart Types
+            </h2>
+            <p>
+                You can use different chart types for each chart series by setting the 
+                <b>chartType</b> property on individual series. This overrides the chart's 
+                default chart type.</p>
+            <p>
+                In the example below, the chart's <b>chartType</b> property is set to 
+                <b>Column</b>, but the <b>Downloads</b> series overrides it to use the 
+                <b>LineAndSymbol</b> chart type:</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="mixedTypesChart"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var mixChart = new wijmo.chart.FlexChart('#mixedTypesChart', {
+    itemsSource: appData,
+    bindingX: 'country',
+    series: [
+        { name: 'Sales', binding: 'sales' },
+        { name: 'Expenses', binding: 'expenses' },
+        { name: 'Downloads', binding: 'downloads', chartType: wijmo.chart.ChartType.LineSymbols }
+    ]
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="mixedTypesChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend and Titles -->
+        <div>
+            <h2>
+                Legend and Titles
+            </h2>
+            <p>
+                Use the <b>legend</b>'s properties to customize the appearance of the chart 
+                legend, and <b>header</b>, <b>footer</b>, and axis <b>title</b> properties 
+                to add titles to your charts.</p>
+            <p>
+                You can style the legend and titles using CSS. The CSS tab below shows the rules
+                used to customize the appearance of the legend and titles. Notice that these are
+                SVG elements, so you have to use CSS attributes such as "fill" instead of "color."</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="chartLegendAndTitles"&gt;&lt;/div&gt;
+&lt;dl class="dl-horizontal"&gt;
+    &lt;dt&gt;Header&lt;/dt&gt;&lt;dd&gt;&lt;input id="headerInput" class="form-control"/&gt;&lt;/dd&gt;
+    &lt;dt&gt;Footer&lt;/dt&gt;&lt;dd&gt;&lt;input id="footerInput" class="form-control"/&gt;&lt;/dd&gt;
+    &lt;dt&gt;X-Axis Title&lt;/dt&gt;&lt;dd&gt;&lt;input id="xTitleInput" class="form-control"/&gt;&lt;/dd&gt;
+    &lt;dt&gt;Y-Axis Title&lt;/dt&gt;&lt;dd&gt;&lt;input id="yTitleInput" class="form-control"/&gt;&lt;/dd&gt;
+    &lt;dt&gt;&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;select id="positionMenu"&gt;
+            &lt;option value="0"&gt;None&lt;/option&gt;
+            &lt;option value="1"&gt;Left&lt;/option&gt;
+            &lt;option value="2"&gt;Top&lt;/option&gt;
+            &lt;option value="3" selected="selected"&gt;Right&lt;/option&gt;
+            &lt;option value="4"&gt;Bottom&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/dd&gt;
+&lt;/dl&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var ltChart = new wijmo.chart.FlexChart('#chartLegendAndTitles', {
+    itemsSource: appData,
+    bindingX: 'country',
+    header: 'Sample Chart',
+    footer: 'copyright (c) ComponentOne',
+    axisX: { title: 'country' },
+    axisY: { title: 'amount' },
+    series: [
+        { name: 'Sales', binding: 'sales' },
+        { name: 'Expenses', binding: 'expenses' },
+        { name: 'Downloads', binding: 'downloads' }
+    ]
+});
+var positionMenu = new wijmo.input.Menu('#positionMenu', {
+    itemClicked: function (s, e) {
+        ltChart.legend.position = parseInt(s.selectedValue);
+        updateMenuHeader(s, 'Legend');
+    }
+});
+updateMenuHeader(positionMenu, 'Legend');
+
+// sync the input's value with FlexChart's header
+var headerInput = document.getElementById('headerInput');
+headerInput.value = ltChart.header;
+headerInput.addEventListener('input', function (e) {
+    ltChart.header = e.target.value;
+});
+
+// sync the input's value with FlexChart's footer
+var footerInput = document.getElementById('footerInput');
+footerInput.value = ltChart.footer;
+footerInput.addEventListener('input', function (e) {
+    ltChart.footer = e.target.value;
+});
+
+// sync the input's value with FlexChart's X-Axis title
+var xTitleInput = document.getElementById('xTitleInput');
+xTitleInput.value = ltChart.axisX.title;
+xTitleInput.addEventListener('input', function (e) {
+    ltChart.axisX.title = e.target.value;
+});
+
+// sync the input's value with FlexChart's Y-Axis title
+var yTitleInput = document.getElementById('yTitleInput');
+yTitleInput.value = ltChart.axisY.title;
+yTitleInput.addEventListener('input', function (e) {
+    ltChart.axisY.title = e.target.value;
+});
+
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+.wj-flexchart .wj-title {
+    font-weight: bold;
+}
+.wj-flexchart .wj-header .wj-title {
+    font-size: 18pt;
+    fill: #80044d;
+}
+.wj-flexchart .wj-footer .wj-title {
+    fill: #80044d;
+}
+.wj-flexchart .wj-axis-x .wj-title,
+.wj-flexchart .wj-axis-y .wj-title {
+    font-style: italic;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="chartLegendAndTitles"></div>
+                    <dl class="dl-horizontal">
+                        <dt>Header</dt><dd><input id="headerInput" class="form-control"/></dd>
+                        <dt>Footer</dt><dd><input id="footerInput" class="form-control"/></dd>
+                        <dt>X-Axis Title</dt><dd><input id="xTitleInput" class="form-control"/></dd>
+                        <dt>Y-Axis Title</dt><dd><input id="yTitleInput" class="form-control"/></dd>
+                        <dt></dt>
+                        <dd>
+                            <select id="positionMenu">
+                                <option value="0">None</option>
+                                <option value="1">Left</option>
+                                <option value="2">Top</option>
+                                <option value="3" selected="selected">Right</option>
+                                <option value="4">Bottom</option>
+                            </select>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tooltips -->
+        <div>
+            <h2>
+                Tooltips
+            </h2>
+            <p>
+                The FlexChart has built-in support for tooltips. By default, the control 
+                displays tooltips when the user touches or hovers the mouse on a data point.</p>
+            <p>
+                The tooltip content is generated using a template, which may contain the following
+                parameters:</p>
+            <ul>
+                <li><b>seriesName</b>: The name of the series that contains the chart element.</li>
+                <li><b>pointIndex</b>: The index of the chart element within the series.</li>
+                <li><b>x</b>: The <b>x</b> value of the chart element.</li>
+                <li><b>y</b>: The <b>y</b> value of the chart element.</li>
+            </ul>
+            <p>
+                By default, the tooltip template is set to
+                <code>&lt;b&gt;{seriesName}&lt;/b&gt;&lt;br/&gt;{x} {y}</code>.
+                You can see how that works in the previous examples.</p>
+            <p>
+                In this example, we set the tooltip template to 
+                <code>&lt;b&gt;{seriesName}&lt;/b&gt; &lt;img src='resources/{x}.png'/&gt;&lt;br/&gt;{y}</code>,
+                which replaces the country name with the country's flag.</p>
+            <p>
+                You can disable the chart tooltips by setting the template to an empty string.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="chartTooltip"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var ttChart = new wijmo.chart.FlexChart('#chartTooltip', {
+    itemsSource: appData,
+    bindingX: 'country',
+    tooltip: { content: "&lt;img src='resources/{x}.png'/&gt; &lt;b&gt;{seriesName}&lt;/b&gt;&lt;br/&gt;{y}" },
+    series: [
+        { name: 'Sales', binding: 'sales' },
+        { name: 'Expenses', binding: 'expenses' },
+        { name: 'Downloads', binding: 'downloads' }
+    ]
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="chartTooltip"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Styling Series -->
+        <div>
+            <h2>
+                Styling Series
+            </h2>
+            <p>
+                The FlexChart automatically picks colors for each series based on a default
+                palette, which you can override by setting the <b>palette</b> property.
+                But you can also override the default settings by setting the <b>style</b> 
+                property of any series to an object that specifies SVG styling attributes, 
+                including <b>fill</b>, <b>stroke</b>, <b>strokeThickness</b>, and so on.</p>
+            <p>
+                The <b>Series.style</b> property is an exception to the general rule that
+                all styling in Wijmo is done through CSS. The exception reflects the fact
+                that many charts have dynamic series, which would be impossible to style
+                in advance. For example, a stock chart may show series selected by the 
+                user while running the application.</p>
+            <p>
+                The chart in this example uses the <b>style</b> and <b>symbolStyle</b> 
+                properties to select style attributes for each series:
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="chartSeriesStyle"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var ssChart = new wijmo.chart.FlexChart('#chartSeriesStyle', {
+    itemsSource: appData,
+    bindingX: 'country',
+    series: [
+        {
+            name: 'Sales',
+            binding: 'sales',
+            style: {
+                fill: 'green',
+                stroke: 'darkgreen',
+                strokeWidth: 1
+            }
+        },
+        {
+            name: 'Expenses',
+            binding: 'expenses',
+            style: {
+                fill: 'red',
+                stroke: 'darkred',
+                strokeWidth: 1
+            }
+        },
+        {
+            name: 'Downloads',
+            binding: 'downloads',
+            chartType: 'LineSymbols',
+            style: {
+                stroke: 'orange',
+                strokeWidth: 5
+            },
+            symbolStyle: {
+                fill: 'gold',
+                stroke: 'gold'
+            }
+        }
+    ]
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="chartSeriesStyle"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customizing Axes -->
+        <div>
+            <h2>
+                Customizing Axes
+            </h2>
+            <p>
+                Use axis properties to customize the chart's axes, including ranges 
+                (minimum and maximum), label format, tickmark spacing, and gridlines.</p>
+            <p>
+                The <b>Axis</b> class has boolean properties that allow you to turn features 
+                on or off (<b>axisLine</b>, <b>labels</b>, <b>majorTickMarks</b>, and 
+                <b>majorGrid</b>).
+                You can style the appearance of the features that are turned on using CSS.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="chartCustomizeAxes"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var axChart = new wijmo.chart.FlexChart('#chartCustomizeAxes', {
+    itemsSource: appData,
+    bindingX: 'country',
+    axisX: { axisLine: true, majorGrid: true },
+    axisY: { format: 'c0', max: 10000, majorUnit: 2000, axisLine: true, majorGrid: true },
+    series: [
+        { name: 'Sales', binding: 'sales' },
+        { name: 'Expenses', binding: 'expenses' }
+    ]
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="chartCustomizeAxes"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theming -->
+        <div>
+            <h2>
+                Theming
+            </h2>
+            <p>
+                The appearance of the FlexChart is defined in CSS.
+                In addition to the default theme, we include about a dozen professionally 
+                designed themes that customize the appearance of all Wijmo controls to 
+                achieve a consistent attractive look.</p>
+            <p>
+                To customize the appearance of the chart, inspect the elements you want to 
+                style and then  create some CSS rules that apply to those elements.</p>
+            <p>
+                For example, if you right-click one of the labels on the X axis in IE or 
+                Chrome, you  will see that it is an element with the "wj-label" class, that
+                is contained in an  element with the "wj-axis-x" class, which is contained 
+                in the the top-level control element that has the "wj-flexchart" class. 
+                The first CSS rule in this example uses this information to customize the
+                X labels. The rule selector adds the additional requirement that the parent
+                element must have, the <b>"wj-flexchart"</b> and the <b>"custom-flex-chart"</b> 
+                classes. Without this, the rule would apply to all the charts on the page.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="chartTheme" class="custom-flex-chart"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var thmChart = new wijmo.chart.FlexChart('#chartTheme', {
+    itemsSource: appData,
+    bindingX: 'country',
+    series: [
+        { name: 'Sales', binding: 'sales' },
+        { name: 'Expenses', binding: 'expenses' },
+        { name: 'Downloads', binding: 'downloads' }
+    ]
+});
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+/* custom chart theme */
+.custom-flex-chart .wj-axis-x .wj-label {
+    font-family: Courier New, Courier, monospace;
+    font-weight: bold;
+}
+.custom-flex-chart .wj-legend .wj-label {
+    font-family: Courier New, Courier, monospace;
+    font-weight: bold;
+}
+.custom-flex-chart .wj-legend > rect {
+    fill: #f8f8f8;
+    stroke: #c0c0c0;
+}
+.custom-flex-chart .wj-plot-area > rect {
+    fill: #f8f8f8;
+    stroke: #c0c0c0;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="chartTheme" class="custom-flex-chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Selection Modes -->
+        <div>
+            <h2>
+                Selection Modes
+            </h2>
+            <p>The FlexChart allows you to select series or data points by clicking
+                or touching them.
+                Use the <b>selectionMode</b> property to specify whether you want to 
+                allow selection by series, by data point, or no selection at all 
+                (selection is disabled by default.)</p>
+            <p>
+                Setting the <b>selectionMode</b> property to <b>Series</b> or <b>Point</b> 
+                causes the FlexChart to update the <b>Selection</b> property when the user 
+                clicks the mouse, and to apply <b>"wj-state-selected"</b> class to the 
+                selected chart elements.</p>
+            <p>
+                The <b>Selection</b> property returns the currently selected series.
+                To get the currently selected data point, get the currently selected item
+                within the selected series using the <b>Series.collectionView.currentItem</b>
+                property as shown in the example.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="chartSelectionMode"&gt;&lt;/div&gt;
+&lt;select id="seletionModeMenu"&gt;
+    &lt;option value="0"&gt;None&lt;/option&gt;
+    &lt;option value="1" selected="selected"&gt;Series&lt;/option&gt;
+    &lt;option value="2"&gt;Point&lt;/option&gt;
+&lt;/select&gt;
+&lt;select id="chartTypeMenu"&gt;
+    &lt;option value="0" selected="selected"&gt;Column&lt;/option&gt;
+    &lt;option value="1"&gt;Bar&lt;/option&gt;
+    &lt;option value="2"&gt;Scatter&lt;/option&gt;
+    &lt;option value="3"&gt;Line&lt;/option&gt;
+    &lt;option value="4"&gt;LineSymbols&lt;/option&gt;
+    &lt;option value="5"&gt;Area&lt;/option&gt;
+    &lt;option value="9"&gt;Spline&lt;/option&gt;
+    &lt;option value="10"&gt;SplineSymbols&lt;/option&gt;
+    &lt;option value="11"&gt;SplineArea&lt;/option&gt;
+&lt;/select&gt;
+&lt;div id="seriesContainer" style="display:none"&gt;
+    &lt;h4&gt;Current Selection&lt;/h4&gt;
+    &lt;p&gt;Series: &lt;b id="seriesName"&gt;&lt;/b&gt;&lt;/p&gt;
+    &lt;dl id="detailContainer" class="dl-horizontal" style="display:none"&gt;
+        &lt;dt&gt;Country&lt;/dt&gt;&lt;dd id="seriesCountry"&gt;&lt;/dd&gt;
+        &lt;dt&gt;Sales&lt;/dt&gt;&lt;dd id="seriesSales"&gt;&lt;/dd&gt;
+        &lt;dt&gt;Expenses&lt;/dt&gt;&lt;dd id="seriesExpenses"&gt;&lt;/dd&gt;
+        &lt;dt&gt;Downloads&lt;/dt&gt;&lt;dd id="seriesDownloads"&gt;&lt;/dd&gt;
+    &lt;/dl&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var smChart = new wijmo.chart.FlexChart('#chartSelectionMode', {
+    itemsSource: appData,
+    bindingX: 'country',
+    selectionMode: 'Series',
+    series: [
+        { name: 'Sales', binding: 'sales' },
+        { name: 'Expenses', binding: 'expenses' },
+        { name: 'Downloads', binding: 'downloads' }
+    ],
+    selectionChanged: function (s, e) {
+        showChartSelection();
+    }
+});
+
+// chart type
+var typeMenu = new wijmo.input.Menu('#chartTypeMenu', {
+    itemClicked: function (s, e) {
+        smChart.chartType = parseInt(s.selectedValue);
+        updateMenuHeader(s, 'Chart Type');
+    }
+});
+updateMenuHeader(typeMenu, 'Chart Type');
+
+// selection mode
+var selectionModeMenu = new wijmo.input.Menu('#seletionModeMenu', {
+    itemClicked: function (s, e) {
+        smChart.selectionMode = parseInt(s.selectedValue);
+        showChartSelection();
+        updateMenuHeader(s, 'Selection Mode');
+    }
+});
+updateMenuHeader(selectionModeMenu, 'Selection Mode');
+
+// update selection pane when selection or selection mode change
+function showChartSelection() {
+    var seriesContainer = document.getElementById('seriesContainer'),
+        series = smChart.selectionMode ? smChart.selection : null
+    if (series) {
+
+        // show selected series
+        seriesContainer.style.display = '';
+        setText('seriesName', series.name);
+        var item = series.collectionView.currentItem,
+            detailContainer = document.getElementById('detailContainer');
+        if (item && smChart.selectionMode == wijmo.chart.SelectionMode.Point) {
+
+            // show selected point
+            detailContainer.style.display = '';
+            setText('seriesCountry', item.country);
+            setText('seriesSales', item.sales, 'c2');
+            setText('seriesExpenses', item.expenses, 'c2');
+            setText('seriesDownloads', item.downloads, 'n0');
+        } else {
+            detailContainer.style.display = 'none';
+        }
+    } else {
+        seriesContainer.style.display = 'none';
+    }
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="chartSelectionMode"></div>
+                    <select id="seletionModeMenu">
+                        <option value="0">None</option>
+                        <option value="1" selected="selected">Series</option>
+                        <option value="2">Point</option>
+                    </select>
+                    <select id="chartTypeMenu">
+                        <option value="0" selected="selected">Column</option>
+                        <option value="1">Bar</option>
+                        <option value="2">Scatter</option>
+                        <option value="3">Line</option>
+                        <option value="4">LineSymbols</option>
+                        <option value="5">Area</option>
+                        <option value="9">Spline</option>
+                        <option value="10">SplineSymbols</option>
+                        <option value="11">SplineArea</option>
+                    </select>
+                    <div id="seriesContainer" style="display:none">
+                        <h4>Current Selection</h4>
+                        <p>Series: <b id="seriesName"></b></p>
+                        <dl id="detailContainer" class="dl-horizontal" style="display:none">
+                            <dt>Country</dt><dd id="seriesCountry"></dd>
+                            <dt>Sales</dt><dd id="seriesSales"></dd>
+                            <dt>Expenses</dt><dd id="seriesExpenses"></dd>
+                            <dt>Downloads</dt><dd id="seriesDownloads"></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toggle Series Visibility -->
+        <div>
+            <h2>
+                Toggle Series Visibility
+            </h2>
+            <p>
+                The <b>Series</b> class has a <b>visibility</b> property that allows
+                you to determine whether a series should be shown in the chart and 
+                in the legend, only in the legend, or completely hidden.</p>
+            <p>
+                This sample shows how you can use the <b>visibility</b> property to 
+                toggle the visibility of a series using two methods:</p>
+            <ol>
+                <li>
+                    Clicking on legend entries:<br />
+                    The chart sets the chart's <b>option.legendToggle</b> property to true, 
+                    which toggles the <b>visibility</b> property of a series when its legend entry is 
+                    clicked.
+                </li>
+                <li>Using checkboxes:<br/>
+                    When the <b>checked</b> state changed, it will set the <b>visibility</b> property of each series by the <b>checked</b> state.
+                </li>
+            </ol>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="chartLegendToggle"&gt;&lt;/div&gt;
+&lt;label&gt;
+    Sales
+    &lt;input id="cbSales" type="checkbox" checked="checked"/&gt;
+&lt;/label&gt;&lt;br /&gt;
+&lt;label&gt;
+    Expenses
+    &lt;input id="cbExpenses" type="checkbox" checked="checked"/&gt;
+&lt;/label&gt;&lt;br /&gt;
+&lt;label&gt;
+    Downloads
+    &lt;input id="cbDownloads" type="checkbox" checked="checked"/&gt;
+&lt;/label&gt;&lt;br /&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var svChart = new wijmo.chart.FlexChart('#chartLegendToggle', {
+
+    // initialize chart
+    itemsSource: appData,
+    bindingX: 'country',
+    legendToggle: true,
+    series: [
+        { name: 'Sales', binding: 'sales' },
+        { name: 'Expenses', binding: 'expenses' },
+        { name: 'Downloads', binding: 'downloads' }
+    ],
+
+    // update checkboxes when series visibility changes
+    seriesVisibilityChanged: function (s, e) {
+        s.series.forEach(function (series) {
+            var seriesName = series.name,
+                checked = series.visibility == wijmo.chart.SeriesVisibility.Visible;
+            document.getElementById('cb' + seriesName).checked = checked;
+        });
+    }
+});
+
+// update series visibility when checkboxes are clicked
+svChart.series.forEach(function (series, index) {
+    var el = document.getElementById('cb' + series.name);
+    el.checked = series.visibility == wijmo.chart.SeriesVisibility.Visible;
+    el.addEventListener('click', function (e) {
+        series.visibility = e.target.checked
+            ? wijmo.chart.SeriesVisibility.Visible
+            : wijmo.chart.SeriesVisibility.Legend;
+    });
+});
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="chartLegendToggle"></div>
+                    <label>
+                        Sales
+                        <input id="cbSales" type="checkbox" checked="checked"/>
+                    </label><br />
+                    <label>
+                        Expenses
+                        <input id="cbExpenses" type="checkbox" checked="checked"/>
+                    </label><br />
+                    <label>
+                        Downloads
+                        <input id="cbDownloads" type="checkbox" checked="checked"/>
+                    </label><br />
+                </div>
+            </div>
+        </div>
+        
+        <!-- Gradient Colors -->
+        <div>
+            <h2 id="GradientColors">
+                Gradient Colors
+            </h2>
+            <p>
+                The FlexChart supports gradient colors.</p>
+            <p>
+                The gradient descriptor is an expression formatted as
+                follows: <code>&lt;type&gt;(&lt;coords&gt;)&lt;colors&gt;[:&lt;offset&gt;[:&lt;opacity&gt;]][-&lt;colors&gt;[:&lt;offset&gt;[:&lt;opacity&gt;]]]-&lt;colors&gt;[:&lt;offset&gt;[:&lt;opacity&gt;]]</code>.
+                The <code>&lt;type&gt;</code> can be either linear or radial.
+                The uppercase <code>L</code> or <code>R</code> letters indicate absolute coordinates offset from the SVG surface.
+                Lowercase <code>l</code> or <code>r</code> letters indicate coordinates calculated relative to the element to which the gradient is applied.
+                Coordinates specify a linear gradient vector as <code>x1</code>, <code>y1</code>, <code>x2</code>, <code>y2</code>,
+                or a radial gradient as <code>cx</code>, <code>cy</code>, <code>r</code> and optional <code>fx</code>, <code>fy</code>, <code>fr</code>
+                specifying a focal point away from the center of the circle.
+                Specify <code>&lt;colors&gt;</code> as a list of dash-separated CSS color values.
+                Each color may be followed by a custom offset and opacity value, separated with a colon character.
+            </p>
+            <p>Linear gradient format example:</p>
+            <p><code>'l(0,0,1,0)#ff0000-#00ff00-#0000ff'</code>, <code>'L(0,0,300,300)#ff0000:0.2:0.2-00ff00:0.8'</code></p>
+            <p>Radial gradient format example:</p>
+            <p><code>'r(0.5,0.5,1)#ff0000-#0000ff'</code>, <code>'R(100,100,100,200,200,200)#ff0000-#0000ff'</code></p>
+            <h3>
+                Basic
+            </h3>
+            <p>
+                Select from the predefined gradient colors to see the different appearances.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="predefinedChart"&gt;&lt;/div&gt;
+&lt;div&gt;
+    &lt;select id="predefinedColorMenu"&gt;
+        &lt;option value="l(0,0,1,0)#89f7fe-#66a6ff" selected="selected"&gt;Light Blue - l(0, 0, 1, 0)#89f7fe-#66a6ff&lt;/option&gt;
+        &lt;option value="l(0,0,0,1)#13547a-#80d0c7"&gt;Aqua - l(0, 0, 0, 1)#13547a-#80d0c7&lt;/option&gt;
+        &lt;option value="l(0,0,1,1)#ff0844-#ffb199"&gt;Red - l(0, 0, 1, 1)#ff0844-#ffb199&lt;/option&gt;
+        &lt;option value="l(0,0,1,0)#b224ef-#7579ff-#b224ef"&gt;Purple - l(0, 0, 1, 0)#b224ef-#7579ff-#b224ef&lt;/option&gt;
+        &lt;option value="r(0.5,0.5,0.7)#cc208e-#6713d2"&gt;Plum - r(0.5,0.5,0.7)#cc208e-#6713d2&lt;/option&gt;
+        &lt;option value="l(0,0,1,0)#30cfd0-#330867"&gt;Deep Blue - l(0, 0, 1, 0)#30cfd0-#330867&lt;/option&gt;
+        &lt;option value="l(0,0,0,1)#e27f00-#ae1a73"&gt;Orange - l(0, 0, 0, 1)#e27f00-#ae1a73&lt;/option&gt;
+        &lt;option value="l(0,0,1,1)#abd800-#5c7e00"&gt;Green - l(0, 0, 1, 1)#abd800-#5c7e00&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var pdgradChart = new wijmo.chart.FlexChart('#predefinedChart', {
+    itemsSource: appData,
+    bindingX: 'country',
+    series: [
+        { binding: 'sales' }
+    ]
+});
+var predefinedColorMenu = new wijmo.input.Menu('#predefinedColorMenu', {
+    itemClicked: function (s, e) {
+        applyBasicGradientColor();
+        updateMenuHeader(s, 'Color');
+    }
+});
+updateMenuHeader(predefinedColorMenu, 'Color');
+applyBasicGradientColor();
+
+function applyBasicGradientColor() {
+    pdgradChart.series[0].style = {
+        fill: predefinedColorMenu.selectedValue
+    };
+    pdgradChart.refresh(true);
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="predefinedChart"></div>
+                    <div>
+                        <select id="predefinedColorMenu">
+                            <option value="l(0,0,1,0)#89f7fe-#66a6ff" selected="selected">Light Blue - l(0, 0, 1, 0)#89f7fe-#66a6ff</option>
+                            <option value="l(0,0,0,1)#13547a-#80d0c7">Aqua - l(0, 0, 0, 1)#13547a-#80d0c7</option>
+                            <option value="l(0,0,1,1)#ff0844-#ffb199">Red - l(0, 0, 1, 1)#ff0844-#ffb199</option>
+                            <option value="l(0,0,1,0)#b224ef-#7579ff-#b224ef">Purple - l(0, 0, 1, 0)#b224ef-#7579ff-#b224ef</option>
+                            <option value="r(0.5,0.5,0.7)#cc208e-#6713d2">Plum - r(0.5,0.5,0.7)#cc208e-#6713d2</option>
+                            <option value="l(0,0,1,0)#30cfd0-#330867">Deep Blue - l(0, 0, 1, 0)#30cfd0-#330867</option>
+                            <option value="l(0,0,0,1)#e27f00-#ae1a73">Orange - l(0, 0, 0, 1)#e27f00-#ae1a73</option>
+                            <option value="l(0,0,1,1)#abd800-#5c7e00">Green - l(0, 0, 1, 1)#abd800-#5c7e00</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <h3>
+                Advanced
+            </h3>
+            <p>
+                Set multiple options to customize gradient color.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="chartGradientColors"&gt;&lt;/div&gt;
+&lt;dl class="dl-horizontal"&gt;
+    &lt;dt&gt;Generated fill string:&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;label id="gradientColorsLabel"&gt;&lt;/label&gt;
+    &lt;/dd&gt;
+    &lt;dt&gt;&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;select id="gradientChartType"&gt;
+            &lt;option value="0" selected="selected"&gt;Column&lt;/option&gt;
+            &lt;option value="1"&gt;Bar&lt;/option&gt;
+            &lt;option value="5"&gt;Area&lt;/option&gt;
+            &lt;option value="11"&gt;SplineArea&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/dd&gt;
+    &lt;dt&gt;&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;select id="gradientTypeMenu"&gt;
+            &lt;option value="l" selected="selected"&gt;Linear&lt;/option&gt;
+            &lt;option value="r"&gt;Radial&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/dd&gt;
+    &lt;dt id="dtGradientDirection"&gt;&lt;/dt&gt;
+    &lt;dd id="ddGradientDirection"&gt;
+        &lt;select id="gradientDirectionMenu"&gt;
+            &lt;option value="horizontal" selected="selected"&gt;Horizontal&lt;/option&gt;
+            &lt;option value="vertical"&gt;Vertical&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/dd&gt;
+    &lt;dt&gt;Start Color:&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="gradientStartColor"/&gt;&lt;/dd&gt;
+    &lt;dt&gt;Start Offset:&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="gradientStartOffset"/&gt;&lt;/dd&gt;
+    &lt;dt&gt;Start Opacity:&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="gradientStartOpacity"/&gt;&lt;/dd&gt;
+    &lt;dt&gt;End Color:&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="gradientEndColor"/&gt;&lt;/dd&gt;
+    &lt;dt&gt;End Offset:&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="gradientEndOffset"/&gt;&lt;/dd&gt;
+    &lt;dt&gt;End Opacity:&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="gradientEndOpacity"/&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var gradChart = new wijmo.chart.FlexChart('#chartGradientColors', {
+    itemsSource: appData,
+    bindingX: 'country',
+    series: [
+        { binding: 'sales' }
+    ]
+});
+
+// chart type
+var gradientChartType = new wijmo.input.Menu('#gradientChartType', {
+    itemClicked: function (s, e) {
+        gradChart.chartType = parseInt(gradientChartType.selectedValue);
+        updateMenuHeader(s, 'Chart Type');
+    }
+});
+updateMenuHeader(gradientChartType, 'Chart Type');
+
+// custom gradient
+var startColor = new wijmo.input.InputColor('#gradientStartColor', {
+    valueChanged: function(s, e) {
+        applyGradientColor();
+    },
+    value: '#ff0000'
+});
+var endColor = new wijmo.input.InputColor('#gradientEndColor', {
+    valueChanged: function(s, e) {
+        applyGradientColor();
+    },
+    value: '#0000ff'
+});
+var startOffset = new wijmo.input.InputNumber('#gradientStartOffset', {
+    min: 0,
+    max: 1,
+    step: .1,
+    valueChanged: function(s, e) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            applyGradientColor();
+        }
+    },
+    value: 0
+});
+var endOffset = new wijmo.input.InputNumber('#gradientEndOffset', {
+    min: 0,
+    max: 1,
+    step: .1,
+    valueChanged: function(s, e) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            applyGradientColor();
+        }
+    },
+    value: 1
+});
+var startOpacity = new wijmo.input.InputNumber('#gradientStartOpacity', {
+    min: 0,
+    max: 1,
+    step: .1,
+    valueChanged: function(s, e) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            applyGradientColor();
+        }
+    },
+    value: 1
+});
+var endOpacity = new wijmo.input.InputNumber('#gradientEndOpacity', {
+    min: 0,
+    max: 1,
+    step: .1,
+    valueChanged: function(s, e) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            applyGradientColor();
+        }
+    },
+    value: 1
+});
+
+// gradient type and direction
+var type = new wijmo.input.Menu('#gradientTypeMenu', {
+    itemClicked: function(s, e) {
+        applyGradientColor();
+        updateMenuHeader(type, 'Gradient Type');
+    }
+});
+updateMenuHeader(type, 'Gradient Type');
+var direction = new wijmo.input.Menu('#gradientDirectionMenu', {
+    itemClicked: function(s, e) {
+        applyGradientColor();
+        updateMenuHeader(direction, 'Direction');
+    }
+});
+updateMenuHeader(direction, 'Direction');
+
+// apply the current gradient color
+function applyGradientColor() {
+    if (type && direction) {
+        var t = type.selectedValue,
+            d = direction.selectedValue,
+            color = t,
+            dtDirection = document.getElementById('dtGradientDirection'),
+            ddDirection = document.getElementById('ddGradientDirection');
+        if (t === 'l') {
+            dtDirection.style.display = 'block';
+            ddDirection.style.display = 'block';
+            color += d == 'horizontal'
+                ? '(0, 0, 1, 0)'
+                : '(0, 0, 0, 1)';
+        } else {
+            dtDirection.style.display = 'none';
+            ddDirection.style.display = 'none';
+            color += '(0.5, 0.5, 0.5)'
+        }
+        color += startColor.value;
+        if (startOffset.value != 0 || startOpacity.value != 1) {
+            color += ':' + startOffset.value;
+        }
+        if (startOpacity.value != 1) {
+            color += ':' + startOpacity.value;
+        }
+        color += '-' + endColor.value;
+        if (endOffset.value != 1 || endOpacity.value != 1) {
+            color += ':' + endOffset.value;
+        }
+        if (endOpacity.value != 1) {
+            color += ':' + endOpacity.value;
+        }
+        setText('gradientColorsLabel', color);
+        gradChart.series[0].style = {
+            fill: color
+        };
+        gradChart.refresh(true);
+    }
+}
+applyGradientColor();
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="chartGradientColors"></div>
+                    <dl class="dl-horizontal">
+                        <dt>Generated fill string:</dt>
+                        <dd>
+                            <label id="gradientColorsLabel"></label>
+                        </dd>
+                        <dt></dt>
+                        <dd>
+                            <select id="gradientChartType">
+                                <option value="0" selected="selected">Column</option>
+                                <option value="1">Bar</option>
+                                <option value="5">Area</option>
+                                <option value="11">SplineArea</option>
+                            </select>
+                        </dd>
+                        <dt></dt>
+                        <dd>
+                            <select id="gradientTypeMenu">
+                                <option value="l" selected="selected">Linear</option>
+                                <option value="r">Radial</option>
+                            </select>
+                        </dd>
+                        <dt id="dtGradientDirection"></dt>
+                        <dd id="ddGradientDirection">
+                            <select id="gradientDirectionMenu">
+                                <option value="horizontal" selected="selected">Horizontal</option>
+                                <option value="vertical">Vertical</option>
+                            </select>
+                        </dd>
+                        <dt>Start Color:</dt>
+                        <dd><input id="gradientStartColor"/></dd>
+                        <dt>Start Offset:</dt>
+                        <dd><input id="gradientStartOffset"/></dd>
+                        <dt>Start Opacity:</dt>
+                        <dd><input id="gradientStartOpacity"/></dd>
+                        <dt>End Color:</dt>
+                        <dd><input id="gradientEndColor"/></dd>
+                        <dt>End Offset:</dt>
+                        <dd><input id="gradientEndOffset"/></dd>
+                        <dt>End Opacity:</dt>
+                        <dd><input id="gradientEndOpacity"/></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Charts -->
+        <div>
+            <h2>
+                Dynamic Charts
+            </h2>
+            <p>
+                The FlexChart uses an <b>ICollectionView</b> internally, so any changes 
+                you make to the data source are automatically reflected in the chart.</p>
+            <p>
+                In this sample, we use a timer to add items to the data source, discarding 
+                old items to keep the total count at 200. The result is a dynamic chart that 
+                scrolls as new data arrives.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="dynamicChart"&gt;&lt;/div&gt;
+&lt;dl class="dl-horizontal"&gt;
+    &lt;dt&gt;Update Speed&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;div class="btn-group"&gt;
+            &lt;button id="btnSlow" type="button" class="btn btn-default"&gt;Slow&lt;/button&gt;
+            &lt;button id="btnMedium" type="button" class="btn btn-default"&gt;Medium&lt;/button&gt;
+            &lt;button id="btnFast" type="button" class="btn btn-default"&gt;Fast&lt;/button&gt;
+            &lt;button id="btnStop" type="button" class="btn btn-default"&gt;Stop&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/dd&gt;
+&lt;/dl&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var toAddData = null,
+    interval = null,
+    trafficData = new wijmo.collections.ObservableArray(),
+    setInterval = function(interval) {
+        if (toAddData) {
+            clearTimeout(toAddData);
+            toAddData = null;
+        }
+        if (interval) {
+            toAddData = setTimeout(function() {
+                addTrafficItem(trafficData, interval);
+            });
+        }
+    };
+
+// create FlexChart
+var dynamicChart = new wijmo.chart.FlexChart('#dynamicChart', {
+    chartType: 'Area',
+    stacking: 'Stacked',
+    itemsSource: trafficData,
+    bindingX: 'time',
+    axisX: { format: 'mm:ss' },
+    series: [
+        { name: 'Trucks', binding: 'trucks' },
+        { name: 'Ships', binding: 'ships' },
+        { name: 'Planes', binding: 'planes' }
+    ]
+});
+setInterval(500);
+
+// Bind the click event to the speed buttons
+var intervalHash = { // interval hash for the speed buttons
+    Slow: 200,
+    Medium: 100,
+    Fast: 50,
+    Stop: 0
+};
+for (var prop in intervalHash) {
+    document.getElementById('btn' + prop).addEventListener('click', buttonClick(intervalHash[prop]));
+}
+function buttonClick(value) {
+    return function() {
+        setInterval(value);
+    };
+}
+function addTrafficItem(trafficData, interval) {
+    var len = trafficData.length,
+        last = len ? trafficData[len - 1] : null,
+        trucks = last ? last.trucks : 0,
+        ships = last ? last.ships : 0,
+        planes = last ? last.planes : 0;
+    trucks = Math.max(0, trucks + Math.round(Math.random() * 50 - 25));
+    ships = Math.max(0, ships + Math.round(Math.random() * 10 - 5));
+    planes = Math.max(0, planes + Math.round(Math.random() * 10 - 5));
+
+    // add random data, limit array length
+    trafficData.push({ time: new Date(), trucks: trucks, ships: ships, planes: planes });
+    if (trafficData.length &gt; 200) {
+        trafficData.splice(0, 1);
+    }
+
+    // keep adding
+    if (interval) {
+        toAddData = setTimeout(function() {
+            addTrafficItem(trafficData, interval);
+        }, interval);
+    }
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="dynamicChart"></div>
+                    <dl class="dl-horizontal">
+                        <dt>Update Speed</dt>
+                        <dd>
+                            <div class="btn-group">
+                              <button id="btnSlow" type="button" class="btn btn-default">Slow</button>
+                              <button id="btnMedium" type="button" class="btn btn-default">Medium</button>
+                              <button id="btnFast" type="button" class="btn btn-default">Fast</button>
+                              <button id="btnStop" type="button" class="btn btn-default">Stop</button>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

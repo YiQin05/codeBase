@@ -1,0 +1,10 @@
+﻿.wj-flexgrid {
+    max-height: 800px;
+    margin-top: 6px;
+}
+.fixed-width {
+    width: 10em; /* TFS 315923 */
+}
+body {
+    margin-bottom: 24pt;
+}

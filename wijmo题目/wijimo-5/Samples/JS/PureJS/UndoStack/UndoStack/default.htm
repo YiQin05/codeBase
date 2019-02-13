@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Undo Stack | Wijmo</title>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <script src="scripts/vendor/wijmo.min.js"></script>
+    <script src="scripts/vendor/wijmo.input.min.js"></script>
+    <script src="scripts/vendor/wijmo.grid.min.js"></script>
+    <script src="scripts/vendor/wijmo.gauge.min.js"></script>
+
+    <!-- wijmo.undo -->
+    <script src="scripts/UndoStack.js"></script>
+
+    <!-- app -->
+    <link href="styles/app.css" rel="stylesheet">
+    <script src="scripts/app.js"></script>
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+
+<body class="container">
+
+    <h1>
+        UndoStack
+    </h1>
+
+      <p>
+        This demo shows an <b>UndoStack</b> class that can be used to provide
+        form-level undo/redo functionality. It handles standard HTML elements,
+        including text, check, and radio boxes, as well as Wijmo input and
+        FlexGrid controls.</p>
+    <p>
+        To see how it works, make changes to the form and then use the Undo/Redo
+        buttons on the toolbar at the top of the page.</p>
+    <div class="toolbar">
+        <button id="undo" class="btn btn-default" disabled>
+            <span class="glyphicon glyphicon-repeat glyphicon-flip"></span> Undo (ctrl+Z)
+        </button>
+        <button id="redo" class="btn btn-default" disabled>
+            <span class="glyphicon glyphicon-repeat"></span> Redo (ctrl+Y)
+        </button>
+        <button id="reset" class="btn btn-default">
+            Reset
+        </button>
+        <span>
+            Action Count: <span id="cnt">0</span>
+        </span>
+    </div>
+
+    <form id="form">
+        <div class="row">
+            <div class="col-md-5">
+
+                <h3>HTML Input Text Elements</h3>
+
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input id="firstName" class="form-control" placeholder="First Name" pattern="[a-zA-Z]{5,15}">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input id="lastName" class="form-control" placeholder="Last Name" pattern="[a-zA-Z]{5,15}">
+                </div>
+
+                <div class="form-group">
+                    <label for="select">Select:</label>
+                    <select id="select" class="form-control">
+                        <option value="value1">Apples</option>
+                        <option value="value2" selected>Oranges</option>
+                        <option value="value3">Grapes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="area">TextArea:</label>
+                    <textarea id="area" class="form-control" placeholder="textarea"></textarea>
+                </div>
+
+                <h3>HTML Input Range Elements</h3>
+
+                <div class="form-group">
+                    <label for="bass">Bass:</label>
+                    <input id="bass" class="form-control" type="range" min="0" max="50" value="45">
+                    <label for="midrange">Midrange:</label>
+                    <input id="midrange" class="form-control" type="range" min="0" max="50" value="25">
+                    <label for="treble">Treble:</label>
+                    <input id="treble" class="form-control" type="range" min="0" max="50" value="35">
+                </div>
+
+                <h3>
+                    HTML Input Button Elements
+                </h3>
+                <div class="form-group label-indent">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" id="inlineCheckbox1" value="option1"> Red
+                    </label>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" id="inlineCheckbox2" value="option2" checked> Green
+                    </label>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" id="inlineCheckbox3" value="option3"> Blue
+                    </label>
+                </div>
+                <div class="form-group label-indent">
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Hot
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" checked> Cold
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> Medium
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <h3>Wijmo Controls</h3>
+
+                <div class="form-group">
+                    <label for="country">Country:</label>
+                    <div id="country" placeholder="Country" pattern="[a-z]{5,15}"></div>
+                    <span id="countryValue" class="ctlValue"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <div id="amount" placeholder="Amount"></div>
+                    <span id="amountValue" class="ctlValue"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="gauge">LinearGauge</label>
+                    <div id="gauge"></div>
+                    <span id="gaugeValue" class="ctlValue"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <div id="date" placeholder="Date"></div>
+                    <span id="dateValue" class="ctlValue"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="colors">Colors (MultiSelect)</label>
+                    <div id="colors"></div>
+                    <span id="colorsValue" class="ctlValue"></span>
+                </div>
+                <div class="form-group">
+                    <label for="mac">Colors (MultiAutoComplete)</label>
+                    <div id="mac"></div>
+                    <span id="macValue" class="ctlValue"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="grid">Grid:</label>
+                    <div id="grid"></div>
+                    <br/>
+                    <label for="newRowAtTop">New Row At Top</label>
+                    <input class="wj-no-undo" id="newRowAtTop" type="checkbox">
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,13 +1,18 @@
 <template>
   <div id="app">
+    <svg-icon></svg-icon>
     <router-view/>
   </div>
 </template>
 
 <script>
 import './style/common.scss'
+import svgIcon from './components/common/svg.vue'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    svgIcon
+  }
 }
 </script>
 

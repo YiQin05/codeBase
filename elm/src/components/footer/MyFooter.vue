@@ -27,7 +27,7 @@
     </section>
     <div class="footer">
       <ul>
-        <router-link tag="li" to="/mysite">
+        <router-link tag="li" :to="{ path: '/mysite',  query: { geohash }}">
             <span>
               <svg class="icon_style">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('mysite') !== -1? '#msiteActive' : '#msite'"></use>
@@ -60,16 +60,29 @@
           <span>我的</span>
         </router-link>
       </ul>
+      <!-- <h1>{{ count }}</h1>
+      <mt-button type="primary" @click="click">点我</mt-button> -->
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'MyFooter',
   data () {
     return {
     }
+  },
+  mounted () {
+  },
+  computed: {
+    ...mapState([
+      'geohash'
+    ])
+    // count () {
+    //   return this.$store.state.count
+    // }
   },
   methods: {
     tabBarClick (index) {
@@ -80,12 +93,22 @@ export default {
           console.log(this.router)
       }
     }
+    // click () {
+    //   this.$store.commit('INCREMENT', {
+    //     amount: 10
+    //   })
+    //   console.log('点击了')
+    // }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '../../style/mixin.scss';
+// h1{
+//   position: absolute;
+//   top: -1rem;
+// }
 .icon_style{
   width: 0.8rem;
   height: 0.8rem;

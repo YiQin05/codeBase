@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>FlexGridPager | Wijmo</title>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <script src="scripts/vendor/wijmo.min.js"></script>
+    <script src="scripts/vendor/wijmo.input.min.js"></script>
+    <script src="scripts/vendor/wijmo.grid.min.js"></script>
+    <script src="scripts/vendor/wijmo.grid.filter.min.js"></script>
+    <script src="scripts/vendor/wijmo.olap.min.js"></script>
+
+    <!-- wijmo.undo -->
+    <script src="scripts/FlexGridPager.js"></script>
+
+    <!-- app -->
+    <link href="styles/app.css" rel="stylesheet">
+    <script src="scripts/app.js"></script>
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+
+<body class="container">
+
+    <h2>
+        FlexGridPager
+    </h2>
+
+    <p>
+        This sample introduces a <b>FlexGridPager</b> class that performs
+        grid-level pagination.</p>
+    <p>
+        The differences between grid-level pagination and the more traditional
+        data-level pagination provided by the <b>CollectionView</b> class are:</p>
+    <ol>
+        <li>
+            The grid-level pagination takes into account the collapsed/expanded
+            state of group rows, so if you collapse or expand a group, the number of
+            rows displayed will correspond to the page size. Data-level pagination
+            does not account for collapsed groups, so if you collapse a group
+            the grid will display fewer rows than the page size.</li>
+        <li>
+            The grid-level pagination keeps all grid rows loaded, and simply
+            hides rows that are not on the current page by setting their 
+            height to zero. The data-level pagination loads only the rows 
+            that correspond to data items on the current page.</li>
+        <li>
+            The grid-level pagination affects only the <b>FlexGrid</b> it
+            is applied to. The data-level pagination affects all controls
+            bound to the collection view.</li>
+    </ol>
+
+    <h3>
+        FlexGridPager with a FlexGrid
+    </h3>
+    <p>
+        The grid below uses a <b>FlexGridPager</b> to show the same number
+        of rows per page, regardless of group state:</p>
+
+    <div id="the-pager" class="btn-group">
+        <button id="btn-first" class="btn btn-default">
+            <span class="glyphicon glyphicon-backward"></span>
+        </button>
+        <button id="btn-prev" class="btn btn-default">
+            <span class="glyphicon glyphicon-step-backward"></span>
+        </button>
+        <button id="the-pager-current" class="btn btn-default fixed-width" disabled></button>
+        <button id="btn-next" class="btn btn-default">
+            <span class="glyphicon glyphicon-step-forward"></span>
+        </button>
+        <button id="btn-last" class="btn btn-default">
+            <span class="glyphicon glyphicon-forward"></span>
+        </button>
+    </div>
+    <label for="the-page-size">
+        Page Size
+    </label>
+    <div id="the-page-size"></div>
+    <br/>
+    <div id="the-grid"></div>
+
+    <h3>
+        FlexGridPager with a PivotGrid
+    </h3>
+    <p>
+        The <b>PivotGrid</b> class extends <b>FlexGrid</b> and can also be 
+        used with the <b>FlexGridPager</b> class.</p>
+    <p>
+        Try expanding or collapsing some groups, notice how the grid still
+        shows the same number of rows.</p>
+
+    <div id="the-pivot-pager" class="btn-group">
+        <button id="btn-first-pivot" class="btn btn-default">
+            <span class="glyphicon glyphicon-backward"></span>
+        </button>
+        <button id="btn-prev-pivot" class="btn btn-default">
+            <span class="glyphicon glyphicon-step-backward"></span>
+        </button>
+        <button id="the-pivot-pager-current" class="btn btn-default fixed-width" disabled></button>
+        <button id="btn-next-pivot" class="btn btn-default">
+            <span class="glyphicon glyphicon-step-forward"></span>
+        </button>
+        <button id="btn-last-pivot" class="btn btn-default">
+            <span class="glyphicon glyphicon-forward"></span>
+        </button>
+    </div>
+    <label for="the-page-size-pivot">
+        Page Size
+    </label>
+    <div id="the-page-size-pivot"></div>
+    <br/>
+    <div id="the-pivot-grid"></div>
+
+</body>
+</html>

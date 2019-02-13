@@ -5,6 +5,7 @@ import routerTest from '@/components/routerTest'
 import newPage from '@/components/newPage'
 // import test from '@/components/test'
 import newHelloWord from '@/components/new'
+import cellTree from '@/components/cellTree'
 
 Vue.use(Router)
 
@@ -32,6 +33,11 @@ const newRouter = new Router({
           component: newPage
         }
       ]
+    },
+    {
+      path: '/cellTree',
+      name: 'cellTree',
+      component: cellTree
     }
     // {
     //   path: '/routerTest',

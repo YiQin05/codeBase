@@ -1,0 +1,276 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Migrating from Wijmo 3 to Wijmo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+    <!-- Wijmo 3 -->
+    <link href="https://cdn.grapecity.com/wijmo/3/jquery-wijmo.css" rel="stylesheet"/>
+    <link href="https://cdn.grapecity.com/wijmo/3/jquery.wijmo-pro.all.3.20171.112.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+    <script src="https://cdn.grapecity.com/wijmo/3/jquery.wijmo-open.all.3.20171.112.min.js"></script>
+    <script src="https://cdn.grapecity.com/wijmo/3/jquery.wijmo-pro.all.3.20171.112.min.js"></script>
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <script src="scripts/vendor/wijmo.min.js"></script>
+    <script src="scripts/vendor/wijmo.input.min.js"></script>
+    <script src="scripts/vendor/wijmo.grid.min.js"></script>
+    <script src="scripts/vendor/wijmo.chart.min.js"></script>
+    <script src="scripts/vendor/wijmo.nav.min.js"></script>
+
+    <!-- app -->
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/app.js"></script>
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" alt="Wijmo" />
+            <h1>Migrating from Wijmo 3</h1>
+            <p>
+                This sample shows how to migrate from Wijmo 3 to Wijmo 5.
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <h3>Wijmo 3 wijgrid</h3>
+            <div class="col-md-6">
+                <table id="mywijgrid" style="height:300px;"></table>
+                <button id="btnSortWij" class="btn btn-default">Sort By Amount</button> 
+                <button id="btnHeadersWij" class="btn btn-default">Toggle Row Headers</button>
+                <p>
+                    Selected Amount: <span id="lblWij">[ select new row to fire event ]</span>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <div class="tab-source">
+                    <div>
+                        <a>HTML</a>
+                        <div>
+&lt;table id="mywijgrid" style="height:300px;"&gt;&lt;/table&gt;
+&lt;button id="btnSortWij" class="btn btn-default"&gt;Sort By Amount&lt;/button&gt; 
+&lt;button id="btnHeadersWij" class="btn btn-default"&gt;Toggle Row Headers&lt;/button&gt;
+&lt;p&gt;
+    Selected Amount: &lt;span id="lblWij"&gt;[ select new row to fire event ]&lt;/span&gt;
+&lt;/p&gt;
+                        </div>
+                    </div>
+                    <div>
+                        <a>JS</a>
+                        <div>
+// populate Array of data
+var rawData = data.getData(100);
+
+// create and bind Wijmo 3 wijgrid
+$('#mywijgrid').wijgrid({
+    columnsAutoGenerationMode: 'none',
+    data: rawData,
+    allowSorting: true,
+    scrollMode: 'auto',
+    selectionMode: 'singleRow',
+    ensureColumnsPxWidth: true,
+    columns: [
+        { dataKey: 'Id', dataType: 'number', dataFormatString: 'n0', width: '20%' },
+        { dataKey: 'Country', width: '20%' },
+        { dataKey: 'Date', dataType: 'datetime', width: '20%' },
+        { dataKey: 'Amount', dataType: 'currency', width: '20%' },
+        { dataKey: 'Active', dataType: 'boolean', width: '20%' }
+    ]
+});
+
+// Sort Grid when button clicked
+$('#btnSortWij').click(function () {
+    $('#mywijgrid').wijgrid('columns')[3].options.sortDirection = 'ascending';
+    $('#mywijgrid').wijgrid('ensureControl', true);
+});
+
+// Show Row Headers in Grid when button clicked
+$('#btnHeadersWij').click(function () {
+    if ($('#mywijgrid').wijgrid('option', 'showRowHeader') === true) {
+        $('#mywijgrid').wijgrid('option', 'showRowHeader', false);
+    } else {
+        $('#mywijgrid').wijgrid('option', 'showRowHeader', true);
+    }
+});
+
+// Bind to selectionChange in wijgrid
+$("#mywijgrid").bind("wijgridselectionchanged", function (e, args) {
+    var amt = args.addedCells.item(3).value();
+    $('#lblWij').text(amt); // set text of span tag to Amount value
+});
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h3>Wijmo FlexGrid</h3>
+            <div class="col-md-6">
+                <div id="myFlexGrid" style="height:300px;"></div>
+                <button id="btnSortFlex" class="btn btn-default">Sort By Amount</button> 
+                <button id="btnHeadersFlex" class="btn btn-default">Toggle Row Headers</button>
+                <p>
+                    Selected Amount: <span id="lblFlex">[ select new row to fire event ]</span>
+                </p>
+            </div>
+
+            <div class="col-md-6">
+                <div class="tab-source">
+                    <div>
+                        <a>HTML</a>
+                        <div>
+&lt;div id="myFlexGrid" style="height:300px;"&gt;&lt;/div&gt;
+&lt;button id="btnSortFlex" class="btn btn-default"&gt;Sort By Amount&lt;/button&gt; 
+&lt;button id="btnHeadersFlex" class="btn btn-default"&gt;Toggle Row Headers&lt;/button&gt;
+&lt;p&gt;
+    Selected Amount: &lt;span id="lblFlex"&gt;[ select new row to fire event ]&lt;/span&gt;
+&lt;/p&gt;
+                        </div>
+                    </div>
+                    <div>
+                        <a>JS</a>
+                        <div>
+// create a Wijmo 5 CollectionView from the rawData Array
+var cv = new wijmo.collections.CollectionView(rawData);
+
+// create and bind Wijmo 5 FlexGrid
+var myFlexGrid = new wijmo.grid.FlexGrid('#myFlexGrid', {
+    autoGenerateColumns: false,
+    itemsSource: cv,
+    isReadOnly: true,
+    selectionMode: wijmo.grid.SelectionMode.Row,
+    headersVisibility: wijmo.grid.HeadersVisibility.Column,
+    columns: [
+        { binding: 'Id', width: '*' },
+        { binding: 'Country', width: '*' },
+        { binding: 'Date', width: '*' },
+        { binding: 'Amount', format: 'c0', width: '*' },
+        { binding: 'Active', width: '*' }
+    ]
+});
+
+// Sort Grid when button clicked
+document.getElementById('btnSortFlex').addEventListener('click', function () {
+    var sdNew = new wijmo.collections.SortDescription('Amount', true);
+    cv.sortDescriptions.splice(0, cv.sortDescriptions.length, sdNew);
+});
+
+// Show Row Headers in Grid when button clicked
+document.getElementById('btnHeadersFlex').addEventListener('click', function () {
+    myFlexGrid.headersVisibility = myFlexGrid.headersVisibility == wijmo.grid.HeadersVisibility.All
+        ? 'Column'
+        : 'All';
+});
+
+// Bind to selectionChange in FlexGrid
+myFlexGrid.selectionChanged.addHandler(function (e, args) {
+    var amt = myFlexGrid.rows[args.row].dataItem.Amount;
+    document.getElementById('lblFlex').innerHTML = amt; // set text of span tag to Amount value
+});
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h3>Wijmo 3 wijlinechart</h3>
+            <div class="col-md-6">
+                <div id="mywijlinechart" style="height:300px;"></div>
+            </div>
+            <div class="col-md-6">
+                <div class="tab-source">
+                    <div>
+                        <a>HTML</a>
+                        <div>
+&lt;div id="mywijlinechart" style="height:300px;"&gt;&lt;/div&gt;
+                        </div>
+                    </div>
+                    <div>
+                        <a>JS</a>
+                        <div>
+// populate Array of data for Chart
+var chartData = data.getData(12);
+
+// create and bind a Wijmo 3 Line Chart
+$('#mywijlinechart').wijlinechart({
+    dataSource: chartData,
+    showChartLabels: false,
+    header: {
+        text: 'Sales Report'
+    },
+    legend: {
+        visible: false
+    },
+    axis: {
+        x: { annoFormatString: 'MMM' },
+        y: { annoFormatString: 'c0' }
+    },
+    seriesList: [
+        {
+            label: 'Sales',
+            data: {
+                x: { bind: 'Date' },
+                y: { bind: 'Amount' }
+            }
+        }
+    ],
+});
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3>Wijmo FlexChart</h3>
+            <div class="col-md-6">
+                <div id="myFlexChart" style="height:300px;"></div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="tab-source">
+                    <div>
+                        <a>HTML</a>
+                        <div>
+&lt;div id="myFlexChart" style="height:300px;"&gt;&lt;/div&gt;
+                        </div>
+                    </div>
+                    <div>
+                        <a>JS</a>
+                        <div>
+// create and bind a Wijmo 5 FlexChart
+var myFlexChart = new wijmo.chart.FlexChart('#myFlexChart', {
+    chartType: 'Line',
+    header: 'Sales Report',
+    legend: {
+        position: 'None'
+    },
+    axisX: {
+        format: 'MMM'
+    },
+    axisY: {
+        format: 'c0'
+    },
+    itemsSource: chartData,
+    bindingX: 'Date',
+    series: [
+        { binding: 'Amount', name: 'Sales' }
+    ]
+});
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

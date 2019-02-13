@@ -1,0 +1,662 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunburst Introduction | Wijmo</title>
+
+    <!-- Bootstrap -->
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <script src="scripts/vendor/wijmo.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.input.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.chart.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.chart.hierarchical.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.nav.min.js" type="text/javascript"></script>
+
+    <!-- app -->
+    <link href="styles/app.css" rel="stylesheet" />
+    <script src="scripts/app.js"></script>
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <div class="header">
+        <div class="container">
+            <img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" alt="Wijmo" />
+            <h1>
+                Sunburst 101
+            </h1>
+            <p>
+                This page shows how to get started with Wijmo's Sunburst chart control.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Getting Started -->
+        <div>
+            <h2>
+                Getting Started
+            </h2>
+            <p>
+                Here are the steps for getting started with the Sunburst chart control 
+                in JavaScript applications:
+            </p>
+            <ol>
+                <li>Add references to Wijmo.</li>
+                <li>Add markup to serve as the Wijmo control's host.</li>
+                <li>Initialize the Wijmo control(s) via JavaScript.</li>
+                <li>(Optional) Add some CSS to customize the control's appearance.</li>
+            </ol>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="introChart"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var introChart = new wijmo.chart.hierarchical.Sunburst('#introChart', {
+    binding: 'value',
+    bindingName: ['year', 'quarter', 'month'],
+    itemsSource: getData(),
+    dataLabel: {
+        position: 'Center',
+        content: '{name}'
+    }
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="introChart"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Grouped CollectionView -->
+        <div>
+            <h2>
+                Grouped CollectionView
+            </h2>
+            <p>
+                This sample shows how to use the Sunburst chart with Grouped CollectionView
+                data sources.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="groupCVChart"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var groupCVChart = new wijmo.chart.hierarchical.Sunburst('#groupCVChart', {
+    binding: 'value',
+    itemsSource: getGroupCVData(),
+    dataLabel: {
+        position: 'Center',
+        content: '{name}'
+    }
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="groupCVChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Basic Features -->
+        <div>
+            <h2>
+                Basic Features
+            </h2>
+            <p>
+                The Sunburst chart control has five basic properties that allow you to 
+                customize its layout and appearance:
+            </p>
+            <ul>
+                <li>
+                    <b>innerRadius</b>:
+                    Specifies the control's inner radius to support donut charts.
+                </li>
+                <li>
+                    <b>offset</b>:
+                    Specifies the offset of the sunburst slices from the center of the control.
+                </li>
+                <li>
+                    <b>startAngle</b>:
+                    Starting at the nine o'clock position, specifies the angle to start drawing sunburst slices.
+                </li>
+                <li>
+                    <b>palette</b>:
+                    Specifies an array of default colors to be used when rendering sunburst slices.
+                </li>
+                <li>
+                    <b>reversed</b>:
+                    Determines whether the control should draw sunburst slices clockwise (false) or counterclockwise (true).
+                </li>
+            </ul>
+            <p>
+                The example below allows you to see what happens when you change these properties. Also, clicking on a sunburst slice will
+                display a tooltip for the data point.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="basicChart"&gt;&lt;/div&gt;
+&lt;div class="form-horizontal"&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label class="col-md-3 control-label"&gt;Inner Radius&lt;/label&gt;
+        &lt;div class="col-md-9"&gt;
+            &lt;input id="basicInnerRadius" type="text" /&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label class="col-md-3 control-label"&gt;Offset&lt;/label&gt;
+        &lt;div class="col-md-9"&gt;
+            &lt;input id="basicOffset" type="text" /&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label class="col-md-3 control-label"&gt;Start Angle&lt;/label&gt;
+        &lt;div class="col-md-9"&gt;
+            &lt;input id="basicStartAngle" type="text" /&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;div class="col-md-offset-3 col-md-9"&gt;
+            &lt;div id="basicPalette"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;div class="col-md-offset-3 col-md-9"&gt;
+            &lt;div class="checkbox"&gt;
+                &lt;label&gt;
+                    &lt;input id="basicReversed" type="checkbox" /&gt; Reversed
+                &lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var basicChart = new wijmo.chart.hierarchical.Sunburst('#basicChart', {
+    binding: 'value',
+    bindingName: 'year, quarter, month',
+    childItemsPath: 'items',
+    itemsSource: getHierarchicalData(),
+    dataLabel: {
+        position: 'Center',
+        content: '{name}'
+    }
+});
+
+// change the chart properties
+var innerRadius = new wijmo.input.InputNumber('#basicInnerRadius', {
+    min: 0,
+    max: 1,
+    step: 0.1,
+    format: 'n1',
+    valueChanged: function (s, e) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            basicChart.innerRadius = s.value;
+        }
+    }
+});
+var offset = new wijmo.input.InputNumber('#basicOffset', {
+    min: 0,
+    max: 1,
+    step: 0.1,
+    format: 'n1',
+    valueChanged: function (s, e) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            basicChart.offset = s.value;
+        }
+    }
+});
+var startAngle = new wijmo.input.InputNumber('#basicStartAngle', {
+    min: -360,
+    max: 360,
+    step: 45,
+    valueChanged: function (s) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            basicChart.startAngle = s.value;
+        }
+    }
+});
+var palettes = new wijmo.input.Menu('#basicPalette', {
+    itemsSource: 'standard,cocoa,coral,dark,highcontrast,light,midnight,minimal,modern,organic,slate'.split(','),
+    textChanged: function (s, e) {
+        if (s.selectedValue) {
+            basicChart.palette = wijmo.chart.Palettes[s.text];
+            updateMenuHeader(s, 'Palette');
+        }
+    }
+});
+updateMenuHeader(palettes, 'Palette');
+document.getElementById('basicReversed').addEventListener('click', function (e) {
+    basicChart.reversed = e.target.checked;
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="basicChart"></div>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Inner Radius</label>
+                            <div class="col-md-9">
+                                <input id="basicInnerRadius" type="text" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Offset</label>
+                            <div class="col-md-9">
+                                <input id="basicOffset" type="text" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Start Angle</label>
+                            <div class="col-md-9">
+                                <input id="basicStartAngle" type="text" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <div id="basicPalette"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <div class="checkbox">
+                                    <label>
+                                        <input id="basicReversed" type="checkbox" /> Reversed
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend and Titles -->
+        <div>
+            <h2>
+                Legend and Titles
+            </h2>
+            <p>
+                The <b>legend</b> properties can be used to customize the appearance
+                of the chart's legend.
+                You can also use the <b>header</b> and <b>footer</b> properties to 
+                add titles to the Sunburst chart control.
+            </p>
+            <p>
+                The following example allows you to change the Sunburst's 
+                <b>legend.position</b>, <b>header</b>, and <b>footer</b> properties 
+                in real-time.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="ltChart"&gt;&lt;/div&gt;
+&lt;div class="form-horizontal"&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label class="col-md-3 control-label"&gt;Header&lt;/label&gt;
+        &lt;div class="col-md-9"&gt;
+            &lt;input id="ltHeader" type="text" class="form-control" placeholder="Specify the Sunburst's header" /&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label class="col-md-3 control-label"&gt;Footer&lt;/label&gt;
+        &lt;div class="col-md-9"&gt;
+            &lt;input id="ltFooter" type="text" class="form-control" placeholder="Specify the Sunburst's footer" /&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;div class="col-md-offset-3 col-md-9"&gt;
+            &lt;select id="ltLegPos"&gt;
+                &lt;option value="None"&gt;None&lt;/option&gt;
+                &lt;option value="Left"&gt;Left&lt;/option&gt;
+                &lt;option value="Top"&gt;Top&lt;/option&gt;
+                &lt;option value="Right"&gt;Right&lt;/option&gt;
+                &lt;option value="Bottom"&gt;Bottom&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var ltChart = new wijmo.chart.hierarchical.Sunburst('#ltChart', {
+    binding: 'value',
+    bindingName: ['year', 'quarter', 'month'],
+    itemsSource: getData(),
+    header: 'Sales',
+    footer: 'GrapeCity, inc.',
+});
+
+// change chart properties
+var header = document.getElementById('ltHeader');
+header.value = ltChart.header;
+header.addEventListener('input', function (e) {
+    ltChart.header = e.target.value;
+});
+var footer = document.getElementById('ltFooter');
+footer.value = ltChart.footer;
+footer.addEventListener('input', function (e) {
+    ltChart.footer = e.target.value;
+});
+var ltLegPos = new wijmo.input.Menu('#ltLegPos', {
+    itemClicked: function (s, e) {
+        ltChart.legend.position = s.selectedValue;
+        updateMenuHeader(s, 'Legend Position');
+    },
+    selectedValue: 'Right'
+});
+updateMenuHeader(ltLegPos, 'Legend Position');
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="ltChart"></div>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Header</label>
+                            <div class="col-md-9">
+                                <input id="ltHeader" type="text" class="form-control" placeholder="Specify the Sunburst's header" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Footer</label>
+                            <div class="col-md-9">
+                                <input id="ltFooter" type="text" class="form-control" placeholder="Specify the Sunburst's footer" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <select id="ltLegPos">
+                                    <option value="None">None</option>
+                                    <option value="Left">Left</option>
+                                    <option value="Top">Top</option>
+                                    <option value="Right">Right</option>
+                                    <option value="Bottom">Bottom</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Selection -->
+        <div>
+            <h2>
+                Selection
+            </h2>
+            <p>
+                The Sunburst chart control allows you to select data points by clicking
+                or touching a sunburst slice.
+                Use the <b>selectionMode</b> property to specify whether you want to 
+                allow selection by data point or no selection at all (default).
+            </p>
+            <p>
+                Setting the <b>selctionMode</b> property to <b>Point</b> causes the 
+                Sunburst to update the <b>selection</b> property when the user clicks 
+                on a sunburst slice, and to apply the "wj-state-selected" class to the 
+                selected element.
+                Setting the Sunburst's <b>selectionMode</b> property to <b>Series</b> or 
+                <b>None</b> will disable selections within the control.
+            </p>
+            <p>
+                The Sunburst chart offers three additional properties to customize the
+                selection:
+            </p>
+            <ul>
+                <li>
+                    <b>selectedItemOffset</b>:
+                    Specifies the offset of the selected sunburst slice from the center of the control.
+                </li>
+                <li>
+                    <b>selectedItemPosition</b>:
+                    Specifies the position of the selected sunburst slice. The available options are Top, Bottom,
+                    Left, Right, and None (default).
+                </li>
+                <li>
+                    <b>isAnimated</b>:
+                    Determines whether or not to animate the selection.
+                </li>
+            </ul>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="selChart"&gt;&lt;/div&gt;
+&lt;div class="form-horizontal"&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label class="col-md-3 control-label"&gt;Selected Item Offset&lt;/label&gt;
+        &lt;div class="col-md-9"&gt;
+            &lt;input id="selItemOffset" type="text" /&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;div class="col-md-offset-3 col-md-9"&gt;
+            &lt;select id="selItemPos"&gt;
+                &lt;option value="None"&gt;None&lt;/option&gt;
+                &lt;option value="Left"&gt;Left&lt;/option&gt;
+                &lt;option value="Top"&gt;Top&lt;/option&gt;
+                &lt;option value="Right"&gt;Right&lt;/option&gt;
+                &lt;option value="Bottom"&gt;Bottom&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;div class="col-md-offset-3 col-md-9"&gt;
+            &lt;div class="checkbox"&gt;
+                &lt;label&gt;
+                    &lt;input id="selAnimated" type="checkbox" checked="checked"&gt; Animated
+                &lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var selChart = new wijmo.chart.hierarchical.Sunburst('#selChart', {
+    binding: 'value',
+    bindingName: ['year', 'quarter', 'month'],
+    itemsSource: getData(),
+    isAnimated: true,
+    selectionMode: 'Point',
+    selectedItemPosition: 'Top'
+});
+
+// change chart properties
+var selItemOffset = new wijmo.input.InputNumber('#selItemOffset', {
+    min: 0,
+    max: 0.5,
+    step: 0.1,
+    format: 'n1',
+    valueChanged: function (s) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            selChart.selectedItemOffset = s.value;
+        }
+    }
+});
+var selItemPos = new wijmo.input.Menu('#selItemPos', {
+    itemClicked: function (s, e) {
+        selChart.selectedItemPosition = s.selectedValue;
+        updateMenuHeader(s, 'Selected Item Position');
+    },
+    selectedValue: 'Top'
+});
+updateMenuHeader(selItemPos, 'Selected Item Position');
+document.getElementById('selAnimated').addEventListener('click', function (e) {
+    selChart.isAnimated = e.target.checked;
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="selChart"></div>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Selected Item Offset</label>
+                            <div class="col-md-9">
+                                <input id="selItemOffset" type="text" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <select id="selItemPos">
+                                    <option value="None">None</option>
+                                    <option value="Left">Left</option>
+                                    <option value="Top">Top</option>
+                                    <option value="Right">Right</option>
+                                    <option value="Bottom">Bottom</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <div class="checkbox">
+                                    <label>
+                                        <input id="selAnimated" type="checkbox" checked="checked"> Animated
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theming -->
+        <div>
+            <h2>
+                Theming
+            </h2>
+            <p>
+                The appearance of the Sunburst chart control is largely defined in CSS.
+                In addition to a default theme, we include several professionally 
+                designed themes that customize the appearance of all Wijmo controls to
+                achieve a consistent and attractive look.
+            </p>
+            <p>
+                You can customize the appearance of the Sunburst chart control using CSS. 
+                To do this, copy the CSS rules from the default theme to a new CSS file and 
+                modify the rules as needed.
+            </p>
+            <p>
+                In this example, we added the "custom-sunburst-chart" CSS class to the 
+                control and defined some CSS rules to change the fill, font family, and
+                font weight of the header and fill color of the slices.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="themeChart" class="custom-sunburst-chart"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var themeChart = new wijmo.chart.hierarchical.Sunburst('#themeChart', {
+    itemsSource: getData(),
+    header: 'Bullseye(target)',
+    binding: 'value',
+    bindingName: 'name',
+    childItemsPath: 'items',
+    legend: { position: 'None' },
+    tooltip: { content: '' }
+});
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+/* custom Sunburst theme */
+.custom-sunburst-chart.wj-sunburst .wj-header .wj-title {
+    fill: #666;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+.custom-sunburst-chart.wj-sunburst ellipse,
+.custom-sunburst-chart.wj-sunburst path {
+    stroke-width: 0;
+}
+.custom-sunburst-chart.wj-sunburst ellipse {
+    fill: yellow;
+}
+.custom-sunburst-chart.wj-sunburst .slice-level2 > path {
+    fill: red;
+}
+.custom-sunburst-chart.wj-sunburst .slice-level3 > path {
+    fill: blue;
+}
+.custom-sunburst-chart.wj-sunburst .slice-level4 > path {
+    fill: black;
+}
+.custom-sunburst-chart.wj-sunburst .slice-level5 > path {
+    fill: white;
+    stroke-width: 2;
+    stroke: black;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="themeChart" class="custom-sunburst-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

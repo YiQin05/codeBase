@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- SEO -->
+    <title>MyBI | Business Intelligence PWA with Wijmo</title>
+    <meta name="description" content="A Business Intelligence Progressive Web App Demo with Wijmo.">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#fff">
+    <script>
+        // create service worker (to work off-line)
+        if ('serviceWorker' in navigator) {
+            try {
+                navigator.serviceWorker.register('./serviceWorker.js');
+                console.log('serviceWorker registered');
+            } catch (error) {
+                console.log('serviceWorker failed to register');
+            }
+        }
+    </script>
+
+    <!-- Wijmo https://bitsofco.de/async-vs-defer/ -->
+    <link defer href="scripts/vendor/wijmo.theme.material.min.css" rel="stylesheet"/>
+    <!--
+    <script defer src="scripts/vendor/wijmo.js"></script>
+    <script defer src="scripts/vendor/wijmo.input.js"></script>
+    <script defer src="scripts/vendor/wijmo.gauge.js"></script>
+    <script defer src="scripts/vendor/wijmo.chart.js"></script>
+    <script defer src="scripts/vendor/wijmo.grid.js"></script>
+    -->
+    <script defer src="scripts/vendor/wijmo-bundle.min.js"></script>
+
+    <!-- app -->
+    <link defer rel="stylesheet" href="styles/app.min.css" />
+    <script defer src="scripts/app.js"></script>
+
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <!-- svg icons from https://material.io/tools/icons/ -->
+    <div class="header">
+        <img src="resources/wijmo-logo.png" aria-hidden="true">
+        <h1>MyBI</h1>
+        <button id="btn-options" class="btn" aria-label="options">
+            <img src="resources/options.svg" aria-hidden="true">
+        </button>
+    </div>
+
+    <!-- options menu -->
+    <div style="display:none">
+        <div id="div-options" class="options">
+            <h1>
+                MyBI 1.0
+            </h1>
+            <p>
+                A Business Intelligence<br/>
+                Progressive Web App Demo.
+            </p>
+            <p>
+                <a href="https://www.grapecity.com/en/wijmo">Powered by Wijmo.</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div id="card-selection" class="card narrow" tabindex="0">
+            <div class="header">
+                Selection
+            </div>
+            <input id="cmb-region" aria-label="Select Region">
+            <input id="cmb-product" aria-label="Select Product">
+            <div>
+                <button class="btn btn-current" type="button" data-target="card-current">
+                    <img src="resources/current.svg" aria-hidden="true" >
+                    Current
+                </button>
+                <button class="btn btn-trends" type="button" data-target="card-trends">
+                    <img src="resources/trends.svg" aria-hidden="true" >
+                    Trends
+                </button>
+                <button class="btn btn-details" type="button" data-target="card-details">
+                    <img src="resources/details.svg" aria-hidden="true" >
+                    Details
+                </button>
+            </div>
+        </div>
+
+        <div id="card-current" class="card" tabindex="0">
+            <div class="header">
+                Current Period: <b><span id="current-month"></span></b>
+            </div>
+            <p>Unit Sales</p>
+            <div id="rdg-units"></div>
+            <p>Revenue</p>
+            <div id="rdg-revenue"></div>
+        </div>
+
+        <div id="card-trends" class="card" tabindex="0">
+            <div class="header">
+                Trends
+            </div>
+            <p class="trend">Unit Sales <span id="trend-units"></span></p>
+            <div id="cht-units"></div>
+            <p class="trend">Revenue (US$k) <span id="trend-revenue"></span></p>
+            <div id="cht-revenue"></div>
+        </div>
+
+        <div id="card-details" class="card" tabindex="0">
+            <div class="header">
+                Details
+            </div>
+            <div id="grd-data"></div>
+        </div>
+
+    </div>
+
+    <!-- svg icons from https://material.io/tools/icons/ -->
+    <div class="footer">
+        <button class="btn" data-target="card-selection" aria-label="Select" title="Regions/Products">
+            <img src="resources/home.svg" aria-hidden="true">
+        </button>
+        <button class="btn" type="button" data-target="card-current" aria-label="Current Period" title="Current Period">
+            <img src="resources/current.svg" aria-hidden="true">
+        </button>
+        <button class="btn" type="button" data-target="card-trends" aria-label="Trends" title="Trends">
+            <img src="resources/trends.svg" aria-hidden="true">
+        </button>
+        <button class="btn" type="button" data-target="card-details" aria-label="Details" title="Details">
+            <img src="resources/details.svg" aria-hidden="true">
+        </button>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hierarchical Menus | Wijmo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <script src="scripts/vendor/wijmo.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.input.min.js" type="text/javascript"></script>
+
+    <!-- app -->
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/app.js" type="text/javascript"></script>
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" alt="Wijmo" />
+            <h1>
+                Hierarchical Menus
+            </h1>
+            <p>
+                Create hierarchical menus using Wijmo's Menu control.
+            </p>
+        </div>
+    </div>
+    <div class="menubar">
+        <div class="container">
+            <div id="menu-file"></div>
+            <div id="menu-edit"></div>
+            <div id="menu-format"></div>
+        </div>
+    </div>
+    <div class="container">
+        <p id="menu-target">
+            Wijmo Menus are great!
+        </p>
+        <p>
+            Wijmo's hierarchical menus support all the options supported by
+            flat menus, including <b>openOnHover</b>, <b>isAnimated</b>, and
+            right-to-left layouts.</p>
+        <div class="container">
+            <label>
+                openOnHover
+                <input id="openOnHover" type="checkbox" checked="checked">
+            </label>
+            <label>
+                isAnimated
+                <input id="isAnimated" type="checkbox" checked="checked">
+            </label>
+            <label>
+                Right-to-Left
+                <input id="rtl" type="checkbox">
+            </label>
+        </div>
+        <p>
+            The menu bar above contains three Menu controls. Each one is bound
+            to a hierarchical list of commands which is an array of objects 
+            where items may contain child items. For example, the File menu
+            has a New option with three sub-items: Project, Site, and File.</p>
+        <p>
+            The first two menus respond to the menu's <b>itemClicked</b> event,
+            which is raised when the user clicks an item that does not contain
+            child items.</p>
+        <p>
+            This is how the File menu was created:</p>
+<pre>
+// create File menu (uses itemClicked event)
+var menuFile = new wijmo.input.Menu('#menu-file', {
+    header: 'File',
+    displayMemberPath: 'header',
+    subItemsPath: 'items',
+    itemsSource: getFileMenuItems(),
+    itemClicked: function (s, e) {
+        target.innerHTML = 'Thank you for clicking &lt;b&gt;&lt;i&gt;' + s.text + '&lt;/i&gt;&lt;/b&gt;!';
+    }
+});
+</pre>
+        <p>
+            The last menu, Format, uses a <b>command</b> object that contains two 
+            functions:</p>
+        <ul>
+            <li>
+                <b>canExecuteCommand</b>: function that gets invoked when the 
+                menu is about to be displayed and returns a value that 
+                specifies whether the command is valid for the current state of 
+                the app.</li>
+            <li>
+                <b>executeCommand</b>: function that gets invoked then the user
+                clicks an enabled option.</li>
+        </ul>
+        <p>
+            Both functions take a parameter that is defined by the menu option
+            objects. The <b>command</b> property is often used in MVVM applications.
+            It provides a convenient way to centralize menu handling (enabling
+            and invoking commands).</p>
+        <p>
+            This is how the Format menu was created:</p>
+<pre>
+// create Format menu (uses command property)
+var menuFormat = new wijmo.input.Menu('#menu-format', {
+    header: 'Format',
+    displayMemberPath: 'header',
+    subItemsPath: 'items',
+    itemsSource: getFormatMenuItems(),
+    command: getFormatMenuCommand()
+});
+</pre>
+    </div>
+</body>
+</html>

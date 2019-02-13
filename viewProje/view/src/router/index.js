@@ -20,6 +20,7 @@ import editUser from '../components/system/editUser.vue'
 import cellEdit from '../components/system/cellEdit.vue'
 import login from '@/components/tabbar/login.vue'
 import register from '@/components/tabbar/register.vue'
+import toolTip from '@/components/test/toolTip'
 import 'font-awesome/css/font-awesome.css'
 // import test from '../components/NewHello.vue'
 // import test1 from '../components/NewHello1.vue'
@@ -33,6 +34,11 @@ export default new Router({
       path: '/App',
       name: 'App',
       component: App
+    },
+    {
+      path: '/toolTip',
+      name: 'toolTip',
+      component: toolTip
     },
     {
       path: '/home/:userID',

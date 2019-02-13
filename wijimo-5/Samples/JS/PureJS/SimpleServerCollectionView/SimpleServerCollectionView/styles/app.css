@@ -1,0 +1,9 @@
+.wj-flexgrid {
+    max-height: 400px;
+}
+.input-group button span {
+    pointer-events: none;
+}
+body {
+    margin-bottom: 20px;
+}

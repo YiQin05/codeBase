@@ -234,7 +234,7 @@ export default {
           { validator: numberOnly, trigger: 'blur' }
         ]
       },
-      formList: ['form1', 'form2', 'form3', 'form4', 'form5', 'form6', 'form7'], // 表单列表
+      formList: ['form1', 'form2', 'form3', 'form4', 'form5', 'form6', 'form7'] // 表单列表
     }
   },
   mounted () {
@@ -262,14 +262,14 @@ export default {
         })
     },
     handleEdit (index, row) {
-      for(var i in row){
+      for (var i in row) {
         this.editCell[i] = row[i]
         this.currentList[i] = row[i]
       }
       this.visible = true
     },
     clear () {
-      for(var i in this.editCell){
+      for (var i in this.editCell) {
         this.editCell[i] = ''
       }
     },
@@ -350,8 +350,8 @@ export default {
       //   }
       // }
       var flag = true
-      for(var i in this.currentList){
-        if(this.currentList[i] !== this.editCell[i]){
+      for (var i in this.currentList) {
+        if (this.currentList[i] !== this.editCell[i]) {
           flag = false
         }
       }

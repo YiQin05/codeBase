@@ -13,8 +13,8 @@ module.exports = {
     proxyTable: {},
 
     // Various Dev Server settings
-    host: '172.16.10.21',
-    // host: '172.16.10.34', // can be overwritten by process.env.HOST
+    // host: '172.16.10.21',  // 裴工电脑
+    host: '172.16.10.35', // 本机的
     // host: 'localhost', 
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,

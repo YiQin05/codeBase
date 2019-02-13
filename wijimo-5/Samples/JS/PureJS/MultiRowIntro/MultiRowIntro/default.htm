@@ -1,0 +1,659 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiRow Introduction | Wijmo</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />-->
+    <script src="scripts/vendor/wijmo.min.js"></script>
+    <script src="scripts/vendor/wijmo.input.min.js"></script>
+    <script src="scripts/vendor/wijmo.grid.min.js"></script>
+    <script src="scripts/vendor/wijmo.grid.multirow.min.js"></script>
+    <script src="scripts/vendor/wijmo.grid.filter.min.js"></script>
+    <script src="scripts/vendor/wijmo.nav.min.js"></script>
+
+    <!-- app -->
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/app.js" type="text/javascript"></script>
+
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" alt="Wijmo" />
+            <h1>
+                MultiRow 101
+            </h1>
+            <p>
+                This page shows how to get started with Wijmo's <b>MultiRow</b> control.
+            </p>
+        </div>
+    </div>
+    <div class="container">
+
+        <!-- Getting Started -->
+        <div>
+            <h2>
+                Getting Started
+            </h2>
+            <p>
+                The <b>MultiRow</b> control extends conventional grid layouts by using multiple
+                rows to represent each data item.
+            </p>
+            <p>
+                The <b>MultiRow</b> control allows users to see and edit data in a tabular form, just like
+                other conventional grids. But, <b>MultiRow</b> is different from these grids in a way
+                that it allows you to bind each data item to multiple rows, creating form-like interfaces that
+                can display a large number of columns with minimal horizontal scrolling.
+            </p>
+            <p>
+                The <b>MultiRow</b> control extends the <b>FlexGrid</b> control, so if you know how
+                to use <b>FlexGrid</b>, you will be able to use <b>MultiRow</b> in no time.
+                The main new property is <b>layoutDefinition</b>, which takes an object that
+                describes the layout of the grid rows and cells.
+            </p>
+            <p>
+                The <b>MultiRow</b> control is not a simple replacement for conventional grids;
+                it is a specialized tool that fits some particular scenarios really well.
+            </p>
+            <p>
+                To use the <b>MultiRow</b> control in your applications, add references to the
+                <b>wijmo</b>, <b>wijmo.grid</b>, and <b>wijmo.grid.multirow</b> modules, then
+                instantiate <b>MultiRow</b> controls by giving them host element on the page,
+                or add <b>wj-multi-row</b> directives if you are using AngularJS:
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="multirow"&gt;&lt;/div&gt;
+&lt;div id="ldComboBox"&gt;&lt;/div&gt;
+&lt;div id="desc"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var multirow = new wijmo.grid.multirow.MultiRow('#multirow', {
+    itemsSource: appData.orders,
+    layoutDefinition: appData.layoutDefs.currentItem.def
+});
+var ldComboBox = new wijmo.input.ComboBox('#ldComboBox', {
+    itemsSource: appData.layoutDefs,
+    displayMemberPath: 'name',
+    selectedIndexChanged: function (s, e) {
+        var layoutDef = appData.layoutDefs.currentItem;
+        if (layoutDef) {
+            multirow.layoutDefinition = layoutDef.def;
+            setText('desc', layoutDef.description);
+        }
+    }
+});
+setText('desc', appData.layoutDefs.currentItem.description);
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="multirow"></div>
+                    <div id="ldComboBox"></div>
+                    <div id="desc"></div>
+                </div>
+            </div>
+
+            <p>
+                The <b>layoutDefinition</b> property specifies the layout of the cells in the
+                grid. It contains an array of cell group objects. Each cell group specifies
+                how many columns the group should span, and the cells that make up each group.
+            </p>
+            <p>
+                The image below illustrates how a cell group is interpreted and turned into
+                a grid layout:
+            </p>
+
+            <img src="resources/cellGroup.png" alt="cell group">
+
+            <p>
+                The group spans three grid columns. It contains six cells with different spans.
+                When generating the layout, the grid fits as many cells as possible in each
+                row, and wraps to the next row when the group span is reached. The last cell in
+                each row is automatically expanded to fill <b>colspan</b> of the group.
+                The process is similar to wrapping of text to create a paragraph.
+            </p>
+            <p>
+                The same process is applied to every group in the <b>layoutDefinition</b>
+                object.
+        </div>
+
+        <!-- Collapsible Column Headers -->
+        <div>
+            <h2>
+                Collapsible Column Headers
+            </h2>
+            <p>
+                By default, the <b>MultiRow</b> control creates column headers that span multiple
+                rows and shows the header for each cell defined in the <b>layoutDefinition</b>.
+            </p>
+            <p>
+                These cell-specific column headers may be used to sort or filter the data as
+                you would do in a conventional grid.
+            <p>
+                In some cases, you may want to collapse the column headers to a single line,
+                showing only the group names rather than individual cells. This saves space
+                at the expense of having individual cell headers. To collapse the column
+                headers, set the <b>collapsedHeaders</b> property to true. In these scenarios,
+                remember to set the <b>header</b> property on the groups in order to avoid
+                empty column headers.
+            </p>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="chMultirow"&gt;&lt;/div&gt;
+&lt;label for="cbCollapsedHeaders"&gt;
+    Collapsed Headers
+&lt;/label&gt;
+&lt;div id="cbCollapsedHeaders"&gt;&lt;/div&gt;
+&lt;br /&gt;
+&lt;label for="cbshowHeaderCollapseButton"&gt;
+    Show Header Collapse Button
+&lt;/label&gt;
+&lt;input type="checkbox" checked id="cbshowHeaderCollapseButton"&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var chMultirow = new wijmo.grid.multirow.MultiRow('#chMultirow', {
+    itemsSource: appData.orders,
+    layoutDefinition: appData.ldThreeLines,
+    collapsedHeaders: true,
+    showHeaderCollapseButton: true,
+    collapsedHeadersChanged: function (s, e) {
+        cbCollapsedHeaders.selectedValue = s.collapsedHeaders;
+    }
+});
+
+// handle combo
+var cbCollapsedHeaders = new wijmo.input.ComboBox('#cbCollapsedHeaders', {
+    displayMemberPath: 'name',
+    selectedValuePath: 'value',
+    itemsSource: [
+        { name: 'true', value: true },
+        { name: 'false', value: false },
+        { name: 'null', value: null }
+    ],
+    selectedValue: chMultirow.collapsedHeaders,
+    selectedIndexChanged: function (s, e) {
+        chMultirow.collapsedHeaders = s.selectedValue;
+    }
+});
+
+// handle checkbox
+document.getElementById('cbshowHeaderCollapseButton').addEventListener('click', function (e) {
+    chMultirow.showHeaderCollapseButton = e.target.checked;
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="chMultirow"></div>
+                    <label for="cbCollapsedHeaders">
+                        Collapsed Headers
+                    </label>
+                    <div id="cbCollapsedHeaders"></div>
+                    <br />
+                    <label for="cbshowHeaderCollapseButton">
+                        Show Header Collapse Button
+                    </label>
+                    <input type="checkbox" checked id="cbshowHeaderCollapseButton">
+                </div>
+            </div>
+        </div>
+
+        <!-- Styling Records, Groups, and Cells -->
+        <div>
+            <h2>
+                Styling Records, Groups, and Cells
+            </h2>
+            <p>
+                In most of the applications, you would want to show where each record and group starts or ends.
+                The <b>MultiRow</b> control enables this by adding CSS class names to cell elements
+                in the first and last row/column of each group. The class names are
+                <code>wj-record-start</code>, <code>wj-record-end</code>, <code>wj-group-start</code>,
+                and <code>wj-group-end</code>.
+            </p>
+            <p>
+                The example below shows how you can use these class names in CSS rules to customize
+                the appearance of the record and group delimiters. It also shows how you can use the
+                standard <b>cssClass</b> property to customize the appearance of specific cells
+                within groups:
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="styleMultirow" class="multirow-css"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var styleMultirow = new wijmo.grid.multirow.MultiRow('#styleMultirow', {
+    itemsSource: appData.orders,
+    layoutDefinition: appData.ldThreeLines
+});
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+/* custom styling for a MultiRow */
+.multirow-css .wj-cell.wj-record-end:not(.wj-header) {
+    border-bottom: 1px solid #000; /* thin black lines between records */
+}
+.multirow-css .wj-cell.wj-group-end {
+    border-right: 2px solid #00b68c; /* thick green lines between groups */
+}
+.multirow-css .wj-cell.id {
+    color: #c0c0c0;
+}
+.multirow-css .wj-cell.amount { 
+    color: #014701;
+    font-weight: bold;
+}
+.multirow-css .wj-cell.email {
+    color: #0010c0;
+    text-decoration: underline;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="styleMultirow" class="multirow-css"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grouping -->
+        <div>
+            <h2>
+                Grouping
+            </h2>
+            <p>
+                The <b>MultiRow</b> control supports <b>CollectionView</b>-based grouping just
+                like <b>FlexGrid</b>.
+                To use grouping, create a <b>CollectionView</b> based on the raw data and add
+                one or more <b>GroupDescription</b> objects to the <b>GroupDescriptions</b> array
+                of the collection.
+            </p>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="groupMultirow"&gt;&lt;/div&gt;
+&lt;label&gt;
+    &lt;input type="checkbox" checked id="cbShowGroup"&gt;
+    Show Groups
+&lt;/label&gt;
+&lt;br /&gt;
+&lt;button class="btn" id="btnCollapse"&gt;
+    Collapse All
+&lt;/button&gt;
+&lt;button class="btn" id="btnExpand"&gt;
+    Expand All
+&lt;/button&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var groupMultirow = new wijmo.grid.multirow.MultiRow('#groupMultirow', {
+    itemsSource: appData.groupedOrders,
+    layoutDefinition: appData.ldThreeLines,
+    showGroups: true,
+    groupHeaderFormat: '{name}: <b>{value} </b>({count:n0} items)'
+});
+
+// toggle show groups
+document.getElementById('cbShowGroup').addEventListener('click', function (e) {
+    groupMultirow.showGroups = e.target.checked;
+});
+
+// collapse/expand all
+document.getElementById('btnCollapse').addEventListener('click', function (e) {
+    groupMultirow.collapseGroupsToLevel(0);
+});
+document.getElementById('btnExpand').addEventListener('click', function (e) {
+    groupMultirow.collapseGroupsToLevel(10);
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="groupMultirow"></div>
+                    <label>
+                        <input type="checkbox" checked id="cbShowGroup">
+                        Show Groups
+                    </label>
+                    <br />
+                    <button class="btn" id="btnCollapse">
+                        Collapse All
+                    </button>
+                    <button class="btn" id="btnExpand">
+                        Expand All
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtering -->
+        <div>
+            <h2>
+                Filtering
+            </h2>
+            <p>
+                The <b>MultiRow</b> control supports filtering just like <b>FlexGrid</b>.
+            </p>
+            <p>
+                Filtering is provided by the <b>wijmo.grid.filter.FlexGridFilter</b> class.
+                To add filtering UI to <b>MultiRow</b>, create a <b>FlexGridFilter</b> and pass
+                <b>MultiRow</b> as a parameter in the constructor.
+            </p>
+            <p>
+                If you are using AngularJS, you can also add a filter to the grid by embedding a
+                <b>wj-flex-grid-filter</b> directive as a child of the grid's directive.
+            </p>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="filterMultirow"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var filterMultirow = new wijmo.grid.multirow.MultiRow('#filterMultirow', {
+    itemsSource: appData.orders,
+    layoutDefinition: appData.ldThreeLines
+});
+var filter = new wijmo.grid.filter.FlexGridFilter(filterMultirow);
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="filterMultirow"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row and Column Freezing -->
+        <div>
+            <h2>
+                Row and Column Freezing
+            </h2>
+            <p>
+                The <b>MultiRow</b> control allows you to freeze rows and columns so they remain
+                in view as the user scrolls the grid. Frozen cells can be edited and selected as
+                regular cells, exactly as in Excel and in the <b>FlexGrid</b> control.
+            </p>
+            <p>
+                This example allows you to toggle whether the first group of rows and columns
+                should be frozen.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="freezeMultirow"&gt;&lt;/div&gt;
+&lt;button class="btn btn-default" id="btnFreeze"&gt;
+    Freeze
+&lt;/button&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var freezeMultirow = new wijmo.grid.multirow.MultiRow('#freezeMultirow', {
+    itemsSource: appData.orders,
+    layoutDefinition: appData.ldTwoLines
+});
+document.getElementById('btnFreeze').addEventListener('click', function (e) {
+    freezeMultirow.frozenColumns = freezeMultirow.frozenColumns ? 0 : 2;
+    freezeMultirow.frozenRows = freezeMultirow.frozenRows ? 0 : 2;
+    e.target.textContent = freezeMultirow.frozenRows == 0 ? 'Freeze' : 'Unfreeze';
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="freezeMultirow"></div>
+                    <button class="btn btn-default" id="btnFreeze">
+                        Freeze
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paging -->
+        <div>
+            <h2>
+                Paging
+            </h2>
+            <p>
+                The <b>MultiRow</b> control supports paging through the <b>IPagedCollectionView</b> interface,
+                which is nearly identical to the one in .NET. To enable paging, set the
+                <b>IPagedCollectionView.pageSize</b> property to the number of items you want to display
+                on each page, and provide a UI for navigating the pages.
+            </p>
+            <p>
+                In this example, we use JavaScript to show four items per page. We add navigation buttons,
+                and call <b>IPagedCollectionView</b> method in the button click directives. We use the
+                <b>pageIndex</b> and <b>pageCount</b> properties to show the current page and total number
+                of pages.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="pageMultirow" style="max-height:800px"&gt;&lt;/div&gt;
+&lt;div class="btn-group"&gt;
+    &lt;button type="button" class="btn" id="firstBtn"&gt;
+        &lt;span class="glyphicon glyphicon-fast-backward"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;button type="button" class="btn" id="previousBtn"&gt;
+        &lt;span class="glyphicon glyphicon-step-backward"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;button type="button" class="btn" id="numBtn" disabled style="width:100px"&gt;&lt;/button&gt;
+    &lt;button type="button" class="btn" id="nextBtn"&gt;
+        &lt;span class="glyphicon glyphicon-step-forward"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;button type="button" class="btn" id="lastBtn"&gt;
+        &lt;span class="glyphicon glyphicon-fast-forward"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var pagedOrders = appData.pagedOrders;
+var pagingMultirow = new wijmo.grid.multirow.MultiRow('#pageMultirow', {
+    itemsSource: pagedOrders,
+    layoutDefinition: appData.ldThreeLines
+});
+
+// paging buttons
+document.getElementById('firstBtn').addEventListener('click', function (e) {
+    pagedOrders.moveToFirstPage();
+});
+document.getElementById('previousBtn').addEventListener('click', function (e) {
+    pagedOrders.moveToPreviousPage();
+});
+document.getElementById('nextBtn').addEventListener('click', function (e) {
+    pagedOrders.moveToNextPage();
+});
+document.getElementById('lastBtn').addEventListener('click', function (e) {
+    pagedOrders.moveToLastPage();
+});
+
+// update page text now and when the current page changes
+updatePageText();
+pagedOrders.collectionChanged.addHandler(function () {
+    updatePageText();
+});
+pagedOrders.pageChanged.addHandler(function () {
+    updatePageText();
+});
+function updatePageText() {
+    var text = wijmo.format('{index:n0} / {count:n0}', {
+        index: pagedOrders.pageIndex + 1,
+        count: pagedOrders.pageCount
+    });
+    setText('numBtn', text);
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="pageMultirow" style="max-height:800px"></div>
+                    <div class="btn-group">
+                        <button type="button" class="btn" id="firstBtn">
+                            <span class="glyphicon glyphicon-fast-backward"></span>
+                        </button>
+                        <button type="button" class="btn" id="previousBtn">
+                            <span class="glyphicon glyphicon-step-backward"></span>
+                        </button>
+                        <button type="button" class="btn" id="numBtn" disabled style="width:100px"></button>
+                        <button type="button" class="btn" id="nextBtn">
+                            <span class="glyphicon glyphicon-step-forward"></span>
+                        </button>
+                        <button type="button" class="btn" id="lastBtn">
+                            <span class="glyphicon glyphicon-fast-forward"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Adding and Deleting Records -->
+        <div>
+            <h2>
+                Adding and Deleting Records
+            </h2>
+            <p>
+                The <b>MultiRow</b> control supports the <b>allowAddNew</b> and <b>allowDelete</b>
+                properties provided by the <b>FlexGrid</b> control.
+            </p>
+            <p>
+                Setting the <b>allowAddNew</b> property to true causes the grid to display a set of
+                'new row template' rows at the bottom of the grid.
+                When user starts editing a cell in the new row template, a new item is added
+                to the source collection. When user finishes editing the new item by moving
+                the selection to another row or the focus to another control, the new item is
+                committed.
+            </p>
+            <p>
+                Setting the <b>allowDelete</b> property to true causes the grid to monitor key presses
+                and to delete the current row if user presses the 'Delete' key while an entire
+                row is selected.
+            </p>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="adMultirow"&gt;&lt;/div&gt;
+&lt;label&gt;
+    &lt;input id="ckbAllNew" type="checkbox" checked &gt;
+    Allow Add New
+&lt;/label&gt;
+&lt;br /&gt;
+&lt;label&gt;
+    &lt;input id="ckbAllDelete" type="checkbox" checked &gt;
+    Allow Delete
+&lt;/label&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var adMultirow = new wijmo.grid.multirow.MultiRow('#adMultirow', {
+    itemsSource: appData.addNewOrders,
+    layoutDefinition: appData.ldThreeLines,
+    showGroups: false,
+    allowAddNew: true,
+    allowDelete: true
+});
+
+// handle buttons
+document.getElementById('ckbAllNew').addEventListener('click', function (e) {
+    adMultirow.allowAddNew = e.target.checked;
+});
+document.getElementById('ckbAllDelete').addEventListener('click', function (e) {
+    adMultirow.allowDelete = e.target.checked;
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="adMultirow"></div>
+                    <label>
+                        <input id="ckbAllNew" type="checkbox" checked >
+                        Allow Add New
+                    </label>
+                    <br />
+                    <label>
+                        <input id="ckbAllDelete" type="checkbox" checked >
+                        Allow Delete
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

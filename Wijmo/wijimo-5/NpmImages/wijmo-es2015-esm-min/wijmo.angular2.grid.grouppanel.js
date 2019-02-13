@@ -1,0 +1,13 @@
+﻿/*
+    *
+    * Wijmo Library 5.20183.550
+    * http://wijmo.com/
+    *
+    * Copyright(c) GrapeCity, Inc.  All rights reserved.
+    *
+    * Licensed under the GrapeCity Commercial License.
+    * sales@wijmo.com
+    * wijmo.com/products/wijmo-5/license/
+    *
+    */
+import*as wjcGridGrouppanel from"wijmo/wijmo.grid.grouppanel";var __glob="undefined"!=typeof window?window:self;import{Component,NgModule}from"@angular/core";import{ElementRef,Injector,Optional,forwardRef}from"@angular/core";import{Inject,SkipSelf}from"@angular/core";import{CommonModule}from"@angular/common";import{NG_VALUE_ACCESSOR}from"@angular/forms";import{WjDirectiveBehavior,WjDirectiveBaseModule,WjValueAccessorFactory}from"wijmo/wijmo.angular2.directiveBase";export var wjGroupPanelMeta={selector:"wj-group-panel",template:``,inputs:["wjModelProperty","isDisabled","hideGroupedColumns","maxGroups","placeholder","filter","grid"],outputs:["initialized","gotFocusNg: gotFocus","lostFocusNg: lostFocus"],providers:[{provide:NG_VALUE_ACCESSOR,useFactory:WjValueAccessorFactory,multi:!0,deps:["WjComponent"]}]};export class WjGroupPanel extends wjcGridGrouppanel.GroupPanel{constructor(e,o,r){super(WjDirectiveBehavior.getHostElement(e,o)),this.isInitialized=!1;this._wjBehaviour=WjDirectiveBehavior.attach(this,e,o,r);this.created()}created(){}ngOnInit(){this._wjBehaviour.ngOnInit()}ngAfterViewInit(){this._wjBehaviour.ngAfterViewInit()}ngOnDestroy(){this._wjBehaviour.ngOnDestroy()}addEventListener(e,o,r,t=!1){let a=WjDirectiveBehavior,n=a.ngZone;n&&a.outsideZoneEvents[o]?n.runOutsideAngular(()=>{super.addEventListener(e,o,r,t)}):super.addEventListener(e,o,r,t)}};WjGroupPanel.meta={outputs:wjGroupPanelMeta.outputs},WjGroupPanel.decorators=[{type:Component,args:[{selector:wjGroupPanelMeta.selector,template:wjGroupPanelMeta.template,inputs:wjGroupPanelMeta.inputs,outputs:wjGroupPanelMeta.outputs,providers:[{provide:"WjComponent",useExisting:forwardRef(()=>WjGroupPanel)},...wjGroupPanelMeta.providers]}]}],WjGroupPanel.ctorParameters=(()=>[{type:ElementRef,decorators:[{type:Inject,args:[ElementRef]}]},{type:Injector,decorators:[{type:Inject,args:[Injector]}]},{type:void 0,decorators:[{type:Inject,args:["WjComponent"]},{type:SkipSelf},{type:Optional}]}]);let moduleExports=[WjGroupPanel];export class WjGridGrouppanelModule{};WjGridGrouppanelModule.decorators=[{type:NgModule,args:[{imports:[WjDirectiveBaseModule,CommonModule],declarations:[...moduleExports],exports:[...moduleExports]}]}],WjGridGrouppanelModule.ctorParameters=(()=>[]);

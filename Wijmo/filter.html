@@ -1,0 +1,146 @@
+<!-- Wijmo styles and core (required) -->
+<link href="https://cdn.grapecity.com/wijmo/5.20183.568/styles/wijmo.min.css" rel="stylesheet"/>
+<!-- 
+    optionally use a custom theme instead of wijmo.min.css
+    <link href="https://cdn.grapecity.com/wijmo/5.20183.568/styles/themes/wijmo.theme.modern.min.css" rel="stylesheet"/>
+-->
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/wijmo.min.js"></script>
+
+<!-- Wijmo controls (optional, include the controls you need) -->
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/wijmo.grid.min.js"></script>
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/wijmo.chart.min.js"></script>
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/wijmo.input.min.js"></script>
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/wijmo.gauge.min.js"></script>
+
+<!-- Wijmo custom culture (optional, include the culture you want) -->
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/controls/cultures/wijmo.culture.ja.min.js"></script>
+
+<!-- AngularJS and Wijmo framework interop (optional, could be Angular/React/Vue/etc) -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="https://cdn.grapecity.com/wijmo/5.20183.568/interop/angular/wijmo.angular.min.js"></script>
+
+<!-- apply your Wijmo licenseKey  (optional) -->
+<div class="container">
+
+    <h1>
+      Filtering Hierarchical Data</h1>
+    <p>
+      The CollectionView class supports filtering only for items
+      that are direct children of the collection. In most cases,
+      it does not work well for hierarchical data.</p>
+    <p>
+      Filtering hierarchical data is not a trivial exercise because
+      when a child element is visible, all its ancestors should
+      also be visible.</p>    
+    <p>
+      The grid below shows how you can implement a simple hierarchical
+      binding method that will show cities that match the filter and
+      states that match the filter or contain cities that do. 
+      For example, try typing 'San' in the filter box:</p> 
+    <div class="input-group">
+      <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>    
+      <!-- <input id="filter" class="form-control" placeholder="Filter"> -->
+    </div>    
+    <div id="theGrid">
+    </div>
+      
+    <p>
+      For more details in hierarchical filtering, please see our
+      <a href="https://wijmo.com/blog/filter-hierarchical-data-flexgrid/" target="_blank">How to Filter Hierarchical Data in FlexGrid and Angular</a>
+      blog.</p>
+  </div>
+
+
+<script id="scriptInit">
+  onload = function () {
+
+// create tree-style grid
+var theGrid = new wijmo.grid.FlexGrid('#theGrid', {
+  childItemsPath: 'cities',
+  headersVisibility: 'Column',
+  itemsSource: getData(),
+});
+
+// // update filter
+// document.getElementById('filter').addEventListener('input', function(e) {
+//   var filter = e.target.value.toLowerCase();
+//   applyHierarchicalFilter(theGrid, filter);
+// });
+
+// // update row visibility
+// function applyHierarchicalFilter(grid, filter) {
+//   var rows = grid.rows;
+//   for (var i = 0; i < rows.length; i++) {
+//     var row = rows[i],
+//       state = row.dataItem,
+//       rng = row.getCellRange();
+
+//     // handle states (level 0)
+//     if (row.level == 0) {
+
+//       // check if the state name matches the filter
+//       var stateVisible = state.name.toLowerCase().indexOf(filter) >= 0;
+//       if (stateVisible) {
+
+//         // it does, so show the state and all its cities
+//         for (var j = rng.topRow; j <= rng.bottomRow; j++) {
+//           rows[j].visible = true;
+//         }
+
+//       } else {
+
+//         // it does not, so check the cities
+//         for (var j = rng.topRow + 1; j <= rng.bottomRow; j++) {
+//           var city = rows[j].dataItem,
+//             cityVisible = city.name.toLowerCase().indexOf(filter) >= 0;
+//           rows[j].visible = cityVisible;
+//           stateVisible |= cityVisible;
+//         }
+
+//         // if at least one city is visible, the state is visible
+//         rows[i].visible = stateVisible; 
+//       }
+
+//       // move on to the next group
+//       i = rng.bottomRow;
+//     }
+//   }
+// }  
+
+// some hierarchical data
+function getData() {
+  return [
+    { name: 'Washington', type: 'state', population: 6971, cities: [
+      { name: 'Seattle', type: 'city', population: 652 },
+      { name: 'Spokane', type: 'city', population: 210 }]
+    }, 
+    { name: 'Oregon', type: 'state', population: 3930, cities: [
+      { name: 'Portland', type: 'city', population: 609 },
+      { name: 'Eugene', type: 'city', population: 159 }]
+    },
+    { name: 'California', type: 'state', population: 38330, cities: [
+      { name: 'Los Angeles', type: 'city', population: 3884 },
+      { name: 'San Diego', type: 'city', population: 1356 },
+      { name: 'San Francisco', type: 'city', population: 837 }]
+    }
+  ];
+}
+}
+</script>
+
+
+<style>
+  .wj-flexgrid {
+  max-height: 250px;
+  margin: 10px 0;
+}
+.wj-cell.wj-group {
+  border: none;
+}
+.wj-cell.wj-group:not(.wj-state-selected):not(.wj-state-multi-selected) {
+  background-color: white;
+}
+body {
+  margin-bottom: 20px;
+}
+</style>

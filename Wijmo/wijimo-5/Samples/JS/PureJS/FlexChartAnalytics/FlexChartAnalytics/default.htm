@@ -1,0 +1,942 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexChart Analytics | Wijmo</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+    <!-- Wijmo -->
+    <link rel="stylesheet" type="text/css" href="styles/vendor/wijmo.min.css" />
+    <script src="scripts/vendor/wijmo.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.input.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.chart.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.chart.analytics.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.nav.min.js" type="text/javascript"></script>
+
+    <!-- app -->
+    <link href="styles/app.css" rel="stylesheet" type="text/css" />
+    <script src="scripts/app.js" type="text/javascript"></script>
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" />
+            <h1>
+                FlexChart Analytics
+            </h1>
+            <p>
+                This page shows how to use function series and trend lines in Wijmo's 
+                FlexChart control.
+                These features are included in wijmo.chart.analytics module.
+            </p>
+        </div>
+    </div>
+    <div class="container">
+
+        <!-- Getting Started -->
+        <div>
+            <h2>
+                Getting Started
+            </h2>
+            <p>
+                Steps for getting started with the FlexChart Analytics in JavaScript 
+                applications:
+            </p>
+            <ol>
+                <li>Add references to Wijmo.</li>
+                <li>Add markup to serve as the FlexChart's host.</li>
+                <li>Initialize the FlexChart via JavaScript and its itemSource property.</li>
+                <li>Create one or more data series, and add each to the FlexChart's series collection (Optional).</li>
+                <li>Create one or more trend line or function series, and add each to the FlexChart's series collection.</li>
+                <li>Add some CSS to customize the chart's appearance (Optional).</li>
+            </ol>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="gettingStartedChart"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+// create a chart
+var gettingStartedChart = new wijmo.chart.FlexChart('#gettingStartedChart', {
+    itemsSource: appData,
+    bindingX: 'x',
+    series: [
+        { name: 'Origin', binding: 'y', chartType: 'Scatter' }
+    ]
+});
+
+// add a TrendLine to the chart
+gettingStartedChart.series.push(new wijmo.chart.analytics.TrendLine({
+    name: 'Trendline',
+    binding: 'y',
+    sampleCount: 100,
+}));
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+.wj-flexchart {
+    background-color: white;
+    box-shadow: 4px 4px 10px 0px rgba(50, 50, 50, 0.75);
+    height: 400px;
+    margin-bottom: 12px;
+    padding: 8px;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="gettingStartedChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TrendLine -->
+        <div>
+            <h2>
+                TrendLine
+            </h2>
+            <p>
+                You can use different trendline types by setting the <b>fitType</b>
+                property of the TrendLine object. </p>
+            <p>
+                The example below allows you to see what happens when you change 
+                this property:</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="trendLineChart"&gt;&lt;/div&gt;
+&lt;select id="fitTypeMenu"&gt;
+    &lt;option value="0" selected="selected"&gt;Linear&lt;/option&gt;
+    &lt;option value="1"&gt;Exponential&lt;/option&gt;
+    &lt;option value="2"&gt;Logarithmic&lt;/option&gt;
+    &lt;option value="3"&gt;Power&lt;/option&gt;
+    &lt;option value="4"&gt;Fourier&lt;/option&gt;
+    &lt;option value="5"&gt;Polynomial&lt;/option&gt;
+    &lt;option value="6"&gt;MinX&lt;/option&gt;
+    &lt;option value="7"&gt;MinY&lt;/option&gt;
+    &lt;option value="8"&gt;MaxX&lt;/option&gt;
+    &lt;option value="9"&gt;MaxY&lt;/option&gt;
+    &lt;option value="10"&gt;AverageX&lt;/option&gt;
+    &lt;option value="11"&gt;AverageY&lt;/option&gt;
+&lt;/select&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var trendLineChart = new wijmo.chart.FlexChart('#trendLineChart', {
+    itemsSource: appData,
+    bindingX: 'x',
+    series: [
+        { name: 'Origin', binding: 'y', chartType: 'Scatter'
+    }]
+});
+
+// add TrendLine to the chart
+var trendLine = new wijmo.chart.analytics.TrendLine({
+    name: 'Trend Line',
+    binding: 'y',
+    sampleCount: 100
+});
+trendLineChart.series.push(trendLine);
+
+// trendline fit type menu
+var fitTypeMenu = new wijmo.input.Menu('#fitTypeMenu', {
+    itemClicked: function (s, e) {
+        trendLine.fitType = parseInt(fitTypeMenu.selectedValue);
+        updateMenuHeader(s, 'Fit Type');
+    }
+});
+updateMenuHeader(fitTypeMenu, 'Fit Type');
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="trendLineChart"></div>
+                    <select id="fitTypeMenu">
+                        <option value="0" selected="selected">Linear</option>
+                        <option value="1">Exponential</option>
+                        <option value="2">Logarithmic</option>
+                        <option value="3">Power</option>
+                        <option value="4">Fourier</option>
+                        <option value="5">Polynomial</option>
+                        <option value="6">MinX</option>
+                        <option value="7">MinY</option>
+                        <option value="8">MaxX</option>
+                        <option value="9">MaxY</option>
+                        <option value="10">AverageX</option>
+                        <option value="11">AverageY</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- MovingAverage -->
+        <div>
+            <h2>
+                MovingAverage
+            </h2>
+            <p>
+                You can use different moving average types by setting the <b>type</b>
+                property of MovingAverage.
+            </p>
+            <p>
+                The MovingAverage class has a <b>period</b> property that allows you to set
+                the number of periods for computing the average value.
+            </p>
+            <p>
+                The example below allows you to see what happens when you change these 
+                properties:</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="movingAverageChart"&gt;&lt;/div&gt;
+&lt;select id="typeMenu"&gt;
+    &lt;option value="0" selected="selected"&gt;Simple&lt;/option&gt;
+    &lt;option value="1"&gt;Weighted&lt;/option&gt;
+    &lt;option value="2"&gt;Exponential&lt;/option&gt;
+    &lt;option value="3"&gt;Triangular&lt;/option&gt;
+&lt;/select&gt;
+&lt;b&gt;Period:&lt;/b&gt; &lt;input id="periodInput"/&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var movingAverageChart = new wijmo.chart.FlexChart('#movingAverageChart', {
+    itemsSource: getData(40),
+    bindingX: 'x',
+    series: [
+        { name: 'Origin', binding: 'y', chartType: 'Scatter'
+    }]
+});
+
+// create MovingAverage series and add it to the chart
+var movingAverage = new wijmo.chart.analytics.MovingAverage({
+    name: 'Moving Avg',
+    binding: 'y',
+    sampleCount: 100
+});
+movingAverageChart.series.push(movingAverage);
+
+// change the moving average period
+var periodInput = new wijmo.input.InputNumber('#periodInput', {
+    valueChanged: function (s, e) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            movingAverage.period = s.value;
+        }
+    },
+    value: 2,
+    min: 2,
+    max: 29,
+    step: 1,
+    format: 'n0'
+});
+
+// change chart type
+var typeMenu = new wijmo.input.Menu('#typeMenu', {
+    itemClicked: function (s, e) {
+        movingAverage.type = parseInt(typeMenu.selectedValue);
+        updateMenuHeader(s , 'Fit Type');
+    }
+});
+updateMenuHeader(typeMenu, 'Fit Type');
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="movingAverageChart"></div>
+                    <select id="typeMenu">
+                        <option value="0" selected="selected">Simple</option>
+                        <option value="1">Weighted</option>
+                        <option value="2">Exponential</option>
+                        <option value="3">Triangular</option>
+                    </select>
+                    <b>Period:</b> <input id="periodInput"/>
+                </div>
+            </div>
+        </div>
+
+        <!-- YFunctionSeries -->
+        <div>
+            <h2>
+                YFunctionSeries
+            </h2>
+            <p>
+                The YFunctionSeries allows you to plot a function that is defined 
+                by formulas in the format y=y(x).</p>
+            <p>
+                Use the <b>func</b> property to specify the function.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="yFuncSeriesChart"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var yFuncSeriesChart = new wijmo.chart.FlexChart('#yFuncSeriesChart');
+
+// add a YFunctionSeries series
+yFuncSeriesChart.series.push(new wijmo.chart.analytics.YFunctionSeries({
+    name: 'YFunc',
+    min: -10,
+    max: 10,
+    sampleCount: 300,
+    func: function (value) {
+        return Math.sin(4 * value) * Math.cos(3 * value)
+    }
+}));
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="yFuncSeriesChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ParametricFunctionSeries -->
+        <div>
+            <h2>
+                ParametricFunctionSeries
+            </h2>
+            <p>
+                The ParametricFunctionSeries allows you to plot functions defined 
+                by two formulas in the format x=x(t) and y=y(t).</p>
+            <p>
+                Use the <b>xFunc</b> and <b>yFunc</b> properties to specify the 
+                functions.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="paramFuncSeriesChart"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var paramFuncSeriesChart = new wijmo.chart.FlexChart('#paramFuncSeriesChart');
+
+//create ParametricFunctionSeries
+var xParam = 5,
+    yParam = 7;
+paramFuncSeriesChart.series.push(new wijmo.chart.analytics.ParametricFunctionSeries({
+    name: 'ParamFunc',
+    max: 2 * Math.PI,
+    sampleCount: 1000,
+    xFunc: function (value) {
+        return Math.cos(value * xParam);
+    },
+    yFunc: function (value) {
+        return Math.sin(value * yParam);
+    }
+}));
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="paramFuncSeriesChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Waterfall -->
+        <div>
+            <h2>
+                Waterfall
+            </h2>
+            <p>
+                The Waterfall series is normally used to demonstrate how the 
+                starting position either increases or decreases through a 
+                series of changes.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="waterfallChart"&gt;&lt;/div&gt;
+&lt;dl class="dl-horizontal"&gt;
+
+    &lt;dt&gt;&lt;label for="relativeData"&gt;Relative Data&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="relativeData" type="checkbox" checked="checked" /&gt;&lt;/dd&gt;
+
+    &lt;dt&gt;&lt;label for="connectorLines"&gt;Show Connector Lines&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="connectorLines" type="checkbox" checked="checked" /&gt;&lt;/dd&gt;
+
+    &lt;dt&gt;&lt;label for="showTotal"&gt;Show Total&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="showTotal" type="checkbox" checked="checked" /&gt;&lt;/dd&gt;
+
+    &lt;dt&gt;&lt;label for="showIntermediateTotal"&gt;Show Intermediate Total&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="showIntermediateTotal" type="checkbox" checked="checked" /&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var waterfallChart = new wijmo.chart.FlexChart('#waterfallChart', {
+    itemsSource: getWaterFallData(),
+    binding: 'value',
+    bindingX: 'name',
+    tooltip: {
+        content: function (ht) {
+            return '&lt;b&gt;' + ht.x + '&lt;/b&gt;&lt;br/&gt;value: ' + ht.y;
+        }
+    }
+});
+
+// create Waterfall series and add it to the chart
+var waterfall = new wijmo.chart.analytics.Waterfall({
+    relativeData: true,
+    connectorLines: true,
+    showTotal: true,
+    start: 1000,
+    showIntermediateTotal: true,
+    intermediateTotalPositions: [3, 6, 9, 12],
+    intermediateTotalLabels: ['Q1', 'Q2', 'Q3', 'Q4'],
+    name: 'Increase,Decrease,Total',
+    styles: {
+        connectorLines: {
+            stroke: '#333',
+            strokeWidth: 3
+        },
+        start: {
+            fill: '#7dc7ed'
+        },
+        falling: {
+            fill: '#dd2714',
+            stroke: '#a52714'
+        },
+        rising: {
+            fill: '#0f9d58',
+            stroke: '#0f9d58'
+        },
+        intermediateTotal: {
+            fill: '#7dc7ed'
+        },
+        total: {
+            fill: '#7dc7ed'
+        }
+    }
+});
+waterfallChart.series.push(waterfall);
+
+// configure waterfall
+document.getElementById('relativeData').addEventListener('click', function (e) {
+    waterfall.relativeData = e.target.checked;
+});
+document.getElementById('connectorLines').addEventListener('click', function (e) {
+    waterfall.connectorLines = e.target.checked;
+});
+document.getElementById('showTotal').addEventListener('click', function (e) {
+    waterfall.showTotal = e.target.checked;
+});
+document.getElementById('showIntermediateTotal').addEventListener('click', function (e) {
+    waterfall.showIntermediateTotal = e.target.checked;
+});
+
+// create some data for the Waterfall chart
+function getWaterFallData() {
+    var names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        data = [];
+    names.forEach(function (item) {
+        data.push({
+            name: item,
+            value: Math.round((0.5 - Math.random()) * 1000)
+        });
+    });
+    return data;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="waterfallChart"></div>
+                    <dl class="dl-horizontal">
+
+                        <dt><label for="relativeData">Relative Data</label></dt>
+                        <dd><input id="relativeData" type="checkbox" checked="checked" /></dd>
+
+                        <dt><label for="connectorLines">Show Connector Lines</label></dt>
+                        <dd><input id="connectorLines" type="checkbox" checked="checked" /></dd>
+
+                        <dt><label for="showTotal">Show Total</label></dt>
+                        <dd><input id="showTotal" type="checkbox" checked="checked" /></dd>
+
+                        <dt><label for="showIntermediateTotal">Show Intermediate Total</label></dt>
+                        <dd><input id="showIntermediateTotal" type="checkbox" checked="checked" /></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <!-- BoxWhisker -->
+        <div>
+            <h2>
+                Box &amp; Whisker
+            </h2>
+            <p>
+                The BoxWhisker series is normally used to compare distributions 
+                between different sets of numerical data.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="boxwhiskerChart"&gt;&lt;/div&gt;
+&lt;dl class="dl-horizontal"&gt;
+
+    &lt;dt&gt;&lt;label for="boxGroupWidth"&gt;Group Width&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;div id="boxGroupWidth"&gt;&lt;/div&gt;&lt;/dd&gt;
+
+    &lt;dt&gt;&lt;label for="boxGapWidth"&gt;Gap Width&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;div id="boxGapWidth"&gt;&lt;/div&gt;&lt;/dd&gt;
+
+    &lt;dt&gt;&lt;label for="boxQuartileCalculation"&gt;Quartile Calculation&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;select id="boxQuartileCalculation"&gt;
+            &lt;option value="0" selected="selected"&gt;Inclusive Median&lt;/option&gt;
+            &lt;option value="1"&gt;Exclusive Median&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/dd&gt;
+
+    &lt;dt&gt;&lt;label for="boxShowMeanLine"&gt;Show Mean Line&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="boxShowMeanLine" type="checkbox" /&gt;&lt;/dd&gt;
+
+    &lt;dt&gt;&lt;label for="boxShowMeanMarker"&gt;Show Mean Marker&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="boxShowMeanMarker" type="checkbox" /&gt;&lt;/dd&gt;
+
+    &lt;dt&gt;&lt;label for="boxShowInnerPoints"&gt;Show Inner Points&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="boxShowInnerPoints" type="checkbox" /&gt;&lt;/dd&gt;
+
+    &lt;dt&gt;&lt;label for="boxShowOutliers"&gt;Show Outliers&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="boxShowOutliers" type="checkbox" /&gt;&lt;/dd&gt;
+
+    &lt;dt&gt;&lt;label for="boxRotated"&gt;Rotated&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="boxRotated" type="checkbox" /&gt;&lt;/dd&gt;
+
+    &lt;dt&gt;&lt;label for="boxShowLabel"&gt;Show Label&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="boxShowLabel" type="checkbox" /&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var boxwhiskerChart = new wijmo.chart.FlexChart('#boxwhiskerChart', {
+    itemsSource: getBoxWhiskerData(),
+    bindingX: 'country',
+    tooltip: {
+        content: function (ht) {
+            return '&lt;b&gt;' + ht.name + '&lt;/b&gt; - &lt;b&gt;' + ht.x + '&lt;/b&gt;&lt;/br&gt;' +
+                '&lt;b&gt;min&lt;/b&gt;: ' + ht.item.min + '&lt;/br&gt;' +
+                '&lt;b&gt;firstQuartile&lt;/b&gt;: ' + ht.item.firstQuartile + '&lt;/br&gt;' +
+                '&lt;b&gt;median&lt;/b&gt;: ' + ht.item.median + '&lt;/br&gt;' +
+                '&lt;b&gt;thirdQuartile&lt;/b&gt;: ' + ht.item.thirdQuartile + '&lt;/br&gt;' +
+                '&lt;b&gt;max&lt;/b&gt;: ' + ht.item.max + '&lt;/br&gt;' +
+                '&lt;b&gt;mean&lt;/b&gt;: ' + ht.item.mean + '&lt;/br&gt;';
+        }
+    }
+});
+
+// add some BoxWhisker series to the chart
+boxwhiskerChart.series.push(new wijmo.chart.analytics.BoxWhisker({
+    name: 'Downloads',
+    binding: 'downloads'
+}));
+boxwhiskerChart.series.push(new wijmo.chart.analytics.BoxWhisker({
+    name: 'Sales',
+    binding: 'sales'
+}));
+boxwhiskerChart.series.push(new wijmo.chart.analytics.BoxWhisker({
+    name: 'Expenses',
+    binding: 'expenses'
+}));
+
+// configure the chart
+var groupWidth = new wijmo.input.InputNumber('#boxGroupWidth', {
+    min: 0,
+    max: 1,
+    step: 0.1,
+    valueChanged: function (s) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            boxwhiskerChart.series.forEach(function (series) {
+                series.groupWidth = s.value;
+            })
+        }
+    },
+    value: 0.8
+});
+var gapWidth = new wijmo.input.InputNumber('#boxGapWidth', {
+    min: 0,
+    max: 1,
+    step: 0.1,
+    valueChanged: function (s) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            boxwhiskerChart.series.forEach(function (series) {
+                series.gapWidth = s.value;
+            });
+        }
+    },
+    value: 0.1
+});
+var quartileCalculation = new wijmo.input.Menu('#boxQuartileCalculation', {
+    itemClicked: function (s, e) {
+        var val = parseInt(s.selectedValue);
+        boxwhiskerChart.series.forEach(function (series) {
+            series.quartileCalculation = val;
+        });
+        updateMenuHeader(s);
+    }
+});
+updateMenuHeader(quartileCalculation);
+
+// handle checkboxes
+document.getElementById('boxShowMeanLine').addEventListener('click', function (e) {
+    boxwhiskerChart.series.forEach(function (series) {
+        series.showMeanLine = e.target.checked;
+    });
+});
+document.getElementById('boxShowMeanMarker').addEventListener('click', function (e) {
+    boxwhiskerChart.series.forEach(function (series) {
+        series.showMeanMarker = e.target.checked;
+    });
+});
+document.getElementById('boxShowInnerPoints').addEventListener('click', function (e) {
+    boxwhiskerChart.series.forEach(function (series) {
+        series.showInnerPoints = e.target.checked;
+    });
+});
+document.getElementById('boxShowOutliers').addEventListener('click', function (e) {
+    boxwhiskerChart.series.forEach(function (series) {
+        series.showOutliers = e.target.checked;
+    });
+});
+document.getElementById('boxRotated').addEventListener('click', function (e) {
+    boxwhiskerChart.rotated = e.target.checked;
+});
+document.getElementById('boxShowLabel').addEventListener('click', function (e) {
+    boxwhiskerChart.dataLabel.content = e.target.checked ? '{y}' : '';
+});
+
+// create some data for the BoxWhisker chart
+function getBoxWhiskerData() {
+    var countries = 'US,Germany,UK,Japan,Italy,Greece'.split(','),
+        data = [];
+    countries.forEach(function (country) {
+        data.push({
+            country: country,
+            downloads: getBoxWhiskerArray(12, 100),
+            sales: getBoxWhiskerArray(11, 100),
+            expenses: getBoxWhiskerArray(13, 100)
+        });
+    });
+    return data;
+}
+function getBoxWhiskerArray(cnt, maxVal) {
+    var arr = [];
+    for (var i = 0; i &lt; cnt; i++) {
+        arr.push(Math.round(Math.random() * maxVal));
+    }
+    return arr;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="boxwhiskerChart"></div>
+                    <dl class="dl-horizontal">
+
+                        <dt><label for="boxGroupWidth">Group Width</label></dt>
+                        <dd><div id="boxGroupWidth"></div></dd>
+
+                        <dt><label for="boxGapWidth">Gap Width</label></dt>
+                        <dd><div id="boxGapWidth"></div></dd>
+
+                        <dt><label for="boxQuartileCalculation">Quartile Calculation</label></dt>
+                        <dd>
+                            <select id="boxQuartileCalculation">
+                                <option value="0" selected="selected">Inclusive Median</option>
+                                <option value="1">Exclusive Median</option>
+                            </select>
+                        </dd>
+
+                        <dt><label for="boxShowMeanLine">Show Mean Line</label></dt>
+                        <dd><input id="boxShowMeanLine" type="checkbox" /></dd>
+
+                        <dt><label for="boxShowMeanMarker">Show Mean Marker</label></dt>
+                        <dd><input id="boxShowMeanMarker" type="checkbox" /></dd>
+
+                        <dt><label for="boxShowInnerPoints">Show Inner Points</label></dt>
+                        <dd><input id="boxShowInnerPoints" type="checkbox" /></dd>
+
+                        <dt><label for="boxShowOutliers">Show Outliers</label></dt>
+                        <dd><input id="boxShowOutliers" type="checkbox" /></dd>
+
+                        <dt><label for="boxRotated">Rotated</label></dt>
+                        <dd><input id="boxRotated" type="checkbox" /></dd>
+
+                        <dt><label for="boxShowLabel">Show Label</label></dt>
+                        <dd><input id="boxShowLabel" type="checkbox" /></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Bars -->
+        <div>
+            <h2>Error Bars</h2>
+            <p>
+                The ErrorBar series shows error margins and standard deviations.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="errorbarChart"&gt;&lt;/div&gt;
+&lt;dl class="dl-horizontal"&gt;
+
+    &lt;dt&gt;&lt;label for="ebRotated"&gt;Rotated&lt;/label&gt;&lt;/dt&gt;
+    &lt;dd&gt;&lt;input id="ebRotated" type="checkbox" /&gt;&lt;/dd&gt;
+
+    &lt;dt&gt;Chart Type&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;select id="ebChartType"&gt;
+            &lt;option value="0" selected="selected"&gt;Column&lt;/option&gt;
+            &lt;option value="1"&gt;Bar&lt;/option&gt;
+            &lt;option value="2"&gt;Scatter&lt;/option&gt;
+            &lt;option value="3"&gt;Line&lt;/option&gt;
+            &lt;option value="4"&gt;LineSymbols&lt;/option&gt;
+            &lt;option value="5"&gt;Area&lt;/option&gt;
+            &lt;option value="9"&gt;Spline&lt;/option&gt;
+            &lt;option value="10"&gt;SplineSymbols&lt;/option&gt;
+            &lt;option value="11"&gt;SplineArea&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/dd&gt;
+
+    &lt;dt&gt;Error Amount&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;select id="ebErrorAmount"&gt;
+            &lt;option value="0" selected="selected"&gt;FixedValue&lt;/option&gt;
+            &lt;option value="1"&gt;Percentage&lt;/option&gt;
+            &lt;option value="2"&gt;StandardDeviation&lt;/option&gt;
+            &lt;option value="3"&gt;StandardError&lt;/option&gt;
+            &lt;option value="4"&gt;Custom&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/dd&gt;
+
+    &lt;dt&gt;End Style&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;select id="ebEndStyle"&gt;
+            &lt;option value="0" selected="selected"&gt;Cap&lt;/option&gt;
+            &lt;option value="1"&gt;No Cap&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/dd&gt;
+
+    &lt;dt&gt;Direction&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;select id="ebDirection"&gt;
+            &lt;option value="0" selected="selected"&gt;Both&lt;/option&gt;
+            &lt;option value="1"&gt;Minus&lt;/option&gt;
+            &lt;option value="2"&gt;Plus&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/dd&gt;
+&lt;/dl&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var errorbarChart = new wijmo.chart.FlexChart('#errorbarChart', {
+    itemsSource: getErrorBarData(),
+    bindingX: 'country',
+    tooltip: { content: '{y}' },
+});
+
+// add ErrorBar series to the chart
+var errorBar = new wijmo.chart.analytics.ErrorBar({
+    binding: 'downloads',
+    value: 10
+});
+errorbarChart.series.push(errorBar);
+
+// customize chart/ErrorAmount series
+document.getElementById('ebRotated').addEventListener('click', function (e) {
+    errorbarChart.rotated = e.target.checked;
+});
+
+var chartType = new wijmo.input.Menu('#ebChartType', {
+    itemClicked: function (s, e) {
+        var val = parseInt(chartType.selectedValue);
+        errorbarChart.chartType = val;
+        updateMenuHeader(chartType);
+    }
+});
+updateMenuHeader(chartType);
+
+var errorAmount = new wijmo.input.Menu('#ebErrorAmount', {
+    itemClicked: function (s, e) {
+        var val = parseInt(errorAmount.selectedValue);
+        errorBar.errorAmount = val;
+        switch (val) {
+            case 0:
+                errorBar.value = 10;
+                break;
+            case 1: 
+                errorBar.value = 0.1;
+                break;
+            case 2: 
+                errorBar.value = 1;
+                break;
+            case 4: 
+                errorBar.value = {
+                    minus: 5,
+                    plus: 10
+                };
+                break;
+        }
+        updateMenuHeader(errorAmount);
+    }
+});
+updateMenuHeader(errorAmount);
+
+var endStyle = new wijmo.input.Menu('#ebEndStyle', {
+    itemClicked: function (s, e) {
+        var val = parseInt(s.selectedValue);
+        errorBar.endStyle = val;
+        updateMenuHeader(s);
+    }
+});
+updateMenuHeader(endStyle);
+
+var direction = new wijmo.input.Menu('#ebDirection', {
+    itemClicked: function (s, e) {
+        var val = parseInt(s.selectedValue);
+        errorBar.direction = val;
+        updateMenuHeader(s);
+    }
+});
+updateMenuHeader(direction);
+
+// create some data for the Error Bar chart
+function getErrorBarData() {
+    var countries = 'US,Germany,UK,Japan,Italy,Greece,China,France,Russia'.split(','),
+        data = [];
+    countries.forEach(function (country) {
+        data.push({
+            country: country,
+            downloads: getErrorBarValue(),
+            sales: getErrorBarValue()
+        });
+    });
+    return data;
+}
+function getErrorBarValue() {
+    var val = Math.round(Math.random() * 100);
+    return val &gt; 10 ? val : val + 10;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="errorbarChart"></div>
+                    <dl class="dl-horizontal">
+
+                        <dt><label for="ebRotated">Rotated</label></dt>
+                        <dd><input id="ebRotated" type="checkbox" /></dd>
+
+                        <dt>Chart Type</dt>
+                        <dd>
+                            <select id="ebChartType">
+                                <option value="0" selected="selected">Column</option>
+                                <option value="1">Bar</option>
+                                <option value="2">Scatter</option>
+                                <option value="3">Line</option>
+                                <option value="4">LineSymbols</option>
+                                <option value="5">Area</option>
+                                <option value="9">Spline</option>
+                                <option value="10">SplineSymbols</option>
+                                <option value="11">SplineArea</option>
+                            </select>
+                        </dd>
+
+                        <dt>Error Amount</dt>
+                        <dd>
+                            <select id="ebErrorAmount">
+                                <option value="0" selected="selected">FixedValue</option>
+                                <option value="1">Percentage</option>
+                                <option value="2">StandardDeviation</option>
+                                <option value="3">StandardError</option>
+                                <option value="4">Custom</option>
+                            </select>
+                        </dd>
+
+                        <dt>End Style</dt>
+                        <dd>
+                            <select id="ebEndStyle">
+                                <option value="0" selected="selected">Cap</option>
+                                <option value="1">No Cap</option>
+                            </select>
+                        </dd>
+
+                        <dt>Direction</dt>
+                        <dd>
+                            <select id="ebDirection">
+                                <option value="0" selected="selected">Both</option>
+                                <option value="1">Minus</option>
+                                <option value="2">Plus</option>
+                            </select>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

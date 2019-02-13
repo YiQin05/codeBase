@@ -1,0 +1,287 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PdfViewer Introduction | Wijmo</title>
+
+    <!-- Bootstrap -->
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <script src="scripts/vendor/wijmo.min.js"></script>
+    <script src="scripts/vendor/wijmo.input.min.js"></script>
+    <script src="scripts/vendor/wijmo.grid.min.js"></script>
+    <script src="scripts/vendor/wijmo.viewer.min.js"></script>
+    <script src="scripts/vendor/wijmo.nav.min.js"></script>
+
+    <!-- app -->
+    <link href="styles/app.css" rel="stylesheet" />
+    <script src="scripts/app.js"></script>
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <div class="header">
+        <div class="container">
+            <img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" alt="Wijmo" />
+            <h1>
+                PdfViewer 101
+            </h1>
+            <p>
+                This page shows how to get started with Wijmo's PdfViewer control.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Getting Started -->
+        <div>
+            <h2>
+                Getting Started
+            </h2>
+            <p>
+                Steps for getting started with the PdfViewer control in JavaScript applications:
+            </p>
+            <ol>
+                <li>Set up C1 Web API PDFDocument Services.  Please refer to <a target="_blank" href="http://helpcentral.componentone.com/nethelp/C1WebAPI/ConfigurePDF.html">How to set up C1 Web API PDFDocument Services</a>.</li>
+                <li>Add references to Wijmo.</li>
+                <li>Add markup to serve as the Wijmo control's host.</li>
+                <li>Initialize the Wijmo control(s) via JavaScript.</li>
+                <li>(Optional) Add some CSS to customize the pdf viewer control's appearance.</li>
+            </ol>
+            <p>
+                The <a target="_blank" href="http://helpcentral.componentone.com/nethelp/C1WebAPI/PDFDocumentServices.html">C1 Web API PDFDocument Services</a>
+                uses <a target="_blank" href="http://helpcentral.componentone.com/nethelp/FlexReport/C1.Win.C1Document.4~C1.Win.C1Document.C1PdfDocumentSource.html">C1PdfDocumentSource</a>
+                to render and export pdf files.
+                Please refer to <a target="_blank" href="http://helpcentral.componentone.com/nethelp/C1WebAPI/ConfigurePDF.html">How to set up C1 Web API PDFDocument Services</a>
+                for details.
+            </p>
+            <p>
+                To show the pdf file from C1 Web API PDFDocument Services, set the following
+                basic properties:
+            </p>
+            <ol>
+                <li>
+                    <b>serviceUrl:</b>
+                    The url of C1 Web API PDFDocument Services.
+                    For example, '<span style="word-wrap:break-word" class="service-url"></span>'.
+                </li>
+                <li>
+                    <b>filePath:</b>
+                    The full path to the pdf file.
+                    For example, <span style="word-wrap:break-word">'PdfRoot/DefaultDocument.pdf'</span>.
+                    <p>
+                        The 'PdfRoot' is the key of the pdf file disk storage provider, which is registered at server for locating the specified pdf file.
+                        <br />
+                        The 'DefaultDocument.pdf' is the relative path of the pdf file, which can be located by the disk storage provider.
+                    </p>
+                </li>
+            </ol>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Result (live):</h4>
+                    <div id="introPdfViewer"></div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="introPdfViewer"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var introPdfViewer = new wijmo.viewer.PdfViewer('#introPdfViewer', {
+    serviceUrl: serviceUrl,
+    filePath: 'PdfRoot/DefaultDocument.pdf'
+});
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+.wj-viewer {
+    display: block;
+    width: 100%;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Basic Features -->
+        <div>
+            <h2>
+                Basic Features
+            </h2>
+            <p>
+                The PdfViewer control has the following four basic properties,
+                which allow you to customize its appearance and behavior:
+            </p>
+            <ul>
+                <li>
+                    <b>fullScreen</b>:
+                    Indicates whether the viewer is under full screen mode.</li>
+                <li>
+                    <b>mouseMode</b>:
+                    Indicates the mouse behavior.</li>
+                <li>
+                    <b>viewMode</b>:
+                    Indicates how to show the document pages.</li>
+                <li>
+                    <b>zoomFactor</b>:
+                    Indicates the current zoom factor to show the document pages.</li>
+            </ul>
+            <p>
+                The example below allows you to see what happens when you change 
+                these properties.
+            </p>
+            <div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <h4>Result (live):</h4>
+                        <div id="basicPdfViewer"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input id="basicContinuousViewMode" type="checkbox" /> Continuous View Mode
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="basicMouseMode">
+                                        <option value="SelectTool" selected>SelectTool</option> 
+                                        <option value="MoveTool">MoveTool</option> 
+                                        <option value="RubberbandTool">RubberbandTool</option> 
+                                        <option value="MagnifierTool">MagnifierTool</option> 
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input id="basicFullScreen" type="checkbox" /> Full Screen
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-mod-4">
+                                    <label class="col-md-2 control-label">Zoom Factor</label>
+                                    <div class="col-md-2">
+                                        <input id="basicZoomFactor" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="row"&gt;
+    &lt;h4&gt;Result (live):&lt;/h4&gt;
+    &lt;div id="basicPdfViewer"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;br /&gt;
+&lt;div class="row"&gt;
+    &lt;div class="form-horizontal"&gt;
+        &lt;div class="form-group"&gt;
+            &lt;div class="col-md-3"&gt;
+                &lt;div class="checkbox"&gt;
+                    &lt;label&gt;
+                        &lt;input id="basicContinuousViewMode" type="checkbox" /&gt; Continuous View Mode
+                    &lt;/label&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="col-md-3"&gt;
+                &lt;select id="basicMouseMode"&gt;
+                    &lt;option value="SelectTool" selected&gt;SelectTool&lt;/option&gt; 
+                    &lt;option value="MoveTool"&gt;MoveTool&lt;/option&gt; 
+                    &lt;option value="RubberbandTool"&gt;RubberbandTool&lt;/option&gt; 
+                    &lt;option value="MagnifierTool"&gt;MagnifierTool&lt;/option&gt; 
+                &lt;/select&gt;
+            &lt;/div&gt;
+            &lt;div class="col-md-2"&gt;
+                &lt;div class="checkbox"&gt;
+                    &lt;label&gt;
+                        &lt;input id="basicFullScreen" type="checkbox" /&gt; Full Screen
+                    &lt;/label&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="col-mod-4"&gt;
+                &lt;label class="col-md-2 control-label"&gt;Zoom Factor&lt;/label&gt;
+                &lt;div class="col-md-2"&gt;
+                    &lt;input id="basicZoomFactor" type="text" /&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var basicPdfViewer = new wijmo.viewer.PdfViewer('#basicPdfViewer', {
+    serviceUrl: serviceUrl,
+    filePath: 'PdfRoot/DefaultDocument.pdf',
+    zoomFactorChanged: function (s, e) {
+        zoomFactor.value = s.zoomFactor;
+    }
+});
+
+// change viewer properties
+document.getElementById('basicFullScreen').addEventListener('click', function (e) {
+    basicPdfViewer.fullScreen = e.target.checked;
+});;
+var mouseModeMenu = new wijmo.input.Menu('#basicMouseMode', {
+    itemClicked: function (s, e) {
+        basicPdfViewer.mouseMode = s.selectedValue;
+        updateMenuHeader(s, 'Mouse Mode');
+    }
+});
+updateMenuHeader(mouseModeMenu, 'Mouse Mode');
+var zoomFactor = new wijmo.input.InputNumber('#basicZoomFactor', {
+    min: 0.05,
+    max: 10,
+    step: 0.1,
+    format: 'n2',
+    value: basicPdfViewer.zoomFactor,
+    valueChanged: function (s, e) {
+        if (s.value &gt;= s.min && s.value &lt;= s.max) {
+            basicPdfViewer.zoomFactor = s.value;
+        }
+    }
+});
+document.getElementById('basicContinuousViewMode').addEventListener('click', function (e) {
+    basicPdfViewer.viewMode = e.target.checked ? 'Continuous' : 'Single';
+});
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

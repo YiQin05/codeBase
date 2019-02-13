@@ -1,0 +1,896 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Gauge Introduction | Wijmo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+    <!-- Wijmo -->
+    <link href="styles/vendor/wijmo.min.css" rel="stylesheet" />
+    <script src="scripts/vendor/wijmo.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.input.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.gauge.min.js" type="text/javascript"></script>
+    <script src="scripts/vendor/wijmo.nav.min.js" type="text/javascript"></script>
+
+    <!-- app -->
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/app.js" type="text/javascript"></script>
+    <script src="https://cdn.grapecity.com/wijmo/wijmo.sample.toolbar.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <div class="header">
+        <div class="container">
+            <img src="https://grapecitycontentcdn.azureedge.net/gcbrand/samples/wijmo/wijmo-logo.png" alt="Wijmo" />
+            <h1>
+                Gauge 101
+            </h1>
+            <p>
+                This page shows how to get started with Wijmo's Gauge controls.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Getting Started -->
+        <div>
+            <h2>Getting Started</h2>
+            <p>
+                Steps for getting started with the Gauge control in JavaScript applications:
+            </p>
+            <ol>
+                <li>Add references to Wijmo.</li>
+                <li>Add markup to serve as the Wijmo control's host.</li>
+                <li>Initialize the Wijmo control(s) via JavaScript.</li>
+                <li>(Optional) Add some CSS to customize the gauge control's appearance.</li>
+            </ol>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="gsLinearGauge"&gt;&lt;/div&gt;
+&lt;div id="gsRadialGauge"&gt;&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Gauge Value&lt;/label&gt;
+    &lt;input id="gsValue"/&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var gsLinearGauge = new wijmo.gauge.LinearGauge('#gsLinearGauge', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+});
+var gsRadialGauge = new wijmo.gauge.RadialGauge('#gsRadialGauge', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+});
+var gsValueInput = new wijmo.input.InputNumber('#gsValue', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    step: props.step,
+    valueChanged: function (s, e) {
+        gsLinearGauge.value = s.value;
+        gsRadialGauge.value = s.value;
+    }
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="gsLinearGauge"></div>
+                    <div id="gsRadialGauge"></div>
+                    <div class="app-input-group">
+                        <label>Gauge Value</label>
+                        <input id="gsValue"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Displaying Values -->
+        <div>
+            <h2>Displaying Values</h2>
+            <p>
+                The gauge controls offer a <b>showText</b> property that determines which values should should be
+                displayed as text by the gauge.  There are four valid values for the <b>showText</b> property:
+            </p>
+            <ul>
+                <li>
+                    <b>Value</b>:  Display the Gauge's current value.
+                </li>
+                <li>
+                    <b>MinMax</b>:  Display the Gauge's current min and max values.
+                </li>
+                <li>
+                    <b>All</b>:  Display the Gauge's current min, max, and values.  This option is a combination of
+                    the <b>Value</b> and <b>MinMax</b> options.
+                </li>
+                <li>
+                    <b>None</b>:  Do not display any text in the Gauge control.
+                </li>
+            </ul>
+            <p>
+                The example below allows you to see what happens when the <b>showText</b> property is changed.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="dvLinearGauge"&gt;&lt;/div&gt;
+&lt;div id="dvRadialGauge"&gt;&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Gauge Value&lt;/label&gt;
+    &lt;input id="dvValue" type="text" /&gt;
+&lt;/div&gt;
+&lt;select id="dvShowTextMenu"&gt;
+    &lt;option value="Value"&gt;Value&lt;/option&gt;
+    &lt;option value="MinMax"&gt;Min/Max&lt;/option&gt;
+    &lt;option value="All"&gt;All&lt;/option&gt;
+    &lt;option value="None"&gt;None&lt;/option&gt;
+&lt;/select&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var dvLinearGauge = new wijmo.gauge.LinearGauge('#dvLinearGauge', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    showText: props.showText
+});
+var dvRadialGauge = new wijmo.gauge.RadialGauge('#dvRadialGauge', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    showText: props.showText
+});
+var dvValueInput = new wijmo.input.InputNumber('#dvValue', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    step: props.step,
+    valueChanged: function (s, e) {
+        dvLinearGauge.value = s.value;
+        dvRadialGauge.value = s.value;
+    }
+});
+var showTextMenu = new wijmo.input.Menu('#dvShowTextMenu', {
+    selectedIndexChanged: function (s, e) {
+        if (s.selectedValue) {
+            dvLinearGauge.showText = s.selectedValue;
+            dvRadialGauge.showText = s.selectedValue;
+            s.header = '&lt;b&gt;Show Text&lt;/b&gt;: ' + s.text;
+        }
+    },
+    selectedValue: props.showText
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="dvLinearGauge"></div>
+                    <div id="dvRadialGauge"></div>
+                    <div class="app-input-group">
+                        <label>Gauge Value</label>
+                        <input id="dvValue" type="text" />
+                    </div>
+                    <select id="dvShowTextMenu">
+                        <option value="Value">Value</option>
+                        <option value="MinMax">Min/Max</option>
+                        <option value="All">All</option>
+                        <option value="None">None</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Using Ranges -->
+        <div>
+            <h2>Using Ranges</h2>
+            <p>
+                All Wijmo gauges have a <b>ranges</b> property that contains an array of 
+                <b>Range</b> objects.  By default, the ranges
+                are displayed on the face of gauge to indicate zones of interest; however, 
+                the <b>showRanges</b> property can be used to
+                to hide the ranges.  Instead, the gauge will determine which range contains
+                the current gauge value and will apply that range's color to the gauge pointer.
+            </p>
+            <p>
+                The Range object itself offers properties such as <b>min</b>, <b>max</b>, and 
+                <b>color</b> to customize each zone.
+            </p>
+            <p>
+                The following example demonstrates how to use ranges with the LinearGauge,
+                RadialGauge, and BulletGraph.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="urLinearGauge"&gt;&lt;/div&gt;
+&lt;div id="urBulletGraph"&gt;&lt;/div&gt;
+&lt;div id="urRadialGauge"&gt;&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Gauge Value&lt;/label&gt;
+    &lt;input id="urValue" type="text" /&gt;
+&lt;/div&gt;
+&lt;label&gt;
+    Show Ranges&nbsp;
+    &lt;input id="urShowRanges" type="checkbox" /&gt;
+&lt;/label&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+// create the ranges
+var lowerRange = new wijmo.gauge.Range(props.ranges.lower),
+    middleRange = new wijmo.gauge.Range(props.ranges.middle),
+    upperRange = new wijmo.gauge.Range(props.ranges.upper);
+
+// create the gauges
+var urLinearGauge = new wijmo.gauge.LinearGauge('#urLinearGauge', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    pointer: {
+        thickness: props.ranges.pointerThickness
+    },
+    ranges: [
+        lowerRange,
+        middleRange,
+        upperRange
+    ]
+});
+var urBulletGraph = new wijmo.gauge.BulletGraph('#urBulletGraph', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    good: props.ranges.middle.max,
+    bad: props.ranges.middle.min,
+    target: props.ranges.target
+});
+var urRadialGauge = new wijmo.gauge.RadialGauge('#urRadialGauge', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    pointer: {
+        thickness: props.ranges.pointerThickness
+    },
+    ranges: [
+        lowerRange,
+        middleRange,
+        upperRange
+    ]
+});
+
+// change value
+var urValueInput = new wijmo.input.InputNumber('#urValue', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    step: props.step,
+    valueChanged: function (s, e) {
+        urLinearGauge.value = s.value;
+        urBulletGraph.value = s.value;
+        urRadialGauge.value = s.value;
+    }
+});
+
+// showRanges checkbox
+var showRanges = document.getElementById('urShowRanges');
+showRanges.checked = props.showRanges;
+showRanges.addEventListener('click', function (e) {
+    var show = e.target.checked;
+    urLinearGauge.showRanges = show;
+    urBulletGraph.showRanges = show;
+    urRadialGauge.showRanges = show;
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="urLinearGauge"></div>
+                    <div id="urBulletGraph"></div>
+                    <div id="urRadialGauge"></div>
+                    <div class="app-input-group">
+                        <label>Gauge Value</label>
+                        <input id="urValue" type="text" />
+                    </div>
+                    <label>
+                        Show Ranges&nbsp;
+                        <input id="urShowRanges" type="checkbox" />
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Automatic Scaling -->
+        <div>
+            <h2>Automatic Scaling</h2>
+            <p>
+                The RadialGauge offers two properties to configure its layout, <b>startAngle</b>,
+                and <b>sweepAngle</b>. 
+                The <b>startAngle</b> property specifies the RadialGauge's starting angle, or rotation.
+                The <b>sweepAngle</b> property specifies an angle representing the length of the 
+                RadialGauge's arc.
+                All angles are measured clockwise, starting at the 9 o'clock position.
+            </p>
+            <p>
+                The RadialGauge also offers the <b>autoScale</b> property.
+                When <b>autoScale</b> is set to true, the RadialGauge will be automatically scaled 
+                to fill its containing element.
+            </p>
+            <p>
+                The following example allows you to adjust the <b>startAngle</b>, <b>sweepAngle</b>,
+                and <b>autoScale</b> properties in real-time.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="asRadialGauge"&gt;&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Gauge Value&lt;/label&gt;
+    &lt;input id="asValue" type="text" /&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Start Angle&lt;/label&gt;
+    &lt;input id="asStartAngle" type="text" /&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Sweep Angle&lt;/label&gt;
+    &lt;input id="asSweepAngle" type="text" /&gt;
+&lt;/div&gt;
+&lt;label&gt;
+    Auto-Scale&nbsp;
+    &lt;input id="asAutoScale" type="checkbox" /&gt;
+&lt;/label&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var asRadialGauge = new wijmo.gauge.RadialGauge('#asRadialGauge', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    startAngle: props.startAngle,
+    sweepAngle: props.sweepAngle,
+    autoScale: props.autoScale
+});
+var asValueInput = new wijmo.input.InputNumber('#asValue', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    step: props.step,
+    valueChanged: function (s, e) {
+        asRadialGauge.value = s.value;
+    }
+});
+var asStartAngleInput = new wijmo.input.InputNumber('#asStartAngle', {
+    value: props.startAngle,
+    min: -360,
+    max: 360,
+    step: 45,
+    valueChanged: function (s, e) {
+        asRadialGauge.startAngle = s.value;
+    }
+});
+var asSweepAngleInput = new wijmo.input.InputNumber('#asSweepAngle', {
+    value: props.sweepAngle,
+    min: 0,
+    max: 360,
+    step: 45,
+    valueChanged: function (s, e) {
+        asRadialGauge.sweepAngle = s.value;
+    }
+});
+
+// toggle autoScale property
+var asAutoScaleInput = document.getElementById('asAutoScale');
+asAutoScaleInput.checked = props.autoScale;
+asAutoScaleInput.addEventListener('click', function (e) {
+    asRadialGauge.autoScale = e.target.checked;
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="asRadialGauge"></div>
+                    <div class="app-input-group">
+                        <label>Gauge Value</label>
+                        <input id="asValue" type="text" />
+                    </div>
+                    <div class="app-input-group">
+                        <label>Start Angle</label>
+                        <input id="asStartAngle" type="text" />
+                    </div>
+                    <div class="app-input-group">
+                        <label>Sweep Angle</label>
+                        <input id="asSweepAngle" type="text" />
+                    </div>
+                    <label>
+                        Auto-Scale&nbsp;
+                        <input id="asAutoScale" type="checkbox" />
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gauge Direction -->
+        <div>
+            <h2>Gauge Direction</h2>
+            <p>
+                The RadialGauge's <b>startAngle</b> and <b>sweepAngle</b> properties do not apply to 
+                the LinearGauge or BulletGraph.  Instead, the LinearGauge and BulletGraph offer the 
+                <b>direction</b> property to determine how the should be displayed.  
+                There are four options for the <b>direction</b> property:
+            </p>
+            <ul>
+                <li>
+                    <b>Up</b>:  The gauge is rendered vertically and its value increases from bottom 
+                    to top.
+                </li>
+                <li>
+                    <b>Right</b>:  The gauge is rendered horizontally and its value increases from
+                    right to left.  This is the default value.
+                </li>
+                <li>
+                    <b>Down</b>:  The gauge is rendered vertically and its value increases from top 
+                    to bottom.
+                </li>
+                <li>
+                    <b>Left</b>:  The gauge is rendered horizontally and its value increases from 
+                    left to right.
+                </li>
+            </ul>
+            <p>
+                The example below allows you to see what happens when the <b>direction</b> property 
+                is changed.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div class="row"&gt;
+    &lt;div class="direction-col"&gt;
+        &lt;div id="dLinearGauge"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="direction-col"&gt;
+        &lt;div id="dBulletGraph"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Gauge Value&lt;/label&gt;
+    &lt;input id="dValue" type="text" /&gt;
+&lt;/div&gt;
+&lt;select id="dDirection"&gt;
+    &lt;option value="Up"&gt;Up&lt;/option&gt;
+    &lt;option value="Right"&gt;Right&lt;/option&gt;
+    &lt;option value="Down"&gt;Down&lt;/option&gt;
+    &lt;option value="Left"&gt;Left&lt;/option&gt;
+&lt;/select&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var dLinearGauge = new wijmo.gauge.LinearGauge('#dLinearGauge', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    pointer: {
+        thickness: props.ranges.pointerThickness
+    },
+    ranges: [
+        lowerRange,
+        middleRange,
+        upperRange
+    ]
+});
+var dBulletGraph = new wijmo.gauge.BulletGraph('#dBulletGraph', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    good: props.ranges.middle.max,
+    bad: props.ranges.middle.min,
+    target: props.ranges.target
+});
+var dValueInput = new wijmo.input.InputNumber('#dValue', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    step: props.step,
+    valueChanged: function (s, e) {
+        dLinearGauge.value = s.value;
+        dBulletGraph.value = s.value;
+    }
+});
+var dDirection = new wijmo.input.Menu('#dDirection', {
+    selectedIndexChanged: function (s, e) {
+        if (s.selectedValue) {
+            var direction = s.selectedValue,
+                vertical = direction.match(/Up|Down/i) != null;
+
+            // update gauge direction
+            dLinearGauge.direction = direction;
+            dBulletGraph.direction = direction;
+
+            // update CSS
+            wijmo.toggleClass(dLinearGauge.hostElement, 'vertical-gauge', vertical);
+            wijmo.toggleClass(dBulletGraph.hostElement, 'vertical-gauge', vertical);
+            var dirCols = document.querySelectorAll('.direction-col');
+            for (var i = 0; i &lt; dirCols.length; i++) {
+                wijmo.toggleClass(dirCols[i], 'col-md-6', vertical);
+            }
+
+            // update menu text
+            s.header = '&lt;b&gt;Direction&lt;/b&gt;: ' + s.text;
+        }
+    },
+    selectedValue: props.direction
+});
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+.vertical-gauge {
+    height: 300px;
+    width: 1.2em;
+    margin-left: auto;
+    margin-right: auto;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div class="row">
+                        <div class="direction-col">
+                            <div id="dLinearGauge"></div>
+                        </div>
+                        <div class="direction-col">
+                            <div id="dBulletGraph"></div>
+                        </div>
+                    </div>
+                    <div class="app-input-group">
+                        <label>Gauge Value</label>
+                        <input id="dValue" type="text" />
+                    </div>
+                    <select id="dDirection">
+                        <option value="Up">Up</option>
+                        <option value="Right">Right</option>
+                        <option value="Down">Down</option>
+                        <option value="Left">Left</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Styling -->
+        <div>
+            <h2>Styling</h2>
+            <p>
+                The appearance of the gauge controls is largely defined in CSS.
+                In addition to the default theme, we include several professionally 
+                designed themes that customize the appearance of all Wijmo controls to achieve 
+                a consistent, attractive look.
+            </p>
+            <p>
+                You can customize the appearance of the gauges using CSS.
+                To do this, copy the CSS rules from the default theme to a new CSS file and 
+                modify the properties as needed.
+            </p>
+            <p>
+                In this example, 
+                we added the "custom-gauge" CSS class to the LinearGauge and RadialGauge controls, 
+                and added a CSS rule to create an orange pointer for both.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="sLinearGauge" class="custom-gauge"&gt;&lt;/div&gt;
+&lt;div id="sRadialGauge" class="custom-gauge"&gt;&lt;/div&gt;
+&lt;div class="app-input-group"&gt;
+    &lt;label&gt;Gauge Value&lt;/label&gt;
+    &lt;input id="sValue" type="text" /&gt;
+&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var sLinearGauge = new wijmo.gauge.LinearGauge('#sLinearGauge', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    showText: 'Value'
+});
+var sRadialGauge = new wijmo.gauge.RadialGauge('#sRadialGauge', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    showText: 'Value'
+});
+var sValueInput = new wijmo.input.InputNumber('#sValue', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    step: props.step,
+    valueChanged: function (s, e) {
+        sLinearGauge.value = s.value;
+        sRadialGauge.value = s.value;
+    }
+});
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+/* orange gauge pointer */
+.wj-gauge.custom-gauge .wj-pointer {
+    fill: #ffa500;
+    stroke: #cd853f;
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="sLinearGauge" class="custom-gauge"></div>
+                    <div id="sRadialGauge" class="custom-gauge"></div>
+                    <div class="app-input-group">
+                        <label>Gauge Value</label>
+                        <input id="sValue" type="text" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editing Values -->
+        <div>
+            <h2>Editing Values</h2>
+            <p>
+                The gauge controls can be used as a simple indicator or as an input control when the <b>isReadOnly</b>
+                property is set to false.  The gauges also offer a <b>step</b> property that determines how much to
+                add or subtract from its current value when being used as an input control.
+            </p>
+            <p>
+                The example below demonstrates how to use the <b>isReadOnly</b> and <b>step</b> properties with the
+                LinearGauge and RadialGauge controls.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="evLinearGauge"&gt;&lt;/div&gt;
+&lt;div id="evRadialGauge"&gt;&lt;/div&gt;
+&lt;label&gt;
+    isReadOnly&nbsp;
+    &lt;input id="evReadOnly" type="checkbox" /&gt;
+&lt;/label&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var evLinearGauge = new wijmo.gauge.LinearGauge('#evLinearGauge', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    isReadOnly: props.isReadOnly,
+    step: props.step,
+    valueChanged: function (s, e) {
+        evRadialGauge.value = s.value;
+    }
+});
+var evRadialGauge = new wijmo.gauge.RadialGauge('#evRadialGauge', {
+    value: props.value,
+    min: props.min,
+    max: props.max,
+    format: props.format,
+    isReadOnly: props.isReadOnly,
+    step: props.step,
+    valueChanged: function (s, e) {
+        evLinearGauge.value = s.value;
+    }
+});
+
+// toggle isReadOnly property
+var isReadOnly = document.getElementById('evReadOnly');
+isReadOnly.checked = props.isReadOnly;
+isReadOnly.addEventListener('click', function (e) {
+    var isReadOnly = e.target.checked;
+    evLinearGauge.isReadOnly = isReadOnly;
+    evRadialGauge.isReadOnly = isReadOnly;
+});
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="evLinearGauge"></div>
+                    <div id="evRadialGauge"></div>
+                    <label>
+                        isReadOnly&nbsp;
+                        <input id="evReadOnly" type="checkbox" />
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom SVG Elements -->
+        <div>
+            <h2>Custom SVG Elements</h2>
+            <p>
+                By default, Wijmo's radial gauges use a colored sector and a 
+                text element to indicate the gauge's current value.
+                This results in a clean and easy-to read look.</p>
+            <p>
+                If you prefer a more traditional needle-style pointer,
+                you can add an extra SVG shape to the control and apply
+                a transform to move the needle.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tab-source">
+                        <div>
+                            <a>HTML</a>
+                            <div>
+&lt;div id="csvgRadialGauge"&gt;&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <a>JS</a>
+                            <div>
+var csvgRadialGauge = new wijmo.gauge.RadialGauge('#csvgRadialGauge', {
+    min: 0,
+    max: 100,
+    value: 25,
+    startAngle: -45,
+    sweepAngle: 270,
+    showTicks: true,
+    tickSpacing: 10,
+    showText: 'Value',
+    isReadOnly: false,
+    refreshed: updateNeedle,
+    valueChanged: updateNeedle
+});
+
+// update needle element when gauge size or value change
+// rounded (drop-shaped) needle
+function updateNeedle(gauge) {
+
+    // add needle element if necessary
+    var needle = gauge.hostElement.querySelector('.needle'),
+        cap = gauge.hostElement.querySelector('.cap');
+    if (!needle) {
+        var svg = gauge.hostElement.querySelector('svg');
+        needle = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        wijmo.addClass(needle, 'needle');
+        svg.appendChild(needle);
+        cap = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        wijmo.addClass(cap, 'cap');
+        svg.appendChild(cap);
+    }
+
+    // update needle parameters
+    var args = getArgs(gauge);
+    needle.setAttribute('d', wijmo.format('M {lft} {y} A {wid} {wid} 0 0 0 {rgt} {y} L {x} {top} Z', args));
+    needle.setAttribute('transform', wijmo.format('rotate({angle} {x} {y})', args));
+    cap.setAttribute('cx', args.x);
+    cap.setAttribute('cy', args.y);
+    cap.setAttribute('r', args.capRadius);
+}
+
+// get arguments needed for the needle element
+function getArgs(gauge) {
+    var rc = gauge.clientSize,
+        cx = rc.width / 2,
+        cy = rc.height / 2,
+        r = Math.min(rc.width, rc.height) / 2,
+        wid = r / 10,
+        pct = (gauge.value - gauge.min) / (gauge.max - gauge.min),
+        angle = gauge.startAngle + gauge.sweepAngle * wijmo.clamp(pct, 0, 1) - 90;
+    return {
+        angle: angle,
+        x: cx.toFixed(4),
+        y: cy.toFixed(4),
+        wid: wid.toFixed(4),
+        capRadius: (wid * 1.2).toFixed(4),
+        lft: (cx - wid).toFixed(4),
+        rgt: (cx + wid).toFixed(4),
+        top: (cy - r).toFixed(4),
+        bot: (cy + wid).toFixed(4)
+    }
+}
+                            </div>
+                        </div>
+                        <div>
+                            <a>CSS</a>
+                            <div>
+.wj-radialgauge .needle { /* pointer needle */
+    fill: orange;
+    stroke: black;
+    stroke-width: 1px;
+    transition: transform 400ms;
+}
+.wj-radialgauge .cap { /* needle cap */
+    fill: orange;
+    stroke: black;
+    stroke-width: 2px;
+}
+#csvgRadialGauge .wj-value { /* move value text down */
+    transform: translateY(1.75em)
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Result (live):</h4>
+                    <div id="csvgRadialGauge"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
