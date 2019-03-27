@@ -2,14 +2,16 @@
     <div class="byCellSerch">
         <div class="treeClass">
           <el-tree
-          :data="cellTree"
-          show-checkbox
-          default-expand-all
-          node-key="id"
-          ref="tree"
-          highlight-current
-          @check-change="getCheckedNodes"
-          :props="defaultProps">
+            :data="cellTree"
+            show-checkbox
+            default-expand-all
+            node-key="id"
+            ref="tree"
+            @check-change="getCheckedNodes"
+            :props="defaultProps">
+            <span class="span-ellipsis" slot-scope="{ node }">
+              <span :title="node.label">{{ node.label }}</span>
+            </span>
           </el-tree>
         </div>
         <!-- <div class="buttons">
@@ -208,6 +210,9 @@ export default {
   width: 17%;
   min-height: 652px;
   border: 1px solid #ebeef5;
+  font-size: 14px;
+  overflow-y: scroll;
+  max-height: 600px;
 }
 .buttons{
   position: absolute;
@@ -220,6 +225,13 @@ export default {
 }
 .cellResult{
   width: 80%
+}
+.span-ellipsis {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
 }
 </style>
 

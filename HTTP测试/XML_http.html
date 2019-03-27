@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>XML_http</title>
+  </head>
+  <body>
+    <script>
+      var xmlhttp;
+      function loadXMLDoc(url) {
+        xmlhttp = null;
+        if (window.XMLHttpRequest) {
+          // code for all new browsers
+          xmlhttp = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+          // code for IE5 and IE6
+          xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        if (xmlhttp != null) {
+          xmlhttp.onreadystatechange = state_Change; // 将state_Change函数赋予xmlhttp.onreadystatechange，作用是当xmlhttp.readyState改变(即服务器响应数据)时，调用该函数
+          xmlhttp.open("GET", url, true); // 参数true指开启异步请求
+          xmlhttp.send(null); // 是传递参数用的，但是只有在使用post方式提交请求的时候才有用
+        } else {
+          alert("Your browser does not support XMLHTTP.");
+        }
+      }
+
+      function state_Change() {
+        if (xmlhttp.readyState == 4) {
+          // 4 = "loaded"
+          if (xmlhttp.status == 200) {
+            console.log(41451)
+            console.log(xmlhttp)
+          } else {
+            alert("Problem retrieving XML data");
+          }
+        }
+      }
+      loadXMLDoc('https://elm.cangdu.org/v1/cities?type=guess')
+      // state_Change()
+    </script>
+  </body>
+</html>

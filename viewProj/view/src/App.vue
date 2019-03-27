@@ -1,13 +1,40 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <!-- 放置路由空间 -->
+    <newHeader v-if="isRouterAlive"/>
+    <router-view />
+    <newFooter/>
   </div>
 </template>
-
 <script>
+import newHeader from './components/tabbar/My-header'
+import newFooter from './components/tabbar/My-footer'
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+      isRouterAlive: true
+    }
+  },
+  provide () {
+    return {
+      reload: this.reload
+    }
+  },
+  components: {
+    newHeader,
+    newFooter
+  },
+  mounted () {
+  },
+  methods: {
+    reload () {
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
+    }
+  }
 }
 </script>
 
@@ -18,6 +45,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+header{
+  height: 106px;
 }
 </style>

@@ -11,6 +11,9 @@
         <el-button>Light</el-button>
       </el-tooltip>
     </div>
+    <div id="father">
+      {{showTag}}
+    </div>
   </div>
 </template>
 
@@ -34,10 +37,16 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'label'
-      }
+      },
+      showTag: ''
     }
   },
   methods: {
+    showMsg (y) {
+      console.log(y)
+      let height = y + 'px'
+      document.getElementById('father').style.top = height
+    },
     handleNodeClick (data) {
       console.log(data)
     },
@@ -61,11 +70,17 @@ export default {
         // 这里添加hover事件
         on: {
           'mouseenter': (el) => {
-            
+            console.log('鼠标景来')
+            console.log(data)
+            console.log(this)
+            this.showMsg(el.y)
+            this.showTag = data.label
             data.is_show = true
           },
           // 鼠标离开
           'mouseleave': () => {
+            this.showTag = ''
+            console.log('鼠标离开')
             data.is_show = false
           }
         }
@@ -73,70 +88,8 @@ export default {
         h('span', {
           // 显示名称
           style: {
-            // position: 'relative'
           }
-        }, node.label),
-        h('span', {
-          style: {
-            // display: data.is_show ? '' : 'none',
-            // position: 'absolute',
-            // top: '20px',
-            // left: '20px',
-            // backgroundColor: 'gray',
-            // overflow: 'visible',
-            zIndex: 999,
-            float: 'left',
-            width: '200px',
-            overflow: 'visible',
-            display: 'inline'
-          }
-        }, node.label
-        // [
-        //   // 添加
-        //   h('el-button', {
-        //     props: {
-        //       type: 'text',
-        //       size: 'small'
-        //     },
-        //     style: {
-        //       marginLeft: '15px'
-        //     },
-        //     on: {
-        //       click: () => {
-        //         this.append(data)
-        //       }
-        //     }
-        //   }, '添加'),
-        //   h('el-button', {
-        //     props: {
-        //       type: 'text',
-        //       size: 'small'
-        //     },
-        //     style: {
-
-        //     },
-        //     on: {
-        //       click: () => {
-        //         this.amend(data)
-        //       }
-        //     }
-        //   }, '修改'),
-        //   h('el-button', {
-        //     props: {
-        //       type: 'text',
-        //       size: 'small'
-        //     },
-        //     style: {
-
-        //     },
-        //     on: {
-        //       click: () => {
-        //         this.remove(node, data)
-        //       }
-        //     }
-        //   }, '删除')
-        // ]
-        )
+        }, node.label)
       ])
     }
   }
@@ -145,7 +98,7 @@ export default {
 
 <style lang="less" scoped>
 .tree{
-  overflow: hidden;
+  // overflow: hidden;
   width: 100px;
   height: 300px;
   overflow-y: scroll;
@@ -153,6 +106,13 @@ export default {
 .hoverTest{
   float: left;
 }
+#father{
+  position: absolute;
+  left: 0px;
+}
+// .son{
+//   white-space: nowrap
+// }
 // .custom-tree-node .hoverShow{
 //   display: none
 // }

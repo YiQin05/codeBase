@@ -1,0 +1,111 @@
+<template>
+  <div class="cellCheck">
+    <el-form :inline="true" :model="selectedCell" class="form-setting">
+      <el-form-item label="选择小区(规划)：">
+        <el-select v-model="selectedCell.planeCellId" placeholder="请选择小区" size="mini">
+          <el-option
+            v-for="item in cellArray"
+            :key="item.cellID"
+            :label="item.cellName"
+            :value="item.cellID">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="选择小区(验收)：">
+        <el-select v-model="selectedCell.resultCellId" placeholder="请选择小区" size="mini">
+          <el-option
+            v-for="item in cellArray"
+            :key="item.cellID"
+            :label="item.cellName"
+            :value="item.cellID">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="comparison" size="mini">验收比对</el-button>
+      </el-form-item>
+    </el-form>
+    <div class="comparsion">
+      <comparisonCell v-show="showResult" ref="comparisonCell" :showPass="showPass"/>
+    </div>
+  </div>
+</template>
+
+<script>
+import comparisonCell from '../comparisonCell/comparisonCell.vue'
+export default {
+  name: 'cellCheck',
+  data () {
+    return {
+      showPass: true,
+      cellArray: [],
+      selectedCell: {
+        planeBscId: '',
+        planeCellId: '',
+        resultBscId: '',
+        resultCellId: ''
+      },
+      showResult: false
+    }
+  },
+  mounted () {
+    this.getCell()
+  },
+  methods: {
+    getCell () {
+      let params = new URLSearchParams()
+      let path = this.setAPIPath('/cell')
+      this.$axios
+        .get(path, params)
+        .then(response => {
+          if (response.data.code === 0) {
+            for (let i of response.data.data) {
+              this.cellArray.push(i)
+            }
+          } else {
+            this.errorMsg(response.data.code, this)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    comparison () {
+      if (this.selectedCell.planeCellId === this.selectedCell.resultCellId) {
+        this.errorMsg(61, this)
+      } else {
+        this.getBscID('planeBscId', this.selectedCell.planeCellId)
+        this.getBscID('resultBscId', this.selectedCell.resultCellId)
+        this.showResult = true
+        this.$refs.comparisonCell.getResult(this.selectedCell.planeBscId, this.selectedCell.planeCellId, this.selectedCell.resultBscId, this.selectedCell.resultCellId)
+      }
+    },
+    getBscID (name, cellID) {
+      for (var i of this.cellArray) {
+        if (i.cellID === cellID) {
+          this.selectedCell[name] = i.bscID
+          break
+        }
+      }
+    }
+  },
+  components: {
+    comparisonCell
+  }
+}
+</script>
+
+<style scoped>
+.form-setting{
+  background-color: rgb(242, 242, 242);
+  margin-bottom: 20px;
+  border: 1px solid #e4e4e4;
+  height: 50px;
+  padding-top: 10px;
+}
+</style>
+<style>
+/* .cellCheck .el-form--inline .el-form-item {
+  vertical-align: text-bottom
+} */
+</style>

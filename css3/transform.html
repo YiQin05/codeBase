@@ -52,16 +52,17 @@
     transform: rotate(20deg);
   }
   .transform >p .translate{
-    transform: translate(20px, 20px);
+    transform-style: preserve-3d;
+    transform: translate3d(20px, 20px, 1000px);
     /* transform: translateX(20px, 20px); 只移动x轴 */
   }
   .transform >p .scale{
-    transform: scale(.5);
+    transform: scaleX(.5);
     /* transform: scaleY(.5); 只缩放y轴 */
   }
   .transform >p .skew{
-    transform: skew(20deg, 30deg);
-    /* transform: skewX(20deg, 30deg); 只变形x*/
+    transform: skew(45deg, 30deg);
+    /* transform: skewX(60deg); */
   }
 </style>
 <body>

@@ -7,9 +7,6 @@
     </div>
     <router-view/>
     <div class="footer"><h2>尾部</h2></div>
-    <!-- :to="{ name: 'user', params: { userId: 123 }}" -->
-    <!-- <router-link to="/routerTest" append>Go to routerTest</router-link> -->
-    <!-- <router-link :to="{ name: 'routerTest'}" append>Go to routerTest</router-link> -->
   </div>
 </template>
 

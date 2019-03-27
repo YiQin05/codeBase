@@ -1,0 +1,219 @@
+<template>
+  <div>
+    <div class="left">
+      <cell-result ref="planCell" v-bind="planCellList" @clickImg="clickImg(0)"/>
+    </div>
+    <big-img v-show="showBigImg.flag1" @clickit="viewImg(0)" :imgSrc="showBigImg.flag1? planCellList.fileUrl:''"></big-img>
+    <div class="middle">
+      <!-- :percentage="parseInt(similar)"  -->
+      <el-progress type="circle" :percentage="similar" :width="parseInt('100')"></el-progress>
+      <div class="note">相似度</div>
+    </div>
+    <div class="right">
+      <cell-result ref="resultCell" v-bind="resultCellList" @clickImg="clickImg(1)"/>
+    </div>
+    <big-img v-show="showBigImg.flag2" @clickit="viewImg(1)" :imgSrc="showBigImg.flag2? resultCellList.fileUrl:''"></big-img>
+  </div>
+</template>
+
+<script>
+import cellResult from './cellResult.vue'
+import bigImg from '../scene/bigImg.vue'
+import { comparisonResult } from '../../config/getData.js'
+export default {
+  name: 'comparisonell',
+  data () {
+    return {
+      showBigImg: {
+        flag1: false,
+        flag2: false
+      },
+      similar: 0,
+      allList: {
+        plan: {
+          sceneList: [{
+            name: '学校',
+            value: '',
+            present: 20
+          },
+          {
+            name: '停车场',
+            value: '',
+            present: 30
+          }],
+          projList: [{
+            name: '建筑',
+            value: '',
+            present: 40
+          },
+          {
+            name: '人行道',
+            value: '',
+            present: 50
+          }],
+          distentList: [{
+            name: '',
+            section: [
+            ]
+          }] // 用于第四个距离的表格
+        },
+        result: {
+          sceneList: [{
+            name: '学校',
+            value: '',
+            present: 20
+          },
+          {
+            name: '停车场',
+            value: '',
+            present: 30
+          }],
+          projList: [{
+            name: '建筑',
+            value: '',
+            present: 40
+          },
+          {
+            name: '人行道',
+            value: '',
+            present: 50
+          }],
+          distentList: [{
+            name: '',
+            section: [
+            ]
+          }] // 用于第四个距离的表格
+        }
+      },
+      planCellList: {},
+      resultCellList: {}
+    }
+  },
+  methods: {
+    getResult (planBscId, planCellID, resultBscId, resultCellID) {
+      let rootUrl = 'http://172.16.10.21:5000'
+      comparisonResult(planBscId, planCellID, resultBscId, resultCellID).then(data => {
+        if (data.code === 0) {
+          this.similar = parseInt(data.data.similar * 100)
+          this.planCellList = data.data.guihuaCell
+          this.planCellList.fileUrl = rootUrl + this.planCellList.fileUrl
+          this.resultCellList = data.data.yanshouCell
+          this.resultCellList.fileUrl = rootUrl + this.resultCellList.fileUrl
+          this.changeData('planCellList')
+          this.changeData('resultCellList')
+        } else {
+          this.errorMsg(data.code, this)
+        }
+      })
+    },
+    changeData  (name) {
+      if (name === 'planCellList') {
+        for (let i of this.planCellList.obscureObjects) {
+          for (let j of i.depthRatePairs) {
+            j.rate = parseInt(j.rate * 100)
+
+            let distent = ''
+            switch (j.depthRegionIdx) {
+              case 0:
+                distent = '0-50m:'
+                break
+              case 1:
+                distent = '50-100m:'
+                break
+              case 2:
+                distent = '100-300m:'
+                break
+              case 3:
+                distent = '大于300m:'
+                break
+            }
+            j.depthRegionIdx = distent
+          }
+        }
+
+        for (let i of this.planCellList.recognizeObjects) {
+          i.rate = parseInt(i.rate * 100)
+        }
+
+        for (let i of this.planCellList.recognizeScenes) {
+          i.confidence = parseInt(i.confidence * 100)
+        }
+      } else if (name === 'resultCellList') {
+        for (let i of this.resultCellList.obscureObjects) {
+          for (let j of i.depthRatePairs) {
+            j.rate = parseInt(j.rate * 100)
+
+            let distent = ''
+            switch (j.depthRegionIdx) {
+              case 0:
+                distent = '0-50m:'
+                break
+              case 1:
+                distent = '50-100m:'
+                break
+              case 2:
+                distent = '100-300m:'
+                break
+              case 3:
+                distent = '大于300m:'
+                break
+            }
+            j.depthRegionIdx = distent
+          }
+        }
+
+        for (let i of this.resultCellList.recognizeObjects) {
+          i.rate = parseInt(i.rate * 100)
+        }
+
+        for (let i of this.resultCellList.recognizeScenes) {
+          i.confidence = parseInt(i.confidence * 100)
+        }
+      }
+    },
+    clickImg (num) {
+      if (num === 0) {
+        this.showBigImg.flag1 = true
+      } else if (num === 1) {
+        this.showBigImg.flag2 = true
+      }
+    },
+    viewImg (num) {
+      if (num === 0) {
+        this.showBigImg.flag1 = false
+      } else if (num === 1) {
+        this.showBigImg.flag2 = false
+      }
+    }
+  },
+  components: {
+    cellResult,
+    bigImg
+  }
+}
+</script>
+
+<style scoped>
+.left,.right{
+  width: 45%;
+  border: 1px solid #e4e4e4;
+}
+.left{
+  float: left;
+}
+.middle {
+  position: absolute;
+  width: 5%;
+  left: 50%;
+  margin-left: -50px;
+  text-align: center
+}
+.middle .note {
+  width: 100px;
+  text-align: center;
+}
+.right{
+  float: right
+}
+
+</style>

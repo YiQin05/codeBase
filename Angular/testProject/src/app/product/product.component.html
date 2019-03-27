@@ -1,0 +1,8 @@
+<div class="proContainer">
+  <p>这是商品信息组件</p>
+  <a [routerLink] = "['/']">home组件</a>
+  <a [routerLink] = "['./productDetail', 1]" class="product">商品详情</a>
+  <a [routerLink] = "['./productDetail', 2]" class="product">商品详情2</a>
+  <a [routerLink] = "['./productSeller']" class="product">售货员</a>
+  <router-outlet></router-outlet>
+</div>

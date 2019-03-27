@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <title>
+        收缩
+    </title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .content{
+          width:10px;
+          height:100px;
+          margin: 10px auto;
+          border:1px solid black;
+        }
+    </style>
+  </head>
+    <body>
+    <div class='content'>
+  </div>
+  </body>
+  <script>
+    // $(".content").mouseover(function(){
+    //     $(this).stop().animate({
+    //         width: "100px"
+    //     }).mouseout(function(){
+    //         $(this).stop().animate({
+    //             width:"10px"
+    //         });
+    //     });
+    // });
+    $(".content").mouseover(function(){
+      $(this).stop().animate({width:"100px"}).mouseout(function(){
+        $(this).stop().animate({
+          width:"10px"
+        });
+      });
+    });
+  </script>
+</html>

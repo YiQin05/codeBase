@@ -10,14 +10,18 @@
     .box{
       width: 100px;
       height: 100px;
-      margin: 50px auto;
+      position: relative;
+      right: 0px;
+      top: 50px;
+      /* margin: 50px auto; */
       background-color: #f00;
-      transition: all 1s;
+      /* transition: all 1s; */
     }
     .box:hover{
-      border-radius:50%;
-      background-color: gray;
-      transition:all 1s ease-in 0.1s;
+      /* border-radius:50%;
+      background-color: gray; */
+      width: 10px;
+      transition:width 1s ease-in 0.1s;
       /* transition-property: width,height,border-radius;
       transition-duration: 1s;
       transition-timing-function: ease-in;

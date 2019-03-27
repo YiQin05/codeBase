@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<title>css3网页加载后图片翻转效果代码</title>
+</head>
+<body>
+<button class="btn">点击</button>
+<div class="mianContain">
+  <div class="contain2">
+    <!--  第一级正视见到的平面 -->
+    <div class="first"> 
+      2的菜单1
+    </div>
+    <!-- 垂直第一个平面向里的平面 -->
+    <div class="second">
+        2的菜单2
+      </div>
+  </div>
+  <!-- 右边板块 -->
+  <div class="contain3">
+    右边
+  </div>
+</div>
+<script>
+  var flag = false;
+  $(".btn").click(function () {
+    flag = !flag // 设置点击切换两种动画
+    if (flag) {
+      $(".contain2").addClass("animate1").removeClass("animate2") //从动画1切换到动画2
+    } else {
+      $(".contain2").addClass("animate2").removeClass("animate1") // 从动画2切换到动画1
+    }
+  })
+</script>
+<style type="text/css">
+  *{ margin:0; padding:0;}
+  img{ border:0;}
+  body{ background:#009946;}
+  .mianContain{
+    display: flex;
+    background-color: gray;
+    perspective: 800px;  /*设置透视,必须要在旋转的3D元素的父级设置*/
+  }
+
+  .contain2 {
+    height: 500px;
+    /* 说明是3D旋转 */
+    transform-style: preserve-3d;
+    background-color: chartreuse;
+    position: relative;
+    /* 设置旋转中心：285px处 */
+    transform-origin:285px;
+  }
+
+  /* 第一级正视平面 */
+  .first{
+    width: 285px;
+    height: 100%;
+    background-color: brown;
+  }
+  /* 垂直第一个平面向里的平面 */
+  .second{
+    width: 40px;
+    height: 100%;
+    background-color: blueviolet;
+    /* 设置平面相对第一个平面的位置 */
+    position: absolute;
+    top: 0px;
+    left: 285px; 
+  }
+  .contain2 .second{
+    /* 设置向里面旋转90度 */
+    transform:rotateY(90deg);
+    /* 设置rotateY旋转的中心:左边 */
+    transform-origin:left;
+  }
+  .contain3{
+    width: 100%;
+    background-color: beige;
+    z-index: 1000;
+  }
+
+  /* 动画1 */
+  .animate1{ 
+    animation:animateRightBox1 1s ease-in-out alternate forwards;
+  }
+  /* 动画2 */
+  .animate2{
+    animation:animateRightBox2 1s ease-in-out alternate forwards;
+  }
+
+  @keyframes animateRightBox1 {
+    0%{transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); width: 285px; left: 0px}
+    100%{transform: rotateX(0deg) rotateY(-90deg) rotateZ(0deg); width: 40px; left: -285px}
+  }
+  @keyframes animateRightBox2 {
+    0%{transform: rotateX(0deg) rotateY(-90deg) rotateZ(0deg); width: 40px; left: -285px}
+    100%{transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); width: 285px; left: 0px}
+  }
+  </style>
+
+</body>
+</html>

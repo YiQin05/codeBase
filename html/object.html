@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <title>object-prototype</title>
+</head>
+<body>
+  <blockquote>
+    <p>
+        <strong>原型对象（prototype）作用：</strong>原型对象的所有属性和方法，都能被实例对象共享。
+          也就是说，如果属性和方法定义在原型上，那么所有实例对象就能共享
+    </p>
+  </blockquote>
+  <blockquote>
+    <p>
+      <strong>原型链：</strong> 对象都有自己的原型对象（prototype）。
+            一方面，任何一个对象，都可以充当其他对象的原型；
+            另一方面，由于原型对象也是对象，所以它也有自己的原型。
+            因此，就会形成一个“原型链”（prototype chain）：对象到原型，再到原型的原型……
+    </p>
+    <p>
+        如果一层层地上溯，所有对象的原型最终都可以上溯到Object.prototype，
+        即Object构造函数的prototype属性。也就是说，
+        所有对象都继承了Object.prototype的属性。
+        这就是所有对象都有valueOf和toString方法的原因，因为这是从Object.prototype继承的。
+        Object.prototype的原型是null
+        null没有任何属性和方法，也没有自己的原型。因此，原型链的尽头就是null。
+    </p>
+  </blockquote>
+  <script>
+    function Cat(name, color) {
+      this.name = name;
+      this.color = color;
+      this.meow = function () { // 需要cat1和cat2都共享的方法，放在这里无法实现共享，cat1和cat2对象都单独生成这个方法
+        console.log('喵喵');
+      };
+    }
+    var cat1 = new Cat('大毛', '白色');
+    var cat2 = new Cat('二毛', '黑色');  
+
+
+    function Dog(name, color) {
+      this.name = name;
+      this.color = color;
+    }
+    Dog.prototype.meow = function () { // 这样写实例对象dog1和dog2就能共享meow方法了
+      console.log('旺旺')
+    }
+
+    var dog1 = new Dog('大毛', '白色');
+    var dog2 = new Dog('二毛', '黑色');
+
+    // 每个对象都有prototype属性，prototype也是一个对象
+    // console.log(typeof(p) === 'object') // true
+    function P () { // 对象与prototype与constructor的关系示意，先声明一个P类
+      let prototype = { // P类内有prototype属性,他是一个对象，所以他也有prototype属性
+        constructor: P,  // prototype对象内有constructor属性，它指向prototype属性所在的函数（就是该类），也就是P
+        prototype: Object // 追溯到父对象或者源对象Object,Object的prototype是null
+      }
+    }
+    console.log('看P:')
+    let p = new P() // 实例化一个P类的对象p
+    console.log(p)
+    console.log(p.__proto__)  // 实例对象有的是__proto__
+    console.log(P.prototype) // 类有的是prototype，实例对象的__proto__和类对象的prototype都指向函数P(类)
+    // function P () { // 对象与prototype与constructor的关系示意
+    //   let prototype = { // 对象内有prototype属性,他是一个对象
+    //     constructor: P  // prototype对象内有constructor属性，它指向prototype属性所在的函数，也就是P
+    //   }
+    // }
+  </script>
+</body>
+</html>

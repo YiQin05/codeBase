@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import App from '../App.vue'
+// import App from '../App.vue'
 import Home from '../components/home/page-home.vue'
 import mission from '../components/missiondetail/mission.vue'
 import missionDetail from '../components/missiondetail/missionDetail.vue'
@@ -10,10 +10,12 @@ import scene from '../components/scene/scene.vue'
 import inquire from '../components/inquire/inquire.vue'
 import statistics from '../components/statistics/statistics.vue'
 import system from '../components/system/system.vue'
+import apply from '../components/apply/apply.vue'
 import addUser from '../components/system/addUser.vue'
 import addCell from '../components/system/addCell.vue'
 import login from '../components/tabbar/login.vue'
 import register from '../components/tabbar/register.vue'
+import notFound from '../components/404/404.vue'
 // import map from '../components/mapTest.vue'
 import 'font-awesome/css/font-awesome.css'
 
@@ -22,14 +24,20 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/App',
-      name: 'App',
-      component: App
+      path: '/',
+      redirect: to => {
+        let userID = Vue.prototype.getCookie('userID')
+        if (userID !== null) {
+          return { name: 'home', params: { userID: userID } }
+        } else {
+          return { name: 'login', params: { userID: ':userID' } }
+        }
+      }
     },
     // {
-    //   path: '/map',
-    //   name: 'map',
-    //   component: map
+    //   path: '/App',
+    //   name: 'App',
+    //   component: App
     // },
     {
       path: '/home/:userID',
@@ -62,6 +70,11 @@ export default new Router({
       component: system
     },
     {
+      path: '/apply/:userID',
+      name: 'apply',
+      component: apply
+    },
+    {
       path: '/mission/:userID',
       name: 'mission',
       component: mission
@@ -85,6 +98,11 @@ export default new Router({
       path: '/system/addCell/:userID',
       name: 'addCell',
       component: addCell
+    },
+    {
+      path: '*',
+      name: 'notFound',
+      component: notFound
     }
   ]
 })

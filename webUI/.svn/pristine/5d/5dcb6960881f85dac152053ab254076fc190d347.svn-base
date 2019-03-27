@@ -1,0 +1,277 @@
+<template>
+  <div class="comparisonCell">
+    <!-- <div class="compositeImg">
+      <div class="left-img">
+        <img :src="planCellList.fileUrl" class="img">
+      </div>
+      <div class="right-img">
+        <img :src="resultCellList.fileUrl" class="img">
+      </div>
+    </div> -->
+    <div class="left">
+      <cell-result ref="planCell" v-bind="planCellList" @clickImg="clickImg(0)" v-if="JSON.stringify(planCellList) !== '{}'"/>
+      <div v-else class="noData">该小区无合成图数据</div>
+    </div>
+    <big-img v-show="showBigImg.flag1" @clickit="viewImg(0)" :imgSrc="showBigImg.flag1? planCellList.fileUrl:''" ref="img1"></big-img>
+    <div class="middle">
+      <!-- :percentage="parseInt(similar)"  -->
+      <el-progress type="circle" :percentage="similar" :width="parseInt('100')"></el-progress>
+      <div class="note similar">相似度</div>
+      <div class="note pass" v-show="showPass">验收：{{ accept }}</div>
+    </div>
+    <div class="right">
+      <cell-result ref="resultCell" v-bind="resultCellList" @clickImg="clickImg(1)" v-if="JSON.stringify(planCellList) !== '{}'"/>
+      <div v-else class="noData">该小区无合成图数据</div>
+    </div>
+    <big-img v-show="showBigImg.flag2" @clickit="viewImg(1)" :imgSrc="showBigImg.flag2? resultCellList.fileUrl:''" ref="img2"></big-img>
+  </div>
+</template>
+
+<script>
+import cellResult from './cellResult.vue'
+import bigImg from '../scene/bigImg.vue'
+import { comparisonResult, rootUrl } from '../../config/getData.js'
+export default {
+  name: 'comparisonell',
+  props: [ 'showPass' ],
+  data () {
+    return {
+      showBigImg: {
+        flag1: false,
+        flag2: false
+      },
+      similar: 0,
+      accept: '',
+      allList: {
+        plan: {
+          sceneList: [{
+            name: '学校',
+            value: '',
+            present: 20
+          },
+          {
+            name: '停车场',
+            value: '',
+            present: 30
+          }],
+          projList: [{
+            name: '建筑',
+            value: '',
+            present: 40
+          },
+          {
+            name: '人行道',
+            value: '',
+            present: 50
+          }],
+          distentList: [{
+            name: '',
+            section: [
+            ]
+          }] // 用于第四个距离的表格
+        },
+        result: {
+          sceneList: [{
+            name: '学校',
+            value: '',
+            present: 20
+          },
+          {
+            name: '停车场',
+            value: '',
+            present: 30
+          }],
+          projList: [{
+            name: '建筑',
+            value: '',
+            present: 40
+          },
+          {
+            name: '人行道',
+            value: '',
+            present: 50
+          }],
+          distentList: [{
+            name: '',
+            section: [
+            ]
+          }] // 用于第四个距离的表格
+        }
+      },
+      planCellList: {},
+      resultCellList: {}
+    }
+  },
+  methods: {
+    getResult (planBscId, planCellID, resultBscId, resultCellID) {
+      this.accept = ''
+      for (let key in this.planCellList) {
+        delete this.planCellList[key]
+      }
+      for (let key in this.resultCellList) {
+        delete this.resultCellList[key]
+      }
+      comparisonResult(planBscId, planCellID, resultBscId, resultCellID).then(data => {
+        if (data.code === 0) {
+          this.similar = parseInt(data.data.similar * 100)
+          if (data.data.accept === 1) {
+            this.accept = '通过'
+          } else if (data.data.accept === 0) {
+            this.accept = '不通过'
+          }
+          this.planCellList = data.data.guihuaCell
+          this.planCellList.fileUrl = rootUrl + this.planCellList.fileUrl
+          this.resultCellList = data.data.yanshouCell
+          this.resultCellList.fileUrl = rootUrl + this.resultCellList.fileUrl
+          this.changeData('planCellList')
+          this.changeData('resultCellList')
+        } else {
+          this.errorMsg(data.code, this)
+        }
+      })
+    },
+    changeData  (name) {
+      if (name === 'planCellList') {
+        for (let i of this.planCellList.obscureObjects) {
+          for (let j of i.depthRatePairs) {
+            j.rate = parseInt(j.rate * 100)
+
+            let distent = ''
+            switch (j.depthRegionIdx) {
+              case 0:
+                distent = '0-50m:'
+                break
+              case 1:
+                distent = '50-100m:'
+                break
+              case 2:
+                distent = '100-300m:'
+                break
+              case 3:
+                distent = '大于300m:'
+                break
+            }
+            j.depthRegionIdx = distent
+          }
+        }
+
+        for (let i of this.planCellList.recognizeObjects) {
+          i.rate = parseInt(i.rate * 100)
+        }
+
+        for (let i of this.planCellList.recognizeScenes) {
+          i.confidence = parseInt(i.confidence * 100)
+        }
+      } else if (name === 'resultCellList') {
+        for (let i of this.resultCellList.obscureObjects) {
+          for (let j of i.depthRatePairs) {
+            j.rate = parseInt(j.rate * 100)
+
+            let distent = ''
+            switch (j.depthRegionIdx) {
+              case 0:
+                distent = '0-50m:'
+                break
+              case 1:
+                distent = '50-100m:'
+                break
+              case 2:
+                distent = '100-300m:'
+                break
+              case 3:
+                distent = '大于300m:'
+                break
+            }
+            j.depthRegionIdx = distent
+          }
+        }
+
+        for (let i of this.resultCellList.recognizeObjects) {
+          i.rate = parseInt(i.rate * 100)
+        }
+
+        for (let i of this.resultCellList.recognizeScenes) {
+          i.confidence = parseInt(i.confidence * 100)
+        }
+      }
+    },
+    clickImg (num) {
+      if (num === 0) {
+        this.showBigImg.flag1 = true
+      } else if (num === 1) {
+        this.showBigImg.flag2 = true
+      }
+    },
+    viewImg (num) {
+      if (num === 0) {
+        this.showBigImg.flag1 = false
+      } else if (num === 1) {
+        this.showBigImg.flag2 = false
+      }
+    }
+  },
+  components: {
+    cellResult,
+    bigImg
+  }
+}
+</script>
+
+<style scoped>
+/* .compositeImg {
+  display: flex;
+  justify-content: space-between;
+} */
+.comparisonCell{
+  position: relative;
+}
+.left,.right {
+  width: 45%;
+}
+/* .left-img,.right-img{
+  height: 200px;
+}
+.left-img .img, .right-img .img{
+  height: 100%;
+  width: 100%;
+} */
+.left,.right{
+  border: 1px solid #e4e4e4;
+}
+.left{
+  float: left;
+}
+.middle {
+  position: absolute;
+  width: 5%;
+  left: 50%;
+  top: 38px;
+  margin-left: -50px;
+  text-align: center
+}
+.middle .note {
+  width: 100px;
+  text-align: center;
+  color: #909399;
+}
+.middle .similar{
+  position: absolute;
+  top: 60px;
+}
+.middle .pass {
+  margin-top: 5px;
+}
+.right{
+  float: right
+}
+.noData{
+  color: #909399;
+  width: 100%;
+  text-align: center
+}
+</style>
+<style>
+.el-progress__text {
+  font-size: 18px !important;
+}
+</style>

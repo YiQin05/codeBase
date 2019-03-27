@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>perspective</title>
+</head>
+<body>
+  <div class="contain">
+    <div class="perspective">
+      测试
+    </div>
+  </div>
+  <style>
+    .contain{
+      width: 1000px;
+      height: 500px;
+      background-color: blueviolet;
+      perspective: 1000px;
+    }
+    .perspective{
+      background-color: burlywood;
+      width: 500px;
+      height: 500px;
+      transform-style: preserve-3d;
+      animation: animateRightBox1 5s ease-in-out .1s infinite;
+      transform-origin: right;
+    }
+
+    @keyframes animateRightBox1 {
+    0%{transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg)}
+    50%{transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg)}
+    100%{transform: rotateX(0deg) rotateY(360deg) rotateZ(0deg)}
+  }
+  </style>
+</body>
+</html>

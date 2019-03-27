@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>css3网页加载后图片翻转效果代码</title>
+
+<style type="text/css">
+*{ margin:0; padding:0;}
+img{ border:0;}
+body{ background:#009946;}
+
+/* picbox */
+.picbox{ padding:10% 0; overflow:hidden;}
+.picbox img{width: 18%;margin:1%; border-radius:5px; float:left;}
+.picbox .rotatesimg{-webkit-animation:transform-5 2s ease 500ms alternate none 1;animation:transform-5 2s ease 500ms alternate none 1;}
+@-webkit-keyframes transform-5 { 
+	from{-webkit-transform:perspective(400px) rotateY(180deg);transform:perspective(400px) rotateY(180deg);} 
+    to{-webkit-transform:perspective(400px) rotateY(0deg);transform:perspective(400px) rotateY(0deg);} 
+}
+@keyframes transform-5 { 
+	from{-webkit-transform:perspective(400px) rotateY(180deg);transform:perspective(400px) rotateY(180deg);} 
+    to{-webkit-transform:perspective(400px) rotateY(0deg);transform:perspective(400px) rotateY(0deg);} 
+}
+</style>
+</head>
+<body>
+
+<div class="picbox">
+	<img src="images/zzsc01.jpg" class="rotates rotatesimg" />
+    <img src="images/zzsc02.jpg" class="rotates rotatesimg" />
+    <img src="images/zzsc03.jpg" class="rotates rotatesimg" />
+    <img src="images/zzsc04.jpg" class="rotates rotatesimg" />
+    <img src="images/zzsc05.jpg" class="rotates rotatesimg" />
+</div>
+
+
+</body>
+</html>

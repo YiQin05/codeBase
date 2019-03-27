@@ -1,12 +1,18 @@
 <template>
+  <div class="treeContain">
     <el-tree
-        :data="cellTree"
-        :props="defaultProps"
-        node-key="id"
-        :default-expanded-keys="[1,2]"
-        @node-click="handleNodeClick"
-        aria-hidden="true">
+      :data="cellTree"
+      :props="defaultProps"
+      node-key="id"
+      :default-expanded-keys="[1,2]"
+      @node-click="handleNodeClick"
+      :highlight-current = true
+      aria-hidden = true>
+      <span class="span-ellipsis" slot-scope="{ node }">
+        <span :title="node.label">{{ node.label }}</span>
+      </span>
     </el-tree>
+  </div>
 </template>
 
 <script>
@@ -15,6 +21,9 @@ export default {
     return {
       cellList: [],
       bscList: [],
+      showFlag: false,
+      nodeData: {},
+      node: {},
       cellTree: [
         {
           id: 1,
@@ -33,6 +42,7 @@ export default {
   },
   methods: {
     handleNodeClick (data) {
+      console.log(arguments)
       this.$emit('selectCell', data.cell)
     },
     getCell () {
@@ -104,3 +114,22 @@ export default {
   }
 }
 </script>
+<style scoped>
+.treeContain{
+  border: 1px solid #ebeef5;
+  flex-grow: 0.3;
+  margin-right: 10px;
+  flex-basis: 130px;
+  max-height: 600px;
+  width: 220px;
+  overflow-y: scroll;
+  font-size: 14px;
+}
+.span-ellipsis {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+</style>
